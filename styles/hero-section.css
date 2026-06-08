@@ -107,7 +107,7 @@
   margin: 20px 0 18px;
   color: #070707;
   font-size: 39px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1.12;
 }
@@ -187,9 +187,9 @@
   width: 459px;
   max-width: none;
   height: 529px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center top;
-  filter: drop-shadow(0 19px 18px rgba(93, 47, 216, 0.12));
+  filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.35)) drop-shadow(0 19px 18px rgba(93, 47, 216, 0.12));
 }
 
 .hero-right {
