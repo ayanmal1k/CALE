@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import Image from "next/image";
-import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -25,13 +24,22 @@ export default function HeroSection() {
     offset: ["start start", "end start"],
   });
 
+  const viewportScale = useMotionValue(1);
+
+  useEffect(() => {
+    viewportScale.set(scale);
+  }, [scale]);
+
   // Hero content fades + scales as user scrolls
   const heroOpacity = useSpring(
     useTransform(scrollYProgress, [0, 0.35, 0.7], [1, 1, 0]),
     springConfig
   );
   const heroScale = useSpring(
-    useTransform(scrollYProgress, [0, 0.7], [1, 0.92]),
+    useTransform(
+      [useTransform(scrollYProgress, [0, 0.7], [1, 0.92]), viewportScale],
+      ([s, vp]) => s * vp
+    ),
     springConfig
   );
   const heroY = useSpring(
@@ -78,11 +86,10 @@ export default function HeroSection() {
       <motion.div
         className="hero-scale-stage"
         style={{
-          "--hero-scale": scale,
           opacity: heroOpacity,
           scale: heroScale,
           y: heroY,
-        } as CSSProperties & { opacity: typeof heroOpacity; scale: typeof heroScale; y: typeof heroY }}
+        } as any}
       >
         <section className="hero-main">
           <div className="hero-main-inner">

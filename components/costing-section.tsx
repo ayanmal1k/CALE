@@ -305,18 +305,9 @@ function CostingCard({
   text: string
   demo: React.ReactNode
 }) {
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    e.currentTarget.style.setProperty("--mouse-x", `${x}%`)
-    e.currentTarget.style.setProperty("--mouse-y", `${y}%`)
-  }, [])
-
   return (
     <motion.div
       className="costing-card"
-      onMouseMove={handleMouseMove}
       variants={fadeUp}
     >
       <div className="costing-card-info">
@@ -334,69 +325,16 @@ function CostingCard({
 }
 
 export default function CostingSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: headerRef,
-    offset: ["start end", "start 0.5"],
-  })
-
-  const headerOpacity = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1]),
-    springConfig
-  )
-  const headerY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [60, 0]),
-    springConfig
-  )
-
-  // 3D Parallax Scroll Transform
-  const { scrollYProgress: sectionProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
-
-  // Panel overlap overlay effect (Costing Section slides up on top of the preceding section)
-  // When scrolling in, starts at y: 150px and pulls up to y: 0px relative to normal placement
-  const costingSectionY = useSpring(
-    useTransform(sectionProgress, [0, 0.45], [150, 0]),
-    springConfig
-  )
-
-  // Dynamic 3D tilt adjustments based on scroll
-  const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
-  const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
-
-  // Red and white gradient parallax bg shift mapping
-  const bgTransformY = useSpring(useTransform(sectionProgress, [0, 1], [150, -150]), springConfig)
-
   return (
-    <motion.section 
+    <section 
       className="costing-section slide-over" 
-      id="problems" 
-      ref={sectionRef}
-      style={{ 
-        zIndex: 5, 
-        perspective: 1200,
-        y: costingSectionY,
-      }}
+      id="problems"
     >
       {/* Fully parallel scrolling red & white gradient background layer */}
-      <motion.div 
-        className="costing-parallax-bg"
-        style={{ y: bgTransformY }}
-      />
+      <div className="costing-parallax-bg" />
 
-      <motion.div 
-        className="costing-inner"
-        style={{ rotateX, z, transformStyle: "preserve-3d" }}
-      >
-        <motion.div
-          className="costing-header"
-          ref={headerRef}
-          style={{ opacity: headerOpacity, y: headerY }}
-        >
+      <div className="costing-inner">
+        <div className="costing-header">
           <span className="costing-eyebrow">
             <span className="costing-eyebrow-dot" />
             The Problem
@@ -408,7 +346,7 @@ export default function CostingSection() {
           <p className="costing-sub">
             Three critical issues driving potential clients away — see them simulated in real time below.
           </p>
-        </motion.div>
+        </div>
         <motion.div
           className="costing-grid"
           variants={staggerContainer}
@@ -416,11 +354,11 @@ export default function CostingSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
         >
-          {cards.map((card, i) => (
+          {cards.map((card) => (
             <CostingCard key={card.id} {...card} />
           ))}
         </motion.div>
-      </motion.div>
-    </motion.section>
+      </div>
+    </section>
   )
 }
