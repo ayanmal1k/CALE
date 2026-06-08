@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { Clock, Frown, Smartphone, Star, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { staggerContainer, fadeUp } from "@/lib/animations"
 
 function LoadingDemo() {
   const [progress, setProgress] = useState(0)
@@ -41,10 +42,10 @@ function LoadingDemo() {
         />
       </div>
       <div className="demo-loader-info">
-        <span style={{ color: stuck ? "#dc2626" : "#999" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
           {stuck ? "Stuck loading..." : "Loading..."}
         </span>
-        <span style={{ color: stuck ? "#dc2626" : "#999" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
           {progress.toFixed(0)}%
         </span>
       </div>
@@ -154,11 +155,11 @@ function SocialDemo() {
     <div className="demo-social">
       <motion.div
         className="demo-business bad"
-        animate={{ boxShadow: ["0 0 0 0 rgba(220,38,38,0)", "0 0 16px 0 rgba(220,38,38,0.1)", "0 0 0 0 rgba(220,38,38,0)"] }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0)", "0 0 16px 0 rgba(239,68,68,0.08)", "0 0 0 0 rgba(239,68,68,0)"] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <motion.svg
-          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"
+          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -190,10 +191,10 @@ function SocialDemo() {
               animate={{ scale: [1, 0.8, 1], opacity: [1, 0.4, 1] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
             >
-              <Star size={10} fill="#dc2626" color="#dc2626" />
+              <Star size={10} fill="#ef4444" color="#ef4444" />
             </motion.span>
           ))}
-          {[0, 1, 2].map((i) => <Star key={i} size={10} color="#ddd" />)}
+          {[0, 1, 2].map((i) => <Star key={i} size={10} color="rgba(255,255,255,0.1)" />)}
         </div>
         <motion.div
           className="demo-biz-status bad"
@@ -204,7 +205,7 @@ function SocialDemo() {
         </motion.div>
       </motion.div>
       <motion.svg
-        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5"
+        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"
         animate={{ rotate: [0, 10, 0, -10, 0], scale: [1, 1.15, 1, 1.15, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -213,11 +214,11 @@ function SocialDemo() {
       </motion.svg>
       <motion.div
         className="demo-business good"
-        animate={{ boxShadow: ["0 0 0 0 rgba(22,163,74,0)", "0 0 16px 0 rgba(22,163,74,0.1)", "0 0 0 0 rgba(22,163,74,0)"] }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(34,197,94,0)", "0 0 16px 0 rgba(34,197,94,0.08)", "0 0 0 0 rgba(34,197,94,0)"] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
       >
         <motion.svg
-          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2"
+          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
         >
@@ -227,7 +228,7 @@ function SocialDemo() {
         <div className="demo-biz-row">
           <motion.div
             className="demo-biz-avatar"
-            style={{ background: "#6334df" }}
+            style={{ background: "#7c4fe8" }}
             animate={{ scale: [1, 1.08, 1] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
           />
@@ -250,7 +251,7 @@ function SocialDemo() {
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
             >
-              <Star size={10} fill="#16a34a" color="#16a34a" />
+              <Star size={10} fill="#22c55e" color="#22c55e" />
             </motion.span>
           ))}
         </div>
@@ -313,15 +314,18 @@ export default function CostingSection() {
           Three critical issues driving potential customers away — see them in action.
         </motion.p>
       </div>
-      <div className="costing-grid">
-        {cards.map((card, i) => (
+      <motion.div
+        className="costing-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+      >
+        {cards.map((card) => (
           <motion.div
             key={card.id}
             className="costing-card"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: i * 0.12, ease: "easeOut" }}
+            variants={fadeUp}
           >
             <div className="costing-card-top">
               <div className="costing-card-icon">
@@ -333,7 +337,7 @@ export default function CostingSection() {
             <div className="costing-card-demo">{card.demo}</div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

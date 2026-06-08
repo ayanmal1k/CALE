@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Code, Palette, ShieldCheck } from "lucide-react"
 import type { ElementType } from "react"
 import { useState } from "react"
+import { staggerContainer, fadeUp } from "@/lib/animations"
 
 const services = [
   {
@@ -30,20 +31,17 @@ function ServiceCard({ icon: Icon, title, description }: { icon: ElementType; ti
   const [hovered, setHovered] = useState(false)
 
   const fillAnim = { scaleY: hovered ? 1 : 0 }
-  const iconBg = hovered ? "rgba(255,255,255,0.15)" : "#f1eaff"
-  const iconColor = hovered ? "#fff" : "#6334df"
-  const titleColor = hovered ? "#fff" : "#070707"
-  const textColor = hovered ? "rgba(255,255,255,0.75)" : "#6f6f73"
+  const iconBg = hovered ? "rgba(255,255,255,0.1)" : "rgba(124, 79, 232, 0.08)"
+  const iconColor = hovered ? "#fff" : "#7c4fe8"
+  const titleColor = hovered ? "#fff" : "#f5f5f7"
+  const textColor = hovered ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.45)"
 
   return (
     <motion.div
       className="services-card"
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
+      variants={fadeUp}
     >
       <motion.div
         className="services-card-fill"
@@ -98,11 +96,17 @@ export default function ServicesSection() {
             Built for scale, optimized for conversion. Every service is designed to turn visitors into clients.
           </p>
         </motion.div>
-        <div className="services-grid">
+        <motion.div
+          className="services-grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+        >
           {services.map((service) => (
             <ServiceCard key={service.title} {...service} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

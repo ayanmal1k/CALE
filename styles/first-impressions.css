@@ -1,6 +1,6 @@
 .first-impressions {
-  background: #070707;
   padding: 80px 24px;
+  background: linear-gradient(90deg, #fff 0%, #7c4fe8 50%, #fff 100%);
 }
 
 .first-impressions-inner {
@@ -14,12 +14,36 @@
   font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1;
-  color: #fff;
+  color: #000;
   margin: 0 0 48px;
 }
 
 .first-impressions-highlight {
-  color: #6334df;
+  display: inline-block;
+}
+
+.shiny-text {
+  display: inline-block;
+  color: #000;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 25%,
+    rgba(124, 79, 232, 0.7) 45%,
+    rgba(124, 79, 232, 0.9) 50%,
+    rgba(124, 79, 232, 0.7) 55%,
+    #000 75%,
+    #000 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: 200% 100%;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }
 
 .first-impressions-text {
@@ -28,7 +52,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
+  color: #000;
 }
 
 @media (min-width: 769px) {

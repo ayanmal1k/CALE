@@ -1,8 +1,9 @@
-import HeroSection from "@/components/hero-section";
-import FirstImpressions from "@/components/first-impressions";
-import ServicesSection from "@/components/services-section";
-import IndustriesSection from "@/components/industries-section";
-import CostingSection from "@/components/costing-section";
+import HeroSection from "@/components/hero-section"
+import FirstImpressions from "@/components/first-impressions"
+import ServicesSection from "@/components/services-section"
+import IndustriesSection from "@/components/industries-section"
+import CostingSection from "@/components/costing-section"
+// import Footer from "@/components/footer"
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <ServicesSection />
       <IndustriesSection />
       <CostingSection />
+      {/* <Footer /> */}
     </main>
-  );
+  )
 }

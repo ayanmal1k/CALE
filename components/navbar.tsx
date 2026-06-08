@@ -2,10 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, Menu, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const navLinks = [
-  { label: "Services", href: "#", hasDropdown: true },
+  { label: "Services", href: "#services", hasDropdown: true },
   { label: "Process", href: "#" },
   { label: "Our Work", href: "#" },
   { label: "About", href: "#" },
@@ -23,15 +23,23 @@ export default function Navbar() {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [ctaHovered, setCtaHovered] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
       <div className="navbar-inner">
         <a href="#" className="nav-logo" aria-label="CALE home">
           C A L E
         </a>
 
-        {/* Desktop nav links */}
         <div className="nav-links-desktop">
           {navLinks.map((link) =>
             link.hasDropdown ? (
@@ -44,7 +52,7 @@ export default function Navbar() {
                 <motion.a
                   href={link.href}
                   className="nav-link"
-                  whileHover={{ color: "#5c34d8" }}
+                  whileHover={{ color: "#ffffff" }}
                   transition={{ duration: 0.2 }}
                 >
                   {link.label}
@@ -89,7 +97,7 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 className="nav-link"
-                whileHover={{ color: "#5c34d8", scale: 1.05 }}
+                whileHover={{ color: "#ffffff" }}
                 transition={{ duration: 0.2 }}
               >
                 {link.label}
@@ -98,13 +106,12 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Desktop CTA */}
         <motion.a
           href="#"
           className="nav-cta nav-cta-desktop"
           onHoverStart={() => setCtaHovered(true)}
           onHoverEnd={() => setCtaHovered(false)}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
           <motion.span
@@ -115,11 +122,10 @@ export default function Navbar() {
           />
           <span className="nav-cta-content">
             Request Quote
-            <ArrowUpRight size={14} strokeWidth={2} />
+            <ArrowUpRight size={13} strokeWidth={2} />
           </span>
         </motion.a>
 
-        {/* Mobile hamburger */}
         <button
           className="nav-hamburger"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -129,7 +135,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

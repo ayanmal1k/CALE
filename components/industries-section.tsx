@@ -12,6 +12,7 @@ import {
   ArrowUpRight,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { staggerContainer, fadeUp } from "@/lib/animations"
 
 const industries = [
   { icon: Car, name: "Auto Shops" },
@@ -81,17 +82,20 @@ export default function IndustriesSection() {
           </p>
         </motion.div>
 
-        <div className="industries-list">
+        <motion.div
+          className="industries-list"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+        >
           <div className="industries-list-line" />
 
           {industries.map((item, i) => (
             <motion.div
               key={item.name}
               className={`industries-item ${activeIndex === i ? "active" : ""}`}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.35, delay: i * 0.05, ease: "easeOut" }}
+              variants={fadeUp}
               onMouseEnter={() => setActiveIndex(i)}
               onMouseLeave={() => setActiveIndex(null)}
             >
@@ -116,10 +120,7 @@ export default function IndustriesSection() {
 
           <motion.div
             className="industries-item industries-item-cta"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.35, delay: 0.4, ease: "easeOut" }}
+            variants={fadeUp}
           >
             <div className="industries-item-dot">
               <div className="industries-dot" />
@@ -131,7 +132,7 @@ export default function IndustriesSection() {
               </span>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
