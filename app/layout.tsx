@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import '../styles/navbar.css'
+import '../styles/first-impressions.css'
+import '../styles/services-section.css'
+import '../styles/industries-section.css'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
