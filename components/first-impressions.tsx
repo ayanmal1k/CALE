@@ -1,25 +1,61 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSectionReveal, useParallaxY } from "@/hooks/use-parallax";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function FirstImpressions() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
   const headingReveal = useSectionReveal(headingRef, 50);
   const textReveal = useSectionReveal(textRef, 40);
   const bgParallax = useParallaxY(sectionRef, 0.15);
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const section = sectionRef.current;
+      const inner = innerRef.current;
+      if (!section || !inner) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Section 3D tilt — same as services/industries
+      tl.fromTo(inner,
+        { rotateX: 8, z: -80 },
+        { rotateX: -8, z: -80, ease: "none", duration: 2 },
+        0
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="first-impressions slide-over" ref={sectionRef} style={{ zIndex: 2 }}>
+    <section
+      className="first-impressions slide-over parallax-section"
+      ref={sectionRef}
+      style={{ zIndex: 2, perspective: 1200 }}
+    >
       <motion.div
         className="first-impressions-bg-shift"
         style={{ y: bgParallax }}
       />
-      <div className="first-impressions-inner">
+      <div className="first-impressions-inner" ref={innerRef}>
         <motion.h2
           className="first-impressions-heading parallax-content"
           ref={headingRef}

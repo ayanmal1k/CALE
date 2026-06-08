@@ -1,8 +1,12 @@
 .first-impressions {
+  min-height: 100vh;
   padding: 80px 24px;
   background: linear-gradient(90deg, #fff 0%, #7c4fe8 50%, #fff 100%);
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .first-impressions-bg-shift {
@@ -19,6 +23,7 @@
   text-align: center;
   position: relative;
   z-index: 1;
+  transform-style: preserve-3d;
 }
 
 .first-impressions-heading {
@@ -78,5 +83,16 @@
 
   .first-impressions-text {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .first-impressions-heading {
+    font-size: 36px;
+  }
+
+  .first-impressions-text {
+    font-size: 14px;
+    line-height: 1.6;
   }
 }
