@@ -1,4 +1,5 @@
 import HeroSection from "@/components/hero-section"
+import HeroNew from "@/components/hero-new"
 import FirstImpressions from "@/components/first-impressions"
 import ServicesSection from "@/components/services-section"
 import IndustriesSection from "@/components/industries-section"
@@ -10,7 +11,8 @@ import PortfolioSection from "@/components/portfolio-section"
 export default function Home() {
   return (
     <main>
-      <HeroSection />
+      {/* <HeroSection /> */}
+      <HeroNew />
       <FirstImpressions />
       <ServicesSection />
       <IndustriesSection />

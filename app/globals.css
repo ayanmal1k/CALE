@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import '../styles/hero-section.css';
+@import '../styles/hero-new.css';
 @import '../styles/navbar.css';
 @import '../styles/first-impressions.css';
 @import '../styles/services-section.css';

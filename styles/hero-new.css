@@ -1,0 +1,245 @@
+/* ═══════════════════════════════════════════════════
+   HERO NEW — Innovation Meets Creativity
+   ═══════════════════════════════════════════════════ */
+
+.hero-new-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+  color: #ffffff;
+  font-family: Geist, "Geist Fallback", Arial, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.hero-new-stage {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+/* ── Content ── */
+
+.hero-new-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0 24px;
+  padding-top: 60px;
+}
+
+.hero-new-topline {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0 0 12px;
+  font-style: italic;
+}
+
+/* ── CREATIVITY — Rainbow Gradient Text ── */
+
+.hero-new-creativity-wrap {
+  position: relative;
+  margin-bottom: 48px;
+}
+
+.hero-new-creativity {
+  margin: 0;
+  line-height: 1.3;
+  font-size: clamp(90px, 18vw, 300px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.hero-new-creativity-text {
+  display: inline-block;
+  background: linear-gradient(90deg,
+      #a855f7 0%,
+      #c084fc 8%,
+      #d8b4fe 14%,
+      #f0abfc 20%,
+      #f472b6 26%,
+      #fb923c 32%,
+      #facc15 38%,
+      #a3e635 44%,
+      #34d399 50%,
+      #22d3ee 56%,
+      #60a5fa 62%,
+      #818cf8 68%,
+      #a78bfa 74%,
+      #c084fc 80%,
+      #f0abfc 86%,
+      #f472b6 92%,
+      #a855f7 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-rainbow-shift 4s linear infinite;
+  filter: brightness(1.2) saturate(1.3);
+}
+
+@keyframes hero-rainbow-shift {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Glow behind the text */
+.hero-new-creativity-wrap::after {
+  content: "CREATIVITY";
+  position: absolute;
+  inset: 0;
+  font-size: inherit;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg,
+      #a855f7 0%,
+      #f472b6 25%,
+      #facc15 50%,
+      #34d399 75%,
+      #a855f7 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-rainbow-shift 4s linear infinite;
+  filter: blur(50px) brightness(0.8) saturate(1.2);
+  opacity: 0.6;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-new-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 40px;
+}
+
+/* ── CTA Button ── */
+
+.hero-new-cta-row {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-new-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 40px;
+  border: 1.5px solid rgba(124, 79, 232, 0.5);
+  border-radius: 60px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0, 1);
+  box-shadow: 0 0 30px rgba(124, 79, 232, 0.12), inset 0 0 30px rgba(124, 79, 232, 0.05);
+}
+
+.hero-new-cta:hover {
+  border-color: rgba(124, 79, 232, 0.8);
+  background: rgba(124, 79, 232, 0.12);
+  box-shadow: 0 0 50px rgba(124, 79, 232, 0.25), inset 0 0 40px rgba(124, 79, 232, 0.08);
+  color: #ffffff;
+}
+
+/* ── Butterfly ── */
+
+.hero-new-butterfly {
+  position: absolute;
+  z-index: 3;
+  width: 280px;
+  height: 280px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero-new-butterfly-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(124, 79, 232, 0.3)) drop-shadow(0 0 60px rgba(124, 79, 232, 0.15));
+}
+
+/* ═══ RESPONSIVE ═══ */
+
+@media (min-width: 769px) {
+  .hero-new-topline {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .hero-new-subtitle {
+    font-size: 22px;
+    margin-bottom: 48px;
+  }
+
+  .hero-new-butterfly {
+    width: 360px;
+    height: 360px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-new-topline {
+    font-size: 32px;
+  }
+
+  .hero-new-subtitle {
+    font-size: 24px;
+  }
+
+  .hero-new-butterfly {
+    width: 420px;
+    height: 420px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-new-butterfly {
+    width: 180px;
+    height: 180px;
+  }
+
+  .hero-new-cta {
+    padding: 14px 28px;
+    font-size: 11px;
+  }
+
+  .hero-new-page {
+    position: relative;
+  }
+}
