@@ -91,7 +91,7 @@ export default function HeroNew() {
     // 2. Butterfly moves to the right side
     tl.to(butterfly, {
       left: "78%",
-      top: "48%",
+      top: "72%",
       scale: 1,
       duration: 1.4,
       ease: "power3.inOut",
