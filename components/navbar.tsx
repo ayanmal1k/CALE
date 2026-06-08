@@ -52,7 +52,7 @@ export default function Navbar() {
                 <motion.a
                   href={link.href}
                   className="nav-link"
-                  whileHover={{ color: "#ffffff" }}
+                  whileHover={{ color: "#7c4fe8" }}
                   transition={{ duration: 0.2 }}
                 >
                   {link.label}
@@ -97,7 +97,7 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 className="nav-link"
-                whileHover={{ color: "#ffffff" }}
+                whileHover={{ color: "#7c4fe8" }}
                 transition={{ duration: 0.2 }}
               >
                 {link.label}

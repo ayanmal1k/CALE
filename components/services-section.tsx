@@ -183,6 +183,35 @@ export default function ServicesSection() {
         duration: 0.8
       }, 0.5)
 
+      // Exit animations (when scrolling past the section)
+      tl.to(header, {
+        opacity: 0,
+        y: -60,
+        ease: "power2.in",
+        duration: 0.6
+      }, 1.3)
+      .to(cards[0], {
+        y: -100,
+        opacity: 0,
+        scale: 0.95,
+        ease: "power2.in",
+        duration: 0.7
+      }, 1.3)
+      .to(cards[1], {
+        y: -120,
+        opacity: 0,
+        scale: 0.95,
+        ease: "power2.in",
+        duration: 0.7
+      }, 1.35)
+      .to(cards[2], {
+        y: -100,
+        opacity: 0,
+        scale: 0.95,
+        ease: "power2.in",
+        duration: 0.7
+      }, 1.4)
+
     }, sectionRef)
 
     return () => ctx.revert()

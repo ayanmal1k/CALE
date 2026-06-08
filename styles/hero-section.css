@@ -2,16 +2,16 @@
   width: 100%;
   min-height: 100vh;
   overflow: visible;
-  color: #f5f5f7;
+  color: #0c0c0d;
   font-family: Geist, "Geist Fallback", Arial, sans-serif;
   position: sticky;
   top: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124, 79, 232, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 40%, rgba(124, 79, 232, 0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 30% at 20% 60%, rgba(124, 79, 232, 0.04) 0%, transparent 50%),
-    #070708;
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124, 79, 232, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 40%, rgba(124, 79, 232, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 20% 60%, rgba(124, 79, 232, 0.03) 0%, transparent 50%),
+    #ffffff;
 }
 
 .hero-scale-stage {
@@ -51,7 +51,7 @@
 
 .hero-heading {
   margin: 22px 0 20px;
-  color: #f5f5f7;
+  color: #0c0c0d;
   font-size: 44px;
   font-weight: 450;
   letter-spacing: -0.045em;
@@ -64,7 +64,7 @@
 
 .hero-subtext {
   margin: 0 0 52px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(7, 7, 8, 0.6);
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.015em;
@@ -100,17 +100,17 @@
 
 .hero-btn-secondary {
   height: 46px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(7, 7, 8, 0.7);
   font-size: 13px;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 5px;
-  text-decoration-color: rgba(255, 255, 255, 0.2);
+  text-decoration-color: rgba(7, 7, 8, 0.2);
 }
 
 .hero-btn-secondary:hover {
-  color: #fff;
-  text-decoration-color: rgba(255, 255, 255, 0.5);
+  color: #070708;
+  text-decoration-color: rgba(7, 7, 8, 0.5);
 }
 
 .hero-center {
@@ -155,9 +155,9 @@
   height: 180px;
   padding: 18px 16px 14px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(7, 7, 8, 0.08);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(7, 7, 8, 0.02);
 }
 
 .hero-price-card-header {
@@ -181,7 +181,7 @@
 
 .hero-price-title {
   margin-top: 6px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(7, 7, 8, 0.85);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.015em;
@@ -191,7 +191,7 @@
 
 .hero-price-starting {
   margin-top: 22px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(7, 7, 8, 0.4);
   font-size: 11px;
   font-weight: 400;
   line-height: 1;
@@ -199,7 +199,7 @@
 
 .hero-price-amount {
   margin: 0 0 14px 54px;
-  color: #f5f5f7;
+  color: #0c0c0d;
   font-size: 32px;
   font-weight: 400;
   letter-spacing: -0.035em;
@@ -214,7 +214,7 @@
 
 .hero-price-per {
   margin-left: 2px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(7, 7, 8, 0.55);
   font-size: 22px;
   letter-spacing: -0.04em;
 }
@@ -222,8 +222,8 @@
 .hero-price-desc {
   margin: 0;
   padding-top: 13px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(7, 7, 8, 0.06);
+  color: rgba(7, 7, 8, 0.5);
   font-size: 11px;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -234,7 +234,7 @@
   position: absolute;
   right: 18px;
   bottom: 18px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(7, 7, 8, 0.35);
   transition: transform 0.25s ease, color 0.25s ease;
 }
 
@@ -269,7 +269,7 @@
 }
 
 .hero-trusted-label {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(7, 7, 8, 0.45);
   font-size: 9px;
   font-weight: 700;
 }
@@ -283,12 +283,12 @@
 
 .hero-logo-item {
   min-width: 54px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(7, 7, 8, 0.35);
   transition: color 0.3s;
 }
 
 .hero-logo-item:hover {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(7, 7, 8, 0.7);
 }
 
 .hero-logo-a1 {
