@@ -299,28 +299,39 @@ function CostingCard({
   title,
   text,
   demo,
+  index,
+  total,
 }: {
   icon: any
   title: string
   text: string
   demo: React.ReactNode
+  index: number
+  total: number
 }) {
   return (
-    <motion.div
-      className="costing-card"
-      variants={fadeUp}
+    <div 
+      className="costing-card-wrapper" 
+      style={{ 
+        position: "sticky", 
+        top: `calc(12% + ${index * 50}px)`, 
+        paddingBottom: `${(total - index - 1) * 30}px`,
+        zIndex: index + 1 
+      }}
     >
-      <div className="costing-card-info">
-        <div className="costing-card-top">
-          <div className="costing-card-icon">
-            <Icon size={24} strokeWidth={1.5} />
+      <div className="costing-card">
+        <div className="costing-card-info">
+          <div className="costing-card-top">
+            <div className="costing-card-icon">
+              <Icon size={24} strokeWidth={1.5} />
+            </div>
+            <h3 className="costing-card-title">{title}</h3>
           </div>
-          <h3 className="costing-card-title">{title}</h3>
+          <p className="costing-card-text">{text}</p>
         </div>
-        <p className="costing-card-text">{text}</p>
+        <div className="costing-card-demo">{demo}</div>
       </div>
-      <div className="costing-card-demo">{demo}</div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -330,7 +341,7 @@ export default function CostingSection() {
       className="costing-section slide-over" 
       id="problems"
     >
-      {/* Fully parallel scrolling red & white gradient background layer */}
+      {/* Fully parallel scrolling red & white gradient background layer using pure CSS parallax rules */}
       <div className="costing-parallax-bg" />
 
       <div className="costing-inner">
@@ -347,17 +358,17 @@ export default function CostingSection() {
             Three critical issues driving potential clients away — see them simulated in real time below.
           </p>
         </div>
-        <motion.div
-          className="costing-grid"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {cards.map((card) => (
-            <CostingCard key={card.id} {...card} />
+
+        <div className="costing-stack-container">
+          {cards.map((card, idx) => (
+            <CostingCard 
+              key={card.id} 
+              {...card} 
+              index={idx} 
+              total={cards.length} 
+            />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

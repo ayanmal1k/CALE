@@ -99,22 +99,22 @@
   z-index: 5;
   max-width: 1280px;
   margin: 0 auto;
-  transform-style: preserve-3d;
 }
 
-/* ── Custom Bento Grid layout ── */
-
-.costing-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  max-width: 1280px;
-  margin: 0 auto;
+.costing-stack-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
   position: relative;
-  z-index: 5;
 }
 
 /* ── Card ── */
+
+.costing-card-wrapper {
+  width: 100%;
+  position: relative;
+  will-change: transform;
+}
 
 .costing-card {
   position: relative;
@@ -130,6 +130,7 @@
   transition: border-color 0.5s ease, box-shadow 0.5s ease;
   backdrop-filter: blur(24px);
   z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .costing-card::before {
