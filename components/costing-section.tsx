@@ -1,11 +1,11 @@
 "use client"
 
-import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion"
+import { useRef, useEffect } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { AnimatePresence, motion } from "framer-motion"
 import { Clock, Frown, Smartphone, Star, X } from "lucide-react"
-import { useEffect, useRef, useState, useCallback } from "react"
-import { staggerContainer, fadeUp } from "@/lib/animations"
-
-const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 }
+import { useState } from "react"
 
 function LoadingDemo() {
   const [progress, setProgress] = useState(0)
@@ -299,53 +299,106 @@ function CostingCard({
   title,
   text,
   demo,
-  index,
-  total,
 }: {
   icon: any
   title: string
   text: string
   demo: React.ReactNode
-  index: number
-  total: number
 }) {
   return (
-    <div 
-      className="costing-card-wrapper" 
-      style={{ 
-        position: "sticky", 
-        top: `calc(12% + ${index * 50}px)`, 
-        paddingBottom: `${(total - index - 1) * 30}px`,
-        zIndex: index + 1 
-      }}
-    >
-      <div className="costing-card">
-        <div className="costing-card-info">
-          <div className="costing-card-top">
-            <div className="costing-card-icon">
-              <Icon size={24} strokeWidth={1.5} />
-            </div>
-            <h3 className="costing-card-title">{title}</h3>
+    <div className="costing-card">
+      <div className="costing-card-info">
+        <div className="costing-card-top">
+          <div className="costing-card-icon">
+            <Icon size={24} strokeWidth={1.5} />
           </div>
-          <p className="costing-card-text">{text}</p>
+          <h3 className="costing-card-title">{title}</h3>
         </div>
-        <div className="costing-card-demo">{demo}</div>
+        <p className="costing-card-text">{text}</p>
       </div>
+      <div className="costing-card-demo">{demo}</div>
     </div>
   )
 }
 
 export default function CostingSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const ctx = gsap.context(() => {
+      const section = sectionRef.current
+      if (!section) return
+
+      const cardItems = section.querySelectorAll<HTMLElement>(".costing-card-item")
+      if (cardItems.length < 3) return
+
+      const [card1, card2, card3] = cardItems
+
+      // Set initial states
+      gsap.set(card1, { opacity: 1, scale: 1, x: "0%", filter: "blur(0px)" })
+      gsap.set(card2, { opacity: 0, scale: 0.95, x: "100%", filter: "blur(8px)" })
+      gsap.set(card3, { opacity: 0, scale: 0.95, x: "100%", filter: "blur(8px)" })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=200vh",
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      })
+
+      tl
+        // Card 1 -> Card 2
+        .to(card1, {
+          x: "-100%",
+          opacity: 0.15,
+          scale: 0.95,
+          filter: "blur(8px)",
+          ease: "power3.inOut",
+          duration: 1
+        }, 0)
+        .to(card2, {
+          x: "0%",
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          ease: "power3.inOut",
+          duration: 1
+        }, 0)
+        // Card 2 -> Card 3
+        .to(card2, {
+          x: "-100%",
+          opacity: 0.15,
+          scale: 0.95,
+          filter: "blur(8px)",
+          ease: "power3.inOut",
+          duration: 1
+        }, 1)
+        .to(card3, {
+          x: "0%",
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          ease: "power3.inOut",
+          duration: 1
+        }, 1)
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section 
-      className="costing-section slide-over" 
-      id="problems"
-    >
-      {/* Fully parallel scrolling red & white gradient background layer using pure CSS parallax rules */}
+    <section ref={sectionRef} className="costing-section slide-over" id="problems">
       <div className="costing-parallax-bg" />
 
       <div className="costing-inner">
-        <div className="costing-header">
+        <div ref={headerRef} className="costing-header">
           <span className="costing-eyebrow">
             <span className="costing-eyebrow-dot" />
             The Problem
@@ -359,14 +412,11 @@ export default function CostingSection() {
           </p>
         </div>
 
-        <div className="costing-stack-container">
-          {cards.map((card, idx) => (
-            <CostingCard 
-              key={card.id} 
-              {...card} 
-              index={idx} 
-              total={cards.length} 
-            />
+        <div className="costing-cards-stack">
+          {cards.map((card) => (
+            <div key={card.id} className="costing-card-item">
+              <CostingCard {...card} />
+            </div>
           ))}
         </div>
       </div>
