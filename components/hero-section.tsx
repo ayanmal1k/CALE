@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
@@ -15,10 +15,10 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import Navbar from "@/components/navbar";
 
 export default function HeroSection() {
   const [scale, setScale] = useState(1);
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   useEffect(() => {
     const updateScale = () => {
@@ -39,98 +39,7 @@ export default function HeroSection() {
   return (
     <div className="hero-page" style={{ "--hero-scale": scale } as CSSProperties}>
       <div className="hero-scale-stage">
-      {/* ========== NAVBAR ========== */}
-      <nav className="hero-navbar">
-        <div className="hero-navbar-inner">
-          <a href="#" className="hero-nav-logo" aria-label="CALE home">
-            C A L E
-          </a>
-          <div className="hero-nav-links">
-            <div
-              className="hero-nav-item"
-              onMouseEnter={() => setHoveredLink("services")}
-              onMouseLeave={() => setHoveredLink(null)}
-            >
-              <motion.a
-                href="#"
-                className="hero-nav-link"
-                whileHover={{ color: "#5c34d8" }}
-                transition={{ duration: 0.2 }}
-              >
-                Services
-                <motion.svg
-                  width="10"
-                  height="6"
-                  viewBox="0 0 10 6"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  animate={{ rotate: hoveredLink === "services" ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </motion.svg>
-              </motion.a>
-              <AnimatePresence>
-                {hoveredLink === "services" && (
-                  <motion.div
-                    className="hero-dropdown"
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                  >
-                    <a href="#" className="hero-dropdown-item">Website Design</a>
-                    <a href="#" className="hero-dropdown-item">Website Redesign</a>
-                    <a href="#" className="hero-dropdown-item">Care Plan</a>
-                    <a href="#" className="hero-dropdown-item">SEO Optimization</a>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <motion.a
-              href="#"
-              className="hero-nav-link"
-              whileHover={{ color: "#5c34d8", scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              Process
-            </motion.a>
-            <motion.a
-              href="#"
-              className="hero-nav-link"
-              whileHover={{ color: "#5c34d8", scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              Our Work
-            </motion.a>
-            <motion.a
-              href="#"
-              className="hero-nav-link"
-              whileHover={{ color: "#5c34d8", scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              About
-            </motion.a>
-            <motion.a
-              href="#"
-              className="hero-nav-link"
-              whileHover={{ color: "#5c34d8", scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              Pricing
-            </motion.a>
-          </div>
-          <motion.a
-            href="#"
-            className="hero-nav-cta"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            Request Quote
-            <ArrowUpRight size={14} strokeWidth={2} />
-          </motion.a>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ========== HERO MAIN ========== */}
       <section className="hero-main">
