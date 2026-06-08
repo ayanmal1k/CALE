@@ -1,7 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight, ArrowRight, Star, Zap, Target, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Crosshair,
+  PenLine,
+  ShieldCheck,
+  SlidersHorizontal,
+  Star,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -9,7 +19,9 @@ export default function HeroSection() {
       {/* ========== NAVBAR ========== */}
       <nav className="hero-navbar">
         <div className="hero-navbar-inner">
-          <div className="hero-nav-logo">C A L E</div>
+          <a href="#" className="hero-nav-logo" aria-label="CALE home">
+            C A L E
+          </a>
           <div className="hero-nav-links">
             <a href="#" className="hero-nav-link">
               Services
@@ -66,8 +78,8 @@ export default function HeroSection() {
             <Image
               src="/Hero.png"
               alt="Website mockups showcase"
-              width={520}
-              height={620}
+              width={940}
+              height={1220}
               className="hero-mockup-image"
               priority
             />
@@ -79,10 +91,7 @@ export default function HeroSection() {
             <div className="hero-price-card">
               <div className="hero-price-card-header">
                 <div className="hero-price-icon hero-price-icon-purple">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.855z" />
-                  </svg>
+                  <PenLine size={19} strokeWidth={1.9} />
                 </div>
                 <div>
                   <div className="hero-price-title">WEBSITE REDESIGN</div>
@@ -106,10 +115,7 @@ export default function HeroSection() {
             <div className="hero-price-card">
               <div className="hero-price-card-header">
                 <div className="hero-price-icon hero-price-icon-purple">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect width="18" height="18" x="3" y="3" rx="2" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
+                  <SlidersHorizontal size={19} strokeWidth={1.9} />
                 </div>
                 <div>
                   <div className="hero-price-title">WEBSITE DESIGN</div>
@@ -133,10 +139,7 @@ export default function HeroSection() {
             <div className="hero-price-card">
               <div className="hero-price-card-header">
                 <div className="hero-price-icon hero-price-icon-purple">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
+                  <ShieldCheck size={19} strokeWidth={1.9} />
                 </div>
                 <div>
                   <div className="hero-price-title">CARE PLAN</div>
@@ -203,7 +206,7 @@ export default function HeroSection() {
             <span className="hero-stat-text">FAST TURNAROUND</span>
           </div>
           <div className="hero-stat">
-            <Target size={18} className="hero-stat-icon" />
+            <Crosshair size={18} className="hero-stat-icon" />
             <span className="hero-stat-text">INDUSTRY-FOCUSED DESIGN</span>
           </div>
           <div className="hero-stat">
