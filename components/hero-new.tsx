@@ -170,26 +170,31 @@ export default function HeroNew() {
           </div>
         </div>
 
-        {/* Butterfly */}
-        <motion.div
+        {/* Butterfly — outer wrapper positioned by GSAP, inner offset by Framer Motion */}
+        <div
           className="hero-new-butterfly"
           ref={butterflyRef}
-          style={{
-            x: smoothX,
-            y: smoothY,
-          }}
         >
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="hero-new-butterfly-video"
+          <motion.div
+            style={{
+              x: smoothX,
+              y: smoothY,
+              width: "100%",
+              height: "100%",
+            }}
           >
-            <source src="/butterfly.webm" type="video/webm" />
-          </video>
-        </motion.div>
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="hero-new-butterfly-video"
+            >
+              <source src="/butterfly.webm" type="video/webm" />
+            </video>
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );
