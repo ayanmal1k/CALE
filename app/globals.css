@@ -7,6 +7,7 @@
 @import '../styles/industries-section.css';
 @import '../styles/costing-section.css';
 @import '../styles/portfolio-section.css';
+@import '../styles/pricing-section.css';
 
 @custom-variant dark (&:is(.dark *));
 
