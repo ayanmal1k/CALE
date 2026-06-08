@@ -1,5 +1,4 @@
 .hero-page {
-  --hero-scale: 1;
   width: 100%;
   min-height: 100vh;
   overflow: visible;
@@ -369,7 +368,6 @@
   .hero-scale-stage {
     width: 1200px;
     margin: 0 auto;
-    transform: scale(var(--hero-scale));
     transform-origin: top center;
   }
 

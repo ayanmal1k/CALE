@@ -137,12 +137,12 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(239, 68, 68, 0.08) 0%,
+    circle 350px at 50% 50%,
+    rgba(239, 68, 68, 0.05) 0%,
     transparent 100%
   );
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: 1;
 }
