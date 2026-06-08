@@ -1,10 +1,15 @@
 .hero-page {
+  --hero-scale: 1;
   width: 100%;
-  min-height: 100vh;
+  min-height: max(100vh, calc(720px * var(--hero-scale)));
   overflow-x: hidden;
   background: #fff;
   color: #070707;
   font-family: Geist, "Geist Fallback", Arial, sans-serif;
+}
+
+.hero-scale-stage {
+  width: 100%;
 }
 
 .hero-navbar {
@@ -296,6 +301,8 @@
 }
 
 .hero-trusted {
+  position: relative;
+  z-index: 2;
   margin-top: -62px;
 }
 
@@ -436,11 +443,18 @@
 }
 
 @media (min-width: 1081px) {
+  .hero-scale-stage {
+    width: 1080px;
+    margin: 0 auto;
+    transform: scale(var(--hero-scale));
+    transform-origin: top center;
+  }
+
   .hero-navbar-inner,
   .hero-main-inner,
   .hero-trusted-inner,
   .hero-stats-inner {
-    transform-origin: top center;
+    width: 1080px;
   }
 }
 

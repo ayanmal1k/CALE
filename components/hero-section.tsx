@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -14,8 +16,27 @@ import {
 } from "lucide-react";
 
 export default function HeroSection() {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const nextScale = Math.max(
+        1,
+        Math.min(window.innerWidth / 1080, window.innerHeight / 720),
+      );
+
+      setScale(Number(nextScale.toFixed(4)));
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
-    <div className="hero-page">
+    <div className="hero-page" style={{ "--hero-scale": scale } as CSSProperties}>
+      <div className="hero-scale-stage">
       {/* ========== NAVBAR ========== */}
       <nav className="hero-navbar">
         <div className="hero-navbar-inner">
@@ -215,6 +236,7 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }
