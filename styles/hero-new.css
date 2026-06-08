@@ -281,10 +281,6 @@
         padding: 14px 28px;
         font-size: 11px;
     }
-
-    .hero-new-page {
-        position: relative;
-    }
 }
 
 @media (max-width: 480px) {
