@@ -6,14 +6,15 @@
   left: 0;
   right: 0;
   z-index: 100;
+  background: #070708;
   transition: background 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 .navbar.scrolled {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(7, 7, 8, 0.9);
   backdrop-filter: blur(20px) saturate(1.5);
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .navbar-inner {
@@ -27,7 +28,7 @@
 }
 
 .nav-logo {
-  color: #070708;
+  color: #ffffff;
   font-size: 22px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -57,7 +58,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: rgba(7, 7, 8, 0.65);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 12px;
   font-weight: 500;
   line-height: 1;
@@ -76,8 +77,8 @@
   gap: 8px;
   width: 120px;
   height: 34px;
-  color: #070708;
-  border: 1px solid rgba(7, 7, 8, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   background: transparent;
   font-size: 11px;
@@ -124,19 +125,19 @@
   transform: translateX(-50%);
   min-width: 170px;
   padding: 8px 0;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(15, 15, 16, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(7, 7, 8, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  box-shadow: 0 15px 40px rgba(7, 7, 8, 0.08);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
 
 .nav-dropdown-item {
   display: block;
   padding: 8px 18px;
-  color: rgba(7, 7, 8, 0.65);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.4;
@@ -155,7 +156,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: rgba(7, 7, 8, 0.8);
+  color: rgba(255, 255, 255, 0.8);
   padding: 4px;
   justify-self: end;
 }
@@ -166,11 +167,11 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(7, 7, 8, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(7, 7, 8, 0.06);
-  box-shadow: 0 15px 40px rgba(7, 7, 8, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   z-index: 99;
   padding: 16px 24px 20px;
 }
@@ -184,7 +185,7 @@
 .nav-mobile-link {
   display: block;
   padding: 10px 0;
-  color: rgba(7, 7, 8, 0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 14px;
   font-weight: 500;
   line-height: 1;
@@ -199,7 +200,7 @@
 .nav-mobile-dropdown-item {
   display: block;
   padding: 8px 0;
-  color: rgba(7, 7, 8, 0.5);
+  color: rgba(255, 255, 255, 0.45);
   font-size: 13px;
   font-weight: 400;
   line-height: 1;
