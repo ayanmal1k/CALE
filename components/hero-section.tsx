@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import { Parallax } from "react-scroll-parallax";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -39,6 +40,7 @@ export default function HeroSection() {
         style={{ "--hero-scale": scale } as CSSProperties}
       >
         <section className="hero-main">
+          <Parallax translateY={[-15, 15]}>
           <div className="hero-main-inner">
             <div className="hero-left">
               <span className="hero-label">WEBSITE DESIGN &amp; REDESIGN</span>
@@ -78,6 +80,7 @@ export default function HeroSection() {
               </div>
             </div>
 
+            <Parallax translateY={[-25, 25]}>
             <div className="hero-center">
               <Image
                 src="/Hero.png"
@@ -88,6 +91,7 @@ export default function HeroSection() {
                 priority
               />
             </div>
+            </Parallax>
 
             <div className="hero-right">
               <div className="hero-price-card">
@@ -170,8 +174,10 @@ export default function HeroSection() {
               </motion.a>
             </div>
           </div>
+          </Parallax>
         </section>
 
+        <Parallax translateY={[-8, 8]}>
         <section className="hero-trusted">
           <div className="hero-trusted-inner">
             <span className="hero-trusted-label">TRUSTED BY SERVICE BUSINESSES</span>
@@ -197,6 +203,7 @@ export default function HeroSection() {
             </div>
           </div>
         </section>
+        </Parallax>
       </div>
     </div>
   );
