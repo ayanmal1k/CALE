@@ -11,74 +11,99 @@ import {
   Truck,
   ArrowUpRight,
 } from "lucide-react"
-import { useCallback, useEffect, useRef, useState } from "react"
-import { staggerContainer, fadeUp } from "@/lib/animations"
+import type { ElementType } from "react"
+import { useRef } from "react"
 
-const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 }
+const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 }
 
 const industries = [
-  { icon: Car, name: "Auto Shops" },
-  { icon: Truck, name: "Diesel Companies" },
-  { icon: Thermometer, name: "HVAC" },
-  { icon: Droplets, name: "Plumbing" },
-  { icon: Sprout, name: "Landscaping" },
-  { icon: Building2, name: "Contractors" },
-  { icon: Cog, name: "Fabrication" },
+  { icon: Car, name: "Auto Shops", tagline: "From brake jobs to full builds" },
+  { icon: Truck, name: "Diesel Companies", tagline: "Heavy-duty digital presence" },
+  { icon: Thermometer, name: "HVAC", tagline: "Climate control, online authority" },
+  { icon: Droplets, name: "Plumbing", tagline: "Emergency-ready, trust-first" },
+  { icon: Sprout, name: "Landscaping", tagline: "Seasonal services, year-round leads" },
+  { icon: Building2, name: "Contractors", tagline: "General & specialty trades" },
+  { icon: Cog, name: "Fabrication", tagline: "Custom metalwork & manufacturing" },
 ]
 
-const orbs = [
-  { size: 350, x: "10%", y: "10%", delay: 0 },
-  { size: 250, x: "70%", y: "60%", delay: 2 },
-  { size: 300, x: "50%", y: "20%", delay: 4 },
-]
-
-function IndustryCard({
+/* ── Single industry row with parallax ── */
+function IndustryRow({
   icon: Icon,
   name,
+  tagline,
   index,
 }: {
-  icon: React.ElementType
+  icon: ElementType
   name: string
+  tagline: string
   index: number
 }) {
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width) * 100
-      const y = ((e.clientY - rect.top) / rect.height) * 100
-      e.currentTarget.style.setProperty("--mouse-x", `${x}%`)
-      e.currentTarget.style.setProperty("--mouse-y", `${y}%`)
-    },
-    []
+  const rowRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: rowRef,
+    offset: ["start end", "end start"],
+  })
+
+  // Stagger parallax speeds — alternating directions for depth
+  const direction = index % 2 === 0 ? 1 : -1
+  const speed = 8 + (index % 3) * 4
+  const rowX = useSpring(
+    useTransform(scrollYProgress, [0, 1], [direction * speed, direction * -speed]),
+    springConfig
+  )
+
+  // Vertical float for icon
+  const iconY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [12, -12]),
+    springConfig
+  )
+
+  // Number parallax — moves faster for depth illusion
+  const numY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [20, -20]),
+    springConfig
   )
 
   return (
     <motion.div
-      className="industries-grid-item"
-      variants={fadeUp}
-      onMouseMove={handleMouseMove}
-      custom={index}
+      ref={rowRef}
+      className="ind-row"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.06,
+        ease: [0.25, 0.1, 0, 1],
+      }}
     >
-      <div className="industries-grid-icon">
-        <Icon size={22} strokeWidth={1.5} />
-      </div>
-      <span className="industries-grid-name">{name}</span>
-      <div className="industries-grid-arrow">
-        <ArrowUpRight size={14} strokeWidth={1.5} />
-      </div>
+      {/* Ghost number with own parallax */}
+      <motion.span className="ind-row-num" style={{ y: numY }}>
+        {String(index + 1).padStart(2, "0")}
+      </motion.span>
+
+      <motion.div className="ind-row-inner" style={{ x: rowX }}>
+        <motion.div className="ind-row-icon" style={{ y: iconY }}>
+          <Icon size={22} strokeWidth={1.5} />
+        </motion.div>
+
+        <div className="ind-row-content">
+          <span className="ind-row-name">{name}</span>
+          <span className="ind-row-tagline">{tagline}</span>
+        </div>
+
+        <div className="ind-row-arrow">
+          <ArrowUpRight size={16} strokeWidth={1.5} />
+        </div>
+      </motion.div>
     </motion.div>
   )
 }
 
 export default function IndustriesSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
 
   const { scrollYProgress: headerProgress } = useScroll({
     target: headerRef,
@@ -94,24 +119,15 @@ export default function IndustriesSection() {
     springConfig
   )
 
-  const orbY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [50, -50]),
+  // Background parallax shift (like first-impressions)
+  const { scrollYProgress: bgProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  })
+  const bgY = useSpring(
+    useTransform(bgProgress, [0, 1], [60, -60]),
     springConfig
   )
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const handle = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect()
-      setMousePos({
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height,
-      })
-    }
-    el.addEventListener("mousemove", handle)
-    return () => el.removeEventListener("mousemove", handle)
-  }, [])
 
   return (
     <section
@@ -120,78 +136,53 @@ export default function IndustriesSection() {
       ref={sectionRef}
       style={{ zIndex: 4 }}
     >
-      {orbs.map((orb, i) => (
-        <motion.div
-          key={i}
-          className="industries-orb"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.x,
-            top: orb.y,
-            y: orbY,
-          }}
-          animate={{ x: [0, 30, -20, 10, 0], y: [0, -20, 30, -10, 0] }}
-          transition={{
-            duration: 14 + i * 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: orb.delay,
-          }}
-        />
-      ))}
-      <motion.div
-        className="industries-spotlight"
-        style={{
-          left: `${mousePos.x * 100}%`,
-          top: `${mousePos.y * 100}%`,
-        }}
-      />
+      {/* Parallax background layer — same gradient style as first-impressions */}
+      <motion.div className="ind-bg-shift" style={{ y: bgY }} />
 
       <div className="industries-inner">
+        {/* ── Header ── */}
         <motion.div
-          className="industries-header parallax-content"
+          className="ind-header parallax-content"
           ref={headerRef}
           style={{ opacity: headerOpacity, y: headerY }}
         >
-          <span className="industries-eyebrow">Who We Serve</span>
-          <h2 className="industries-heading">
-            Industry <span className="industries-accent">Expertise</span>
+          <h2 className="ind-heading">
+            Industry{" "}
+            <span className="ind-heading-accent">
+              <span className="ind-shiny-text">Expertise</span>
+            </span>
           </h2>
-          <p className="industries-subtext">
+          <p className="ind-subtext">
             We specialize in blue-collar authority. We know your customers and
             what they need to see before they pick up the phone.
           </p>
         </motion.div>
 
-        <motion.div
-          className="industries-grid"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
+        {/* ── Industry Rows ── */}
+        <div className="ind-list">
           {industries.map((item, i) => (
-            <IndustryCard key={item.name} {...item} index={i} />
+            <IndustryRow key={item.name} {...item} index={i} />
           ))}
+        </div>
 
-          {/* CTA Card */}
-          <motion.div className="industries-cta-card" variants={fadeUp}>
-            <div className="industries-cta-left">
-              <span className="industries-cta-label">
-                Don&apos;t see your industry?
-              </span>
-              <span className="industries-cta-title">
-                Your Industry Next
-              </span>
+        {/* ── CTA Banner ── */}
+        <motion.div
+          className="ind-cta"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0, 1] }}
+        >
+          <div className="ind-cta-left">
+            <span className="ind-cta-label">Don&apos;t see your industry?</span>
+            <span className="ind-cta-title">Your Industry Next</span>
+          </div>
+          <div className="ind-cta-action">
+            <span>Get Started</span>
+            <div className="ind-cta-circle">
+              <ArrowUpRight size={16} strokeWidth={2} />
             </div>
-            <div className="industries-cta-action">
-              <span>Get Started</span>
-              <div className="industries-cta-action-circle">
-                <ArrowUpRight size={16} strokeWidth={2} />
-              </div>
-            </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

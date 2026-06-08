@@ -1,8 +1,8 @@
 "use client"
 
 import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion"
-import { Clock, Frown, Smartphone, Star, X, AlertTriangle } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { Clock, Frown, Smartphone, Star, X } from "lucide-react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { staggerContainer, fadeUp } from "@/lib/animations"
 
 const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 }
@@ -44,10 +44,10 @@ function LoadingDemo() {
         />
       </div>
       <div className="demo-loader-info">
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.2)" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
           {stuck ? "Stuck loading..." : "Loading..."}
         </span>
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.2)" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
           {progress.toFixed(0)}%
         </span>
       </div>
@@ -176,7 +176,7 @@ function SocialDemo() {
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           />
           <div>
-            <div className="demo-biz-name">ABC Plumbin</div>
+            <div className="demo-biz-name">ABC Plumbing</div>
             <motion.div
               className="demo-biz-reviews"
               animate={{ opacity: [0.3, 0.6, 0.3] }}
@@ -275,24 +275,81 @@ const cards = [
     id: "loading",
     icon: Clock,
     title: "Slow Loading Times",
-    text: "If your site takes more than 3 seconds to load, 40% of your visitors are already gone.",
+    text: "If your site takes more than 3 seconds to load, 40% of your visitors are already gone. Speed is a feature, not an afterthought.",
     demo: <LoadingDemo />,
   },
   {
     id: "mobile",
     icon: Smartphone,
     title: "Poor Mobile Experience",
-    text: "Most service calls happen on mobile. If your site isn't perfectly responsive, you're invisible.",
+    text: "Most service calls happen on mobile. If your site isn't perfectly responsive, layouts break and you lose customers to competitors.",
     demo: <MobileDemo />,
   },
   {
     id: "social",
     icon: Frown,
     title: "Lack of Social Proof",
-    text: "Without trust signals, potential customers will choose the competitor with the better reviews.",
+    text: "Without clear trust signals and star ratings, potential clients will look for other agencies who display reviews prominently.",
     demo: <SocialDemo />,
   },
 ]
+
+function CostingCard({
+  icon: Icon,
+  title,
+  text,
+  demo,
+  index,
+}: {
+  icon: any
+  title: string
+  text: string
+  demo: React.ReactNode
+  index: number
+}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  })
+
+  // Subtle parallax lift
+  const speed = 25 + index * 10
+  const cardY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [speed, -speed]),
+    springConfig
+  )
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    e.currentTarget.style.setProperty("--mouse-x", `${x}%`)
+    e.currentTarget.style.setProperty("--mouse-y", `${y}%`)
+  }, [])
+
+  return (
+    <motion.div
+      className="costing-card"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      variants={fadeUp}
+      style={{ y: cardY }}
+    >
+      <div className="costing-card-info">
+        <div className="costing-card-top">
+          <div className="costing-card-icon">
+            <Icon size={24} strokeWidth={1.5} />
+          </div>
+          <h3 className="costing-card-title">{title}</h3>
+        </div>
+        <p className="costing-card-text">{text}</p>
+      </div>
+      <div className="costing-card-demo">{demo}</div>
+    </motion.div>
+  )
+}
 
 export default function CostingSection() {
   const headerRef = useRef<HTMLDivElement>(null)
@@ -312,7 +369,7 @@ export default function CostingSection() {
   )
 
   return (
-    <section className="costing-section">
+    <section className="costing-section slide-over" id="problems" style={{ zIndex: 5 }}>
       <motion.div
         className="costing-header"
         ref={headerRef}
@@ -327,8 +384,7 @@ export default function CostingSection() {
           <span className="costing-highlight">Customers</span>
         </h2>
         <p className="costing-sub">
-          Three critical issues driving potential customers away — see them in
-          action.
+          Three critical issues driving potential clients away — see them simulated in real time below.
         </p>
       </motion.div>
       <motion.div
@@ -338,21 +394,8 @@ export default function CostingSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
       >
-        {cards.map((card) => (
-          <motion.div
-            key={card.id}
-            className="costing-card"
-            variants={fadeUp}
-          >
-            <div className="costing-card-top">
-              <div className="costing-card-icon">
-                <card.icon size={24} strokeWidth={1.5} />
-              </div>
-              <h3 className="costing-card-title">{card.title}</h3>
-            </div>
-            <p className="costing-card-text">{card.text}</p>
-            <div className="costing-card-demo">{card.demo}</div>
-          </motion.div>
+        {cards.map((card, i) => (
+          <CostingCard key={card.id} {...card} index={i} />
         ))}
       </motion.div>
     </section>
