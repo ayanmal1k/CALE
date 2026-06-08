@@ -6,7 +6,6 @@
   overflow: hidden;
 }
 
-/* Floating orbs */
 .industries-orb {
   position: absolute;
   border-radius: 50%;
@@ -28,16 +27,15 @@
 }
 
 .industries-inner {
-  max-width: 1080px;
+  max-width: 720px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
-/* Header */
 .industries-header {
   max-width: 600px;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 
 .industries-eyebrow {
@@ -74,194 +72,187 @@
   margin: 0;
 }
 
-/* Showcase grid */
-.industries-showcase {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-/* Tile */
-.industries-tile {
+/* Vertical list */
+.industries-list {
   position: relative;
-  padding: 32px 28px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-  cursor: default;
-  transition: border-color 0.3s, transform 0.3s;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: 140px;
+  gap: 10px;
 }
 
-.industries-tile:hover {
-  border-color: rgba(99, 52, 223, 0.3);
-  transform: translateY(-3px);
-}
-
-.industries-tile.active {
-  border-color: rgba(99, 52, 223, 0.4);
-}
-
-/* Background icon */
-.industries-tile-bg-icon {
+.industries-list-line {
   position: absolute;
-  right: -10px;
-  top: -10px;
-  color: rgba(255, 255, 255, 0.03);
-  pointer-events: none;
-  transition: color 0.3s, transform 0.3s;
-  line-height: 0;
+  left: 15px;
+  top: 18px;
+  bottom: 18px;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(99, 52, 223, 0.35), rgba(99, 52, 223, 0.02));
 }
 
-.industries-tile:hover .industries-tile-bg-icon {
-  color: rgba(99, 52, 223, 0.06);
-  transform: scale(1.05);
-}
-
-/* Content */
-.industries-tile-content {
+.industries-item {
   position: relative;
-  z-index: 1;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 20px;
+  padding-left: 42px;
 }
 
-.industries-tile-icon {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+.industries-item-dot {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.industries-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(99, 52, 223, 0.2);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.industries-dot.pulse {
+  background: #6334df;
+  box-shadow: 0 0 14px rgba(99, 52, 223, 0.5);
+}
+
+.industries-item-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+.industries-item:hover .industries-item-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(99, 52, 223, 0.25);
+  transform: translateX(4px);
+}
+
+.industries-item.active .industries-item-card {
+  border-color: rgba(99, 52, 223, 0.35);
+  background: rgba(99, 52, 223, 0.06);
+}
+
+.industries-item-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   background: rgba(99, 52, 223, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 9px;
   color: #6334df;
-  margin-bottom: 8px;
-  transition: background 0.3s, transform 0.3s;
+  transition: background 0.25s, transform 0.25s;
 }
 
-.industries-tile:hover .industries-tile-icon {
+.industries-item:hover .industries-item-icon {
   background: rgba(99, 52, 223, 0.18);
   transform: scale(1.06);
 }
 
-.industries-tile-name {
-  font-size: 17px;
+.industries-item-name {
+  flex: 1;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #f0f0f0;
+  letter-spacing: -0.015em;
+  color: #eee;
   line-height: 1.2;
 }
 
-.industries-tile-desc {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.35);
-  line-height: 1.4;
-  margin-top: 2px;
+.industries-item-arrow {
+  color: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  transition: color 0.2s;
 }
 
-/* Glow overlay */
-.industries-tile-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(99, 52, 223, 0.06), transparent 70%);
-  pointer-events: none;
-  border-radius: 16px;
+.industries-item:hover .industries-item-arrow {
+  color: #6334df;
 }
 
-/* CTA tile */
-.industries-tile-cta {
+/* CTA */
+.industries-item-cta {
+  margin-top: 16px;
+}
+
+.industries-card-cta {
   background: linear-gradient(135deg, #6334df, #7c4fe8);
   border-color: transparent;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 140px;
+  gap: 24px;
+  padding: 18px 20px;
 }
 
-.industries-tile-cta:hover {
+.industries-card-cta:hover {
+  background: linear-gradient(135deg, #7246e6, #8a5eea);
   border-color: transparent;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(99, 52, 223, 0.25);
+  transform: translateX(4px);
+  box-shadow: 0 8px 32px rgba(99, 52, 223, 0.2);
 }
 
-.industries-tile-cta-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.08), transparent 60%);
-  pointer-events: none;
-}
-
-.industries-tile-cta-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.industries-tile-cta-label {
-  font-size: 13px;
+.industries-cta-label {
+  font-size: 11px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.industries-tile-cta-action {
+.industries-cta-action {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
 }
 
-/* Desktop */
 @media (min-width: 769px) {
   .industries-section {
     padding: 160px 39px 120px;
   }
 
-  .industries-header {
-    margin-bottom: 72px;
-  }
-
   .industries-heading {
-    font-size: 56px;
+    font-size: 64px;
   }
 
   .industries-subtext {
     font-size: 17px;
   }
 
-  .industries-showcase {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+  .industries-header {
+    margin-bottom: 64px;
   }
 
-  .industries-tile {
-    padding: 36px 28px;
-    min-height: 170px;
+  .industries-list {
+    gap: 12px;
   }
 
-  .industries-tile-name {
-    font-size: 19px;
+  .industries-item-card {
+    padding: 18px 24px;
   }
 
-  .industries-tile-desc {
-    font-size: 13px;
+  .industries-item-name {
+    font-size: 16px;
   }
 
-  .industries-tile-cta {
-    min-height: 170px;
+  .industries-item-cta {
+    margin-top: 20px;
+  }
+
+  .industries-card-cta {
+    padding: 20px 24px;
   }
 }

@@ -9,28 +9,28 @@ import {
   Sprout,
   Thermometer,
   Truck,
-  ArrowRight,
+  ArrowUpRight,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 const industries = [
-  { icon: Car, name: "Auto Shops", desc: "Repair shops, dealers & service centers" },
-  { icon: Truck, name: "Diesel Companies", desc: "Fleet services, trucking & diesel repair" },
-  { icon: Thermometer, name: "HVAC", desc: "Heating, cooling & ventilation pros" },
-  { icon: Droplets, name: "Plumbing", desc: "Residential & commercial plumbing" },
-  { icon: Sprout, name: "Landscaping", desc: "Lawn care, design & outdoor services" },
-  { icon: Building2, name: "Contractors", desc: "General contractors & specialty trades" },
-  { icon: Cog, name: "Fabrication", desc: "Metalwork, welding & custom fabrication" },
+  { icon: Car, name: "Auto Shops" },
+  { icon: Truck, name: "Diesel Companies" },
+  { icon: Thermometer, name: "HVAC" },
+  { icon: Droplets, name: "Plumbing" },
+  { icon: Sprout, name: "Landscaping" },
+  { icon: Building2, name: "Contractors" },
+  { icon: Cog, name: "Fabrication" },
 ]
 
-const floatingOrbs = [
+const orbs = [
   { size: 300, x: "10%", y: "10%", delay: 0 },
   { size: 200, x: "70%", y: "60%", delay: 2 },
   { size: 250, x: "50%", y: "20%", delay: 4 },
 ]
 
 export default function IndustriesSection() {
-  const [hovered, setHovered] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
 
@@ -50,37 +50,18 @@ export default function IndustriesSection() {
 
   return (
     <section className="industries-section" id="industries" ref={sectionRef}>
-      {/* Floating orbs */}
-      {floatingOrbs.map((orb, i) => (
+      {orbs.map((orb, i) => (
         <motion.div
           key={i}
           className="industries-orb"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.x,
-            top: orb.y,
-          }}
-          animate={{
-            x: [0, 30, -20, 10, 0],
-            y: [0, -20, 30, -10, 0],
-          }}
-          transition={{
-            duration: 12 + i * 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: orb.delay,
-          }}
+          style={{ width: orb.size, height: orb.size, left: orb.x, top: orb.y }}
+          animate={{ x: [0, 30, -20, 10, 0], y: [0, -20, 30, -10, 0] }}
+          transition={{ duration: 12 + i * 3, repeat: Infinity, ease: "easeInOut", delay: orb.delay }}
         />
       ))}
-
-      {/* Gradient follow cursor */}
       <motion.div
         className="industries-spotlight"
-        style={{
-          left: `${mousePos.x * 100}%`,
-          top: `${mousePos.y * 100}%`,
-        }}
+        style={{ left: `${mousePos.x * 100}%`, top: `${mousePos.y * 100}%` }}
       />
 
       <div className="industries-inner">
@@ -96,53 +77,57 @@ export default function IndustriesSection() {
             Industry <span className="industries-accent">Expertise</span>
           </h2>
           <p className="industries-subtext">
-            We specialize in blue-collar authority. We know your customers and what they need
-            to see before they pick up the phone.
+            We specialize in blue-collar authority. We know your customers and what they need to see before they pick up the phone.
           </p>
         </motion.div>
 
-        <div className="industries-showcase">
+        <div className="industries-list">
+          <div className="industries-list-line" />
+
           {industries.map((item, i) => (
             <motion.div
               key={item.name}
-              className={`industries-tile ${hovered === i ? "active" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
+              className={`industries-item ${activeIndex === i ? "active" : ""}`}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06, ease: "easeOut" }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.35, delay: i * 0.05, ease: "easeOut" }}
+              onMouseEnter={() => setActiveIndex(i)}
+              onMouseLeave={() => setActiveIndex(null)}
             >
-              <div className="industries-tile-bg-icon">
-                <item.icon size={80} strokeWidth={1} />
+              <div className="industries-item-dot">
+                <div className={`industries-dot ${activeIndex === i ? "pulse" : ""}`} />
               </div>
-              <div className="industries-tile-content">
-                <div className="industries-tile-icon">
-                  <item.icon size={22} strokeWidth={1.5} />
+              <div className="industries-item-card">
+                <div className="industries-item-icon">
+                  <item.icon size={18} strokeWidth={1.5} />
                 </div>
-                <span className="industries-tile-name">{item.name}</span>
-                <span className="industries-tile-desc">{item.desc}</span>
+                <span className="industries-item-name">{item.name}</span>
+                <motion.div
+                  className="industries-item-arrow"
+                  animate={activeIndex === i ? { x: 3, opacity: 1 } : { x: 0, opacity: 0.2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ArrowUpRight size={14} strokeWidth={1.5} />
+                </motion.div>
               </div>
-              <motion.div
-                className="industries-tile-glow"
-                animate={hovered === i ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              />
             </motion.div>
           ))}
 
           <motion.div
-            className="industries-tile industries-tile-cta"
-            initial={{ opacity: 0, y: 20 }}
+            className="industries-item industries-item-cta"
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 7 * 0.06, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.35, delay: 0.4, ease: "easeOut" }}
           >
-            <div className="industries-tile-cta-bg" />
-            <div className="industries-tile-cta-content">
-              <span className="industries-tile-cta-label">Your Industry</span>
-              <span className="industries-tile-cta-action">
-                Get Started <ArrowRight size={14} strokeWidth={2} />
+            <div className="industries-item-dot">
+              <div className="industries-dot" />
+            </div>
+            <div className="industries-item-card industries-card-cta">
+              <span className="industries-cta-label">Your Industry Next</span>
+              <span className="industries-cta-action">
+                Get Started <ArrowUpRight size={12} strokeWidth={2} />
               </span>
             </div>
           </motion.div>
