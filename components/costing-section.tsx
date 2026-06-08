@@ -13,7 +13,7 @@ function LoadingDemo() {
   useEffect(() => {
     if (started.current) return
     started.current = true
-    let id = setInterval(() => {
+    const id = setInterval(() => {
       setProgress((p) => {
         if (p >= 65) {
           clearInterval(id)
@@ -41,10 +41,10 @@ function LoadingDemo() {
         />
       </div>
       <div className="demo-loader-info">
-        <span style={{ color: stuck ? "#dc2626" : "rgba(255,255,255,0.35)" }}>
+        <span style={{ color: stuck ? "#dc2626" : "#999" }}>
           {stuck ? "Stuck loading..." : "Loading..."}
         </span>
-        <span style={{ color: stuck ? "#dc2626" : "rgba(255,255,255,0.35)" }}>
+        <span style={{ color: stuck ? "#dc2626" : "#999" }}>
           {progress.toFixed(0)}%
         </span>
       </div>
@@ -53,7 +53,7 @@ function LoadingDemo() {
         <div className="demo-ph" style={{ width: "45%", height: 8 }} />
       </div>
       {!stuck && (
-        <div style={{ marginTop: 12, display: "flex", gap: 6 }}>
+        <div className="demo-ph-row">
           <div className="demo-ph" style={{ width: "40%", height: 6 }} />
           <div className="demo-ph" style={{ width: "25%", height: 6 }} />
         </div>
@@ -140,7 +140,7 @@ function MobileDemo() {
       </div>
       <motion.p
         className="demo-mobile-label"
-        animate={{ opacity: [0.3, 0.7, 0.3] }}
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
         Unclickable buttons, overlapping text
@@ -154,7 +154,7 @@ function SocialDemo() {
     <div className="demo-social">
       <motion.div
         className="demo-business bad"
-        animate={{ boxShadow: ["0 0 0 0 rgba(220,38,38,0)", "0 0 20px 0 rgba(220,38,38,0.15)", "0 0 0 0 rgba(220,38,38,0)"] }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(220,38,38,0)", "0 0 16px 0 rgba(220,38,38,0.1)", "0 0 0 0 rgba(220,38,38,0)"] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <motion.svg
@@ -193,7 +193,7 @@ function SocialDemo() {
               <Star size={10} fill="#dc2626" color="#dc2626" />
             </motion.span>
           ))}
-          {[0, 1, 2].map((i) => <Star key={i} size={10} color="rgba(255,255,255,0.08)" />)}
+          {[0, 1, 2].map((i) => <Star key={i} size={10} color="#ddd" />)}
         </div>
         <motion.div
           className="demo-biz-status bad"
@@ -204,7 +204,7 @@ function SocialDemo() {
         </motion.div>
       </motion.div>
       <motion.svg
-        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5"
+        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5"
         animate={{ rotate: [0, 10, 0, -10, 0], scale: [1, 1.15, 1, 1.15, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -213,7 +213,7 @@ function SocialDemo() {
       </motion.svg>
       <motion.div
         className="demo-business good"
-        animate={{ boxShadow: ["0 0 0 0 rgba(22,163,74,0)", "0 0 20px 0 rgba(22,163,74,0.15)", "0 0 0 0 rgba(22,163,74,0)"] }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(22,163,74,0)", "0 0 16px 0 rgba(22,163,74,0.1)", "0 0 0 0 rgba(22,163,74,0)"] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
       >
         <motion.svg
@@ -293,24 +293,26 @@ const cards = [
 export default function CostingSection() {
   return (
     <section className="costing-section">
-      <motion.h2
-        className="costing-heading"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        Why Your Website Is Costing You Customers
-      </motion.h2>
-      <motion.p
-        className="costing-sub"
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
-      >
-        Three critical issues driving potential customers away — see them in action.
-      </motion.p>
+      <div className="costing-header">
+        <motion.h2
+          className="costing-heading"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          Why Your Website Is Costing You <span className="costing-highlight">Customers</span>
+        </motion.h2>
+        <motion.p
+          className="costing-sub"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+        >
+          Three critical issues driving potential customers away — see them in action.
+        </motion.p>
+      </div>
       <div className="costing-grid">
         {cards.map((card, i) => (
           <motion.div
@@ -321,9 +323,9 @@ export default function CostingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.45, delay: i * 0.12, ease: "easeOut" }}
           >
-            <div className="costing-card-header">
+            <div className="costing-card-top">
               <div className="costing-card-icon">
-                <card.icon size={22} strokeWidth={1.5} />
+                <card.icon size={24} strokeWidth={1.5} />
               </div>
               <h3 className="costing-card-title">{card.title}</h3>
             </div>
