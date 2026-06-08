@@ -14,6 +14,7 @@ export default function HeroNew() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [ctaHovered, setCtaHovered] = useState(false);
 
   // Mouse tracking for butterfly
   const mouseX = useMotionValue(0);
@@ -77,6 +78,8 @@ export default function HeroNew() {
     });
     gsap.set([topLine, creativity, subtitle, cta], { opacity: 0, y: 40 });
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
     // Create the intro timeline
     const tl = gsap.timeline({ delay: 0.3 });
     timelineRef.current = tl;
@@ -88,10 +91,10 @@ export default function HeroNew() {
       ease: "power2.out",
     });
 
-    // 2. Butterfly moves to the right side
+    // 2. Butterfly moves to final position
     tl.to(butterfly, {
-      left: "78%",
-      top: "72%",
+      left: isMobile ? "50%" : "78%",
+      top: isMobile ? "42%" : "72%",
       scale: 1,
       duration: 1.4,
       ease: "power3.inOut",
@@ -161,11 +164,21 @@ export default function HeroNew() {
             <motion.a
               href="#"
               className="hero-new-cta"
-              whileHover={{ scale: 1.05 }}
+              onHoverStart={() => setCtaHovered(true)}
+              onHoverEnd={() => setCtaHovered(false)}
+              whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              REQUEST A FREE QUOTE TODAY!
-              <ArrowUpRight size={16} strokeWidth={2.5} />
+              <motion.span
+                className="hero-new-cta-fill"
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: ctaHovered ? 1 : 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              />
+              <span className="hero-new-cta-content">
+                REQUEST A FREE QUOTE TODAY!
+                <ArrowUpRight size={16} strokeWidth={2.5} />
+              </span>
             </motion.a>
           </div>
         </div>
