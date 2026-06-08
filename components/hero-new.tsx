@@ -94,7 +94,7 @@ export default function HeroNew() {
     // 2. Butterfly moves to final position
     tl.to(butterfly, {
       left: isMobile ? "50%" : "78%",
-      top: isMobile ? "42%" : "72%",
+      top: isMobile ? "25%" : "72%",
       scale: 1,
       duration: 1.4,
       ease: "power3.inOut",
