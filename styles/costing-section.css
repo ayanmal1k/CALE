@@ -11,15 +11,12 @@
 }
 
 /* Luxury ambient backdrop */
-.costing-section::before {
-  content: '';
+.costing-parallax-bg {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(239, 68, 68, 0.035) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(124, 79, 232, 0.045) 0%, transparent 60%);
+  inset: -180px 0;
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 35%, #ffb6b6 65%, #ff4d4d 100%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .costing-section::after {
@@ -29,7 +26,7 @@
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
   opacity: 0.5;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
 }
 
 /* ── Header ── */
@@ -39,7 +36,7 @@
   margin: 0 auto 96px;
   text-align: center;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .costing-eyebrow {
@@ -52,8 +49,8 @@
   text-transform: uppercase;
   color: #ef4444;
   margin-bottom: 24px;
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   padding: 8px 18px;
   border-radius: 100px;
   backdrop-filter: blur(12px);
@@ -74,15 +71,15 @@
 
 .costing-heading {
   font-size: clamp(40px, 6vw, 84px);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1.0;
-  color: #f5f5f7;
+  color: #070708;
   margin: 0 0 28px;
 }
 
 .costing-highlight {
-  background: linear-gradient(135deg, #ef4444, #f87171, #ffc5c5);
+  background: linear-gradient(135deg, #ef4444, #d02020, #a01010);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -90,11 +87,19 @@
 
 .costing-sub {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(7, 7, 8, 0.7);
   margin: 0 auto;
   max-width: 580px;
+}
+
+.costing-inner {
+  position: relative;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
 }
 
 /* ── Custom Bento Grid layout ── */
@@ -106,15 +111,15 @@
   max-width: 1280px;
   margin: 0 auto;
   position: relative;
-  z-index: 2;
+  z-index: 5;
 }
 
 /* ── Card ── */
 
 .costing-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.012);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 28px;
   padding: 48px;
   display: flex;
@@ -123,7 +128,8 @@
   gap: 40px;
   overflow: hidden;
   transition: border-color 0.5s ease, box-shadow 0.5s ease;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  z-index: 5;
 }
 
 .costing-card::before {
@@ -132,7 +138,7 @@
   inset: 0;
   background: radial-gradient(
     circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(239, 68, 68, 0.05) 0%,
+    rgba(239, 68, 68, 0.08) 0%,
     transparent 100%
   );
   opacity: 0;
@@ -146,10 +152,10 @@
 }
 
 .costing-card:hover {
-  border-color: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.25);
   box-shadow:
-    0 30px 100px rgba(0, 0, 0, 0.5),
-    0 0 80px rgba(239, 68, 68, 0.02);
+    0 30px 100px rgba(0, 0, 0, 0.12),
+    0 0 80px rgba(239, 68, 68, 0.04);
 }
 
 /* Accent Line Top */
@@ -160,7 +166,7 @@
   left: 20%;
   right: 20%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.3), transparent);
   transition: all 0.6s cubic-bezier(0.25, 0.1, 0, 1);
   z-index: 2;
 }
@@ -168,7 +174,7 @@
 .costing-card:hover::after {
   left: 10%;
   right: 10%;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.6), transparent);
 }
 
 .costing-card-info {
@@ -190,8 +196,8 @@
   width: 56px;
   height: 56px;
   min-width: 56px;
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.08);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,17 +207,17 @@
 }
 
 .costing-card:hover .costing-card-icon {
-  background: rgba(239, 68, 68, 0.09);
-  border-color: rgba(239, 68, 68, 0.18);
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
   transform: scale(1.05) rotate(-2deg);
   box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
 }
 
 .costing-card-title {
   font-size: clamp(22px, 3vw, 28px);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.03em;
-  color: #f5f5f7;
+  color: #070708;
   margin: 0;
 }
 
@@ -219,14 +225,14 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(7, 7, 8, 0.6);
   max-width: 480px;
   margin: 0;
   transition: color 0.3s ease;
 }
 
 .costing-card:hover .costing-card-text {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(7, 7, 8, 0.8);
 }
 
 /* ── Demo Container ── */

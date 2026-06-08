@@ -361,6 +361,9 @@ export default function CostingSection() {
   const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
   const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
 
+  // Red and white gradient parallax bg shift mapping
+  const bgTransformY = useSpring(useTransform(sectionProgress, [0, 1], [150, -150]), springConfig)
+
   return (
     <section 
       className="costing-section slide-over" 
@@ -368,6 +371,12 @@ export default function CostingSection() {
       ref={sectionRef}
       style={{ zIndex: 5, perspective: 1200 }}
     >
+      {/* Fully parallel scrolling red & white gradient background layer */}
+      <motion.div 
+        className="costing-parallax-bg"
+        style={{ y: bgTransformY }}
+      />
+
       <motion.div 
         className="costing-inner"
         style={{ rotateX, z, transformStyle: "preserve-3d" }}
