@@ -210,7 +210,7 @@ export default function HeroSection() {
       </section>
 
       {/* ========== BOTTOM STATS BAR ========== */}
-      <section className="hero-stats-bar">
+      {/* <section className="hero-stats-bar">
         <div className="hero-stats-inner">
           <div className="hero-stat">
             <Star size={18} className="hero-stat-icon hero-stat-icon-purple" fill="currentColor" />
@@ -229,7 +229,7 @@ export default function HeroSection() {
             <span className="hero-stat-text">RESULTS THAT GROW YOUR BUSINESS</span>
           </div>
         </div>
-      </section>
+      </section> */}
       </div>
     </div>
   );

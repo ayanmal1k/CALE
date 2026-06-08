@@ -250,6 +250,7 @@
   position: relative;
   z-index: 2;
   margin-top: -62px;
+  padding-bottom: 10px;
 }
 
 .hero-trusted-inner {
@@ -443,10 +444,29 @@
     margin-top: 34px;
   }
 
-  .hero-trusted-logos,
-  .hero-stats-inner {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+  .hero-logo-a1 {
+    font-size: 22px;
+  }
+
+  .hero-logo-a1-sub {
+    font-size: 5px;
+  }
+
+  .hero-logo-diesel-text,
+  .hero-logo-summit {
+    font-size: 13px;
+  }
+
+  .hero-logo-circle {
+    font-size: 18px;
+  }
+
+  .hero-logo-evergreen-name {
+    font-size: 9px;
+  }
+
+  .hero-logo-evergreen-sub {
+    font-size: 5px;
   }
 
   .hero-stats-inner {
