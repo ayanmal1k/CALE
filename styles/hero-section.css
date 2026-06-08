@@ -48,7 +48,7 @@
   margin: 20px 0 18px;
   color: #070707;
   font-size: 39px;
-  font-weight: 500;
+  font-weight: 450;
   letter-spacing: -0.045em;
   line-height: 1.12;
 }
@@ -259,7 +259,7 @@
 }
 
 .hero-trusted-label {
-  color: #141416;
+  color: #555;
   font-size: 9px;
   font-weight: 700;
 }
