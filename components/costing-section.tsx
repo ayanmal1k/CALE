@@ -1,9 +1,11 @@
 "use client"
 
-import { AnimatePresence, motion } from "framer-motion"
-import { Clock, Frown, Smartphone, Star, X } from "lucide-react"
+import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion"
+import { Clock, Frown, Smartphone, Star, X, AlertTriangle } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { staggerContainer, fadeUp } from "@/lib/animations"
+
+const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 }
 
 function LoadingDemo() {
   const [progress, setProgress] = useState(0)
@@ -42,10 +44,10 @@ function LoadingDemo() {
         />
       </div>
       <div className="demo-loader-info">
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.2)" }}>
           {stuck ? "Stuck loading..." : "Loading..."}
         </span>
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
+        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.2)" }}>
           {progress.toFixed(0)}%
         </span>
       </div>
@@ -63,9 +65,10 @@ function LoadingDemo() {
         {showWarning && (
           <motion.div
             className="demo-warning"
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0, 1] }}
           >
             <span className="demo-warning-icon"><X size={12} /></span>
             <span>40% of your visitors already left</span>
@@ -141,8 +144,8 @@ function MobileDemo() {
       </div>
       <motion.p
         className="demo-mobile-label"
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ opacity: [0.3, 0.7, 0.3] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
         Unclickable buttons, overlapping text
       </motion.p>
@@ -155,8 +158,8 @@ function SocialDemo() {
     <div className="demo-social">
       <motion.div
         className="demo-business bad"
-        animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0)", "0 0 16px 0 rgba(239,68,68,0.08)", "0 0 0 0 rgba(239,68,68,0)"] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0)", "0 0 20px 0 rgba(239,68,68,0.06)", "0 0 0 0 rgba(239,68,68,0)"] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
         <motion.svg
           width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"
@@ -194,28 +197,28 @@ function SocialDemo() {
               <Star size={10} fill="#ef4444" color="#ef4444" />
             </motion.span>
           ))}
-          {[0, 1, 2].map((i) => <Star key={i} size={10} color="rgba(255,255,255,0.1)" />)}
+          {[0, 1, 2].map((i) => <Star key={i} size={10} color="rgba(255,255,255,0.08)" />)}
         </div>
         <motion.div
           className="demo-biz-status bad"
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
           Poor rating — customers leave
         </motion.div>
       </motion.div>
       <motion.svg
-        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"
+        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"
         animate={{ rotate: [0, 10, 0, -10, 0], scale: [1, 1.15, 1, 1.15, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <circle cx="12" cy="12" r="10" />
         <path d="M8 12h8M12 8v8" />
       </motion.svg>
       <motion.div
         className="demo-business good"
-        animate={{ boxShadow: ["0 0 0 0 rgba(34,197,94,0)", "0 0 16px 0 rgba(34,197,94,0.08)", "0 0 0 0 rgba(34,197,94,0)"] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        animate={{ boxShadow: ["0 0 0 0 rgba(34,197,94,0)", "0 0 20px 0 rgba(34,197,94,0.06)", "0 0 0 0 rgba(34,197,94,0)"] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
       >
         <motion.svg
           width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"
@@ -257,8 +260,8 @@ function SocialDemo() {
         </div>
         <motion.div
           className="demo-biz-status good"
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
         >
           Trusted — customers convert
         </motion.div>
@@ -292,34 +295,48 @@ const cards = [
 ]
 
 export default function CostingSection() {
+  const headerRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: headerRef,
+    offset: ["start end", "start 0.5"],
+  })
+
+  const headerOpacity = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 1]),
+    springConfig
+  )
+  const headerY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [60, 0]),
+    springConfig
+  )
+
   return (
     <section className="costing-section">
-      <div className="costing-header">
-        <motion.h2
-          className="costing-heading"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          Why Your Website Is Costing You <span className="costing-highlight">Customers</span>
-        </motion.h2>
-        <motion.p
-          className="costing-sub"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
-        >
-          Three critical issues driving potential customers away — see them in action.
-        </motion.p>
-      </div>
+      <motion.div
+        className="costing-header"
+        ref={headerRef}
+        style={{ opacity: headerOpacity, y: headerY }}
+      >
+        <span className="costing-eyebrow">
+          <span className="costing-eyebrow-dot" />
+          The Problem
+        </span>
+        <h2 className="costing-heading">
+          Why Your Website Is Costing You{" "}
+          <span className="costing-highlight">Customers</span>
+        </h2>
+        <p className="costing-sub">
+          Three critical issues driving potential customers away — see them in
+          action.
+        </p>
+      </motion.div>
       <motion.div
         className="costing-grid"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-40px" }}
+        viewport={{ once: true, margin: "-60px" }}
       >
         {cards.map((card) => (
           <motion.div

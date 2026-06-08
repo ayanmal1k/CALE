@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
-import { Parallax } from "react-scroll-parallax";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -14,8 +13,49 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 
+const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 };
+
 export default function HeroSection() {
   const [scale, setScale] = useState(1);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-driven parallax for hero
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Hero content fades + scales as user scrolls
+  const heroOpacity = useSpring(
+    useTransform(scrollYProgress, [0, 0.35, 0.7], [1, 1, 0]),
+    springConfig
+  );
+  const heroScale = useSpring(
+    useTransform(scrollYProgress, [0, 0.7], [1, 0.92]),
+    springConfig
+  );
+  const heroY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -120]),
+    springConfig
+  );
+
+  // Different parallax speeds for depth layers
+  const leftY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -40]),
+    springConfig
+  );
+  const centerY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -100]),
+    springConfig
+  );
+  const rightY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -60]),
+    springConfig
+  );
+  const trustedY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, -20]),
+    springConfig
+  );
 
   useEffect(() => {
     const updateScale = () => {
@@ -33,16 +73,20 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div className="hero-page">
+    <div className="hero-page" ref={sectionRef}>
       <Navbar />
-      <div
+      <motion.div
         className="hero-scale-stage"
-        style={{ "--hero-scale": scale } as CSSProperties}
+        style={{
+          "--hero-scale": scale,
+          opacity: heroOpacity,
+          scale: heroScale,
+          y: heroY,
+        } as CSSProperties & { opacity: typeof heroOpacity; scale: typeof heroScale; y: typeof heroY }}
       >
         <section className="hero-main">
-          <Parallax translateY={[-15, 15]}>
           <div className="hero-main-inner">
-            <div className="hero-left">
+            <motion.div className="hero-left parallax-content" style={{ y: leftY }}>
               <span className="hero-label">WEBSITE DESIGN &amp; REDESIGN</span>
               <h1 className="hero-heading">
                 Websites That
@@ -78,10 +122,9 @@ export default function HeroSection() {
                   <ArrowRight size={16} strokeWidth={2} />
                 </motion.a>
               </div>
-            </div>
+            </motion.div>
 
-            <Parallax translateY={[-25, 25]}>
-            <div className="hero-center">
+            <motion.div className="hero-center parallax-content" style={{ y: centerY }}>
               <Image
                 src="/Hero.png"
                 alt="Website mockups showcase"
@@ -90,10 +133,9 @@ export default function HeroSection() {
                 className="hero-mockup-image"
                 priority
               />
-            </div>
-            </Parallax>
+            </motion.div>
 
-            <div className="hero-right">
+            <motion.div className="hero-right parallax-content" style={{ y: rightY }}>
               <div className="hero-price-card">
                 <div className="hero-price-card-header">
                   <div className="hero-price-icon">
@@ -172,13 +214,11 @@ export default function HeroSection() {
                 Request Quote
                 <ArrowUpRight size={14} strokeWidth={2.5} />
               </motion.a>
-            </div>
+            </motion.div>
           </div>
-          </Parallax>
         </section>
 
-        <Parallax translateY={[-8, 8]}>
-        <section className="hero-trusted">
+        <motion.section className="hero-trusted" style={{ y: trustedY }}>
           <div className="hero-trusted-inner">
             <span className="hero-trusted-label">TRUSTED BY SERVICE BUSINESSES</span>
             <div className="hero-trusted-logos">
@@ -202,9 +242,8 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-        </section>
-        </Parallax>
-      </div>
+        </motion.section>
+      </motion.div>
     </div>
   );
 }

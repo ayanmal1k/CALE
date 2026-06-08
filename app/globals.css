@@ -127,3 +127,53 @@
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
+
+/* === Parallax Section Utilities === */
+
+main {
+  overflow-x: hidden;
+}
+
+.parallax-section {
+  position: relative;
+  will-change: transform;
+}
+
+.slide-over {
+  position: relative;
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.4), 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.slide-over::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 79, 232, 0.15) 20%,
+    rgba(124, 79, 232, 0.25) 50%,
+    rgba(124, 79, 232, 0.15) 80%,
+    transparent 100%
+  );
+  border-radius: 28px 28px 0 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.parallax-content {
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .slide-over {
+    border-radius: 18px 18px 0 0;
+  }
+  .slide-over::before {
+    border-radius: 18px 18px 0 0;
+  }
+}
