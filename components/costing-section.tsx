@@ -357,6 +357,13 @@ export default function CostingSection() {
     offset: ["start end", "end start"],
   })
 
+  // Panel overlap overlay effect (Costing Section slides up on top of the preceding section)
+  // When scrolling in, starts at y: 150px and pulls up to y: 0px relative to normal placement
+  const costingSectionY = useSpring(
+    useTransform(sectionProgress, [0, 0.45], [150, 0]),
+    springConfig
+  )
+
   // Dynamic 3D tilt adjustments based on scroll
   const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
   const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
@@ -365,11 +372,15 @@ export default function CostingSection() {
   const bgTransformY = useSpring(useTransform(sectionProgress, [0, 1], [150, -150]), springConfig)
 
   return (
-    <section 
+    <motion.section 
       className="costing-section slide-over" 
       id="problems" 
       ref={sectionRef}
-      style={{ zIndex: 5, perspective: 1200 }}
+      style={{ 
+        zIndex: 5, 
+        perspective: 1200,
+        y: costingSectionY,
+      }}
     >
       {/* Fully parallel scrolling red & white gradient background layer */}
       <motion.div 
@@ -410,6 +421,6 @@ export default function CostingSection() {
           ))}
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   )
 }
