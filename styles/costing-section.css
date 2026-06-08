@@ -1,0 +1,169 @@
+.costing-section {
+  background: #fff;
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.costing-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.costing-heading {
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: #070707;
+  margin: 0 0 36px;
+}
+
+.costing-problems {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.costing-problem {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.costing-problem-icon {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  background: #fef0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #dc2626;
+}
+
+.costing-problem-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #070707;
+  margin: 0 0 6px;
+}
+
+.costing-problem-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: #6f6f73;
+  margin: 0;
+}
+
+.costing-card {
+  background: #0f0f12;
+  padding: 48px 36px;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.costing-card-badge {
+  position: absolute;
+  top: -14px;
+  left: 28px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 8px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+}
+
+.costing-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.costing-stat-bar {
+  height: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.costing-quote {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.costing-quote-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-style: italic;
+}
+
+.costing-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.costing-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #6334df;
+}
+
+.costing-author-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 2px;
+}
+
+.costing-author-role {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+@media (min-width: 769px) {
+  .costing-section {
+    padding: 120px 39px;
+  }
+
+  .costing-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .costing-heading {
+    font-size: 48px;
+    margin-bottom: 44px;
+  }
+
+  .costing-problem-title {
+    font-size: 19px;
+  }
+
+  .costing-card {
+    padding: 56px 40px;
+  }
+
+  .costing-quote-text {
+    font-size: 16px;
+  }
+}

@@ -5,6 +5,7 @@ import '../styles/navbar.css'
 import '../styles/first-impressions.css'
 import '../styles/services-section.css'
 import '../styles/industries-section.css'
+import '../styles/costing-section.css'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
