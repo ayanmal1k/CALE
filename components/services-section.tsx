@@ -233,18 +233,10 @@ export default function ServicesSection() {
           className="services-header parallax-content"
           ref={headerRef}
         >
-          <span className="services-eyebrow">
-            <span className="services-eyebrow-dot" />
-            What We Do
-          </span>
           <h2 className="services-heading">
             Core{" "}
             <span className="services-heading-accent">Capabilities</span>
           </h2>
-          <p className="services-subtext">
-            Built for scale, optimized for conversion. Every service is
-            designed to turn visitors into clients.
-          </p>
         </div>
         <div className="services-grid">
           {services.map((service) => (

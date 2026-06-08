@@ -400,17 +400,10 @@ export default function CostingSection() {
 
         <div className="costing-inner">
           <div ref={headerRef} className="costing-header">
-            <span className="costing-eyebrow">
-              <span className="costing-eyebrow-dot" />
-              The Problem
-            </span>
             <h2 className="costing-heading">
               Why Your Website Is Costing You{" "}
               <span className="costing-highlight">Customers</span>
             </h2>
-            <p className="costing-sub">
-              Three critical issues driving potential clients away — see them simulated in real time below.
-            </p>
           </div>
 
           <div className="costing-cards-stack">

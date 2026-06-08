@@ -131,16 +131,9 @@ export default function PortfolioSection() {
 
         <div className="portfolio-inner">
           <div className="portfolio-header">
-            <span className="portfolio-eyebrow">
-              <span className="portfolio-eyebrow-dot" />
-              Our Portfolio
-            </span>
             <h2 className="portfolio-heading">
               Recent <span className="portfolio-highlight">Work</span>
             </h2>
-            <p className="portfolio-sub">
-              Explore custom-designed premium website interfaces built for high conversions.
-            </p>
           </div>
 
           <div ref={rowRef} className="portfolio-cards-row">
