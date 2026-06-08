@@ -103,27 +103,31 @@ export default function IndustriesSection() {
     springConfig
   )
 
-  // Background parallax shift (like first-impressions)
-  const { scrollYProgress: bgProgress } = useScroll({
+  // 3D Parallax Scroll Transform
+  const { scrollYProgress: sectionProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   })
-  const bgY = useSpring(
-    useTransform(bgProgress, [0, 1], [60, -60]),
-    springConfig
-  )
+
+  // Rotate and shift slightly in 3D perspective space as user scrolls
+  const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [10, 0, -10]), springConfig)
+  const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-120, 0, -120]), springConfig)
+  const bgY = useSpring(useTransform(sectionProgress, [0, 1], [60, -60]), springConfig)
 
   return (
     <section
       className="industries-section slide-over parallax-section"
       id="industries"
       ref={sectionRef}
-      style={{ zIndex: 4 }}
+      style={{ zIndex: 4, perspective: 1200 }}
     >
       {/* Parallax background layer — same gradient style as first-impressions */}
       <motion.div className="ind-bg-shift" style={{ y: bgY }} />
 
-      <div className="industries-inner">
+      <motion.div 
+        className="industries-inner"
+        style={{ rotateX, z, transformStyle: "preserve-3d" }}
+      >
         {/* ── Header ── */}
         <motion.div
           className="ind-header parallax-content"
@@ -168,7 +172,7 @@ export default function IndustriesSection() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   )
 }

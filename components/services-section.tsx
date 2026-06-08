@@ -147,14 +147,27 @@ export default function ServicesSection() {
     springConfig
   )
 
+  // 3D Parallax Scroll Transform
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  })
+
+  // Dynamic 3D tilt adjustments based on scroll
+  const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
+  const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
+
   return (
     <section
       className="services-section slide-over parallax-section"
       id="services"
       ref={sectionRef}
-      style={{ zIndex: 3 }}
+      style={{ zIndex: 3, perspective: 1200 }}
     >
-      <div className="services-inner">
+      <motion.div 
+        className="services-inner"
+        style={{ rotateX, z, transformStyle: "preserve-3d" }}
+      >
         <motion.div
           className="services-header parallax-content"
           ref={headerRef}
@@ -184,7 +197,7 @@ export default function ServicesSection() {
             <ServiceCard key={service.title} {...service} index={i} />
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   )
 }

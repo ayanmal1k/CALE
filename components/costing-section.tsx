@@ -334,6 +334,7 @@ function CostingCard({
 }
 
 export default function CostingSection() {
+  const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -350,35 +351,55 @@ export default function CostingSection() {
     springConfig
   )
 
+  // 3D Parallax Scroll Transform
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  })
+
+  // Dynamic 3D tilt adjustments based on scroll
+  const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
+  const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
+
   return (
-    <section className="costing-section slide-over" id="problems" style={{ zIndex: 5 }}>
-      <motion.div
-        className="costing-header"
-        ref={headerRef}
-        style={{ opacity: headerOpacity, y: headerY }}
+    <section 
+      className="costing-section slide-over" 
+      id="problems" 
+      ref={sectionRef}
+      style={{ zIndex: 5, perspective: 1200 }}
+    >
+      <motion.div 
+        className="costing-inner"
+        style={{ rotateX, z, transformStyle: "preserve-3d" }}
       >
-        <span className="costing-eyebrow">
-          <span className="costing-eyebrow-dot" />
-          The Problem
-        </span>
-        <h2 className="costing-heading">
-          Why Your Website Is Costing You{" "}
-          <span className="costing-highlight">Customers</span>
-        </h2>
-        <p className="costing-sub">
-          Three critical issues driving potential clients away — see them simulated in real time below.
-        </p>
-      </motion.div>
-      <motion.div
-        className="costing-grid"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-      >
-        {cards.map((card, i) => (
-          <CostingCard key={card.id} {...card} index={i} />
-        ))}
+        <motion.div
+          className="costing-header"
+          ref={headerRef}
+          style={{ opacity: headerOpacity, y: headerY }}
+        >
+          <span className="costing-eyebrow">
+            <span className="costing-eyebrow-dot" />
+            The Problem
+          </span>
+          <h2 className="costing-heading">
+            Why Your Website Is Costing You{" "}
+            <span className="costing-highlight">Customers</span>
+          </h2>
+          <p className="costing-sub">
+            Three critical issues driving potential clients away — see them simulated in real time below.
+          </p>
+        </motion.div>
+        <motion.div
+          className="costing-grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+        >
+          {cards.map((card, i) => (
+            <CostingCard key={card.id} {...card} />
+          ))}
+        </motion.div>
       </motion.div>
     </section>
   )
