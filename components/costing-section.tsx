@@ -322,7 +322,7 @@ function CostingCard({
 }
 
 export default function CostingSection() {
-  const sectionRef = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -346,9 +346,9 @@ export default function CostingSection() {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=200vh",
+          end: "+=450vh",
           pin: true,
-          scrub: true,
+          scrub: 1.5,
           invalidateOnRefresh: true,
         },
       })
@@ -394,32 +394,34 @@ export default function CostingSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="costing-section slide-over" id="problems">
-      <div className="costing-parallax-bg" />
+    <div className="costing-section-outer">
+      <section ref={sectionRef} className="costing-section slide-over" id="problems">
+        <div className="costing-parallax-bg" />
 
-      <div className="costing-inner">
-        <div ref={headerRef} className="costing-header">
-          <span className="costing-eyebrow">
-            <span className="costing-eyebrow-dot" />
-            The Problem
-          </span>
-          <h2 className="costing-heading">
-            Why Your Website Is Costing You{" "}
-            <span className="costing-highlight">Customers</span>
-          </h2>
-          <p className="costing-sub">
-            Three critical issues driving potential clients away — see them simulated in real time below.
-          </p>
-        </div>
+        <div className="costing-inner">
+          <div ref={headerRef} className="costing-header">
+            <span className="costing-eyebrow">
+              <span className="costing-eyebrow-dot" />
+              The Problem
+            </span>
+            <h2 className="costing-heading">
+              Why Your Website Is Costing You{" "}
+              <span className="costing-highlight">Customers</span>
+            </h2>
+            <p className="costing-sub">
+              Three critical issues driving potential clients away — see them simulated in real time below.
+            </p>
+          </div>
 
-        <div className="costing-cards-stack">
-          {cards.map((card) => (
-            <div key={card.id} className="costing-card-item">
-              <CostingCard {...card} />
-            </div>
-          ))}
+          <div className="costing-cards-stack">
+            {cards.map((card) => (
+              <div key={card.id} className="costing-card-item">
+                <CostingCard {...card} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }

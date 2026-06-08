@@ -1,12 +1,11 @@
 "use client"
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion"
+import { motion } from "framer-motion"
 import { Code, Palette, ShieldCheck, ArrowUpRight } from "lucide-react"
 import type { ElementType } from "react"
-import { useRef, useState, useCallback } from "react"
-import { staggerContainer, fadeUp } from "@/lib/animations"
-
-const springConfig = { stiffness: 80, damping: 30, restDelta: 0.001 }
+import { useRef, useState, useCallback, useEffect } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 const services = [
   {
@@ -37,27 +36,13 @@ function ServiceCard({
   number,
   title,
   description,
-  index,
 }: {
   icon: ElementType
   number: string
   title: string
   description: string
-  index: number
 }) {
   const [hovered, setHovered] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"],
-  })
-
-  const speed = 20 + index * 10
-  const cardY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [speed, -speed]),
-    springConfig
-  )
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -68,14 +53,11 @@ function ServiceCard({
   }, [])
 
   return (
-    <motion.div
+    <div
       className="services-card"
-      ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={handleMouseMove}
-      variants={fadeUp}
-      style={{ y: cardY }}
     >
       <motion.div
         className="services-card-fill"
@@ -125,37 +107,86 @@ function ServiceCard({
           </motion.div>
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
-  const { scrollYProgress } = useScroll({
-    target: headerRef,
-    offset: ["start end", "start 0.5"],
-  })
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
 
-  const headerOpacity = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1]),
-    springConfig
-  )
-  const headerY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [60, 0]),
-    springConfig
-  )
+    const ctx = gsap.context(() => {
+      const section = sectionRef.current
+      const inner = innerRef.current
+      const header = headerRef.current
+      if (!section || !inner || !header) return
 
-  // 3D Parallax Scroll Transform
-  const { scrollYProgress: sectionProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
+      const cards = section.querySelectorAll<HTMLElement>(".services-card")
+      if (cards.length < 3) return
 
-  // Dynamic 3D tilt adjustments based on scroll
-  const rotateX = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [8, 0, -8]), springConfig)
-  const z = useSpring(useTransform(sectionProgress, [0, 0.5, 1], [-100, 0, -100]), springConfig)
+      // Set initial states for entrance animations
+      gsap.set(header, { opacity: 0, y: 60 })
+      gsap.set(cards[0], { x: -80, rotate: -3, opacity: 0 })
+      gsap.set(cards[1], { y: 80, scale: 0.95, opacity: 0 })
+      gsap.set(cards[2], { x: 80, rotate: 3, opacity: 0 })
+
+      // Create scroll-driven 3D section tilt and elements entrance
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+        },
+      })
+
+      // Section 3D tilt
+      tl.fromTo(inner, 
+        { rotateX: 8, z: -100 },
+        { rotateX: -8, z: -100, ease: "none", duration: 2 },
+        0
+      )
+
+      // Header entrance (early scroll)
+      tl.to(header, {
+        opacity: 1,
+        y: 0,
+        ease: "power2.out",
+        duration: 0.6
+      }, 0.2)
+
+      // Cards unfold/slide-in
+      tl.to(cards[0], {
+        x: 0,
+        rotate: 0,
+        opacity: 1,
+        ease: "power3.out",
+        duration: 0.8
+      }, 0.4)
+      .to(cards[1], {
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        ease: "power3.out",
+        duration: 0.8
+      }, 0.45)
+      .to(cards[2], {
+        x: 0,
+        rotate: 0,
+        opacity: 1,
+        ease: "power3.out",
+        duration: 0.8
+      }, 0.5)
+
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
     <section
@@ -164,14 +195,14 @@ export default function ServicesSection() {
       ref={sectionRef}
       style={{ zIndex: 3, perspective: 1200 }}
     >
-      <motion.div 
+      <div 
+        ref={innerRef}
         className="services-inner"
-        style={{ rotateX, z, transformStyle: "preserve-3d" }}
+        style={{ transformStyle: "preserve-3d" }}
       >
-        <motion.div
+        <div
           className="services-header parallax-content"
           ref={headerRef}
-          style={{ opacity: headerOpacity, y: headerY }}
         >
           <span className="services-eyebrow">
             <span className="services-eyebrow-dot" />
@@ -185,19 +216,13 @@ export default function ServicesSection() {
             Built for scale, optimized for conversion. Every service is
             designed to turn visitors into clients.
           </p>
-        </motion.div>
-        <motion.div
-          className="services-grid"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {services.map((service, i) => (
-            <ServiceCard key={service.title} {...service} index={i} />
+        </div>
+        <div className="services-grid">
+          {services.map((service) => (
+            <ServiceCard key={service.title} {...service} />
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   )
 }
