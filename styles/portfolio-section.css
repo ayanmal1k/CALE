@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  overflow: hidden;
+  overflow: hidden; /* clips at section edges */
   padding: 60px 24px 40px;
 }
 
@@ -101,13 +101,12 @@
 
 .portfolio-cards-row {
   display: flex;
-  gap: 64px;
+  gap: 48px;
   width: max-content;
-  padding-left: 100px;
-  padding-right: 200px;
   transform-style: preserve-3d;
   will-change: transform;
   margin: auto 0;
+  padding: 20px 0; /* vertical breathing room */
 }
 
 .portfolio-card {

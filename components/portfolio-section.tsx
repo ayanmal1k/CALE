@@ -41,21 +41,46 @@ export default function PortfolioSection() {
       const row = rowRef.current
       if (!section || !row) return
 
-      // Build ScrollTrigger timeline for horizontal scroll
+      // Center offset: position the row so Card 2 is centered in the viewport
+      const getCard2CenterOffset = () => {
+        const cards = row.querySelectorAll<HTMLElement>(".portfolio-card")
+        if (cards.length < 2) return 0
+        const card2 = cards[1]
+        const card2Center = card2.offsetLeft + card2.offsetWidth / 2
+        return -(card2Center - window.innerWidth / 2)
+      }
+
+      // Animate from far left of Card 2 center → far right of Card 2 center
+      // At 50% scroll progress, Card 2 is perfectly centered
+      const centerOffset = getCard2CenterOffset()
+      const leftOffset = centerOffset - window.innerWidth * 0.9
+      const rightOffset = centerOffset + window.innerWidth * 0.9
+
+      // Set initial position (far left before section enters)
+      gsap.set(row, { x: leftOffset })
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${row.offsetWidth - window.innerWidth + 400}`,
+          end: "+=300vh",
           pin: true,
-          scrub: 1.5,
+          scrub: 1,
           invalidateOnRefresh: true,
+          onRefresh: () => {
+            const c = getCard2CenterOffset()
+            const l = c - window.innerWidth * 0.9
+            gsap.set(row, { x: l })
+          },
         },
       })
 
+      // Single continuous sweep: far left → far right
+      // Card 2 is centered at the natural 50% midpoint of the scroll
       tl.to(row, {
-        x: () => -(row.offsetWidth - window.innerWidth + 120),
+        x: rightOffset,
         ease: "none",
+        duration: 1,
       })
 
     }, sectionRef)
