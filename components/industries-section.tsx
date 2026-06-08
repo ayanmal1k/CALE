@@ -26,7 +26,6 @@ const industries = [
   { icon: Cog, name: "Fabrication", tagline: "Custom metalwork & manufacturing" },
 ]
 
-/* ── Single industry row with parallax ── */
 function IndustryRow({
   icon: Icon,
   name,
@@ -40,53 +39,38 @@ function IndustryRow({
 }) {
   const rowRef = useRef<HTMLDivElement>(null)
 
-  const { scrollYProgress } = useScroll({
-    target: rowRef,
-    offset: ["start end", "end start"],
-  })
-
-  // Stagger parallax speeds — alternating directions for depth
+  // Stagger parallax offset based on row index using native CSS properties or a lighter transform
   const direction = index % 2 === 0 ? 1 : -1
-  const speed = 8 + (index % 3) * 4
-  const rowX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [direction * speed, direction * -speed]),
-    springConfig
-  )
-
-  // Vertical float for icon
-  const iconY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [12, -12]),
-    springConfig
-  )
-
-  // Number parallax — moves faster for depth illusion
-  const numY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [20, -20]),
-    springConfig
-  )
+  const speed = 15 + (index % 3) * 8
+  const offsetDistance = direction * speed
 
   return (
     <motion.div
       ref={rowRef}
       className="ind-row"
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{
-        duration: 0.7,
-        delay: index * 0.06,
+        duration: 0.6,
+        delay: Math.min(index * 0.05, 0.3),
         ease: [0.25, 0.1, 0, 1],
       }}
+      style={{
+        // Define custom properties to let CSS handle hover and float animations smoothly
+        // without constant JS event loops on scroll
+        "--offset-distance": `${offsetDistance}px`,
+      } as any}
     >
-      {/* Ghost number with own parallax */}
-      <motion.span className="ind-row-num" style={{ y: numY }}>
+      {/* Ghost number */}
+      <span className="ind-row-num">
         {String(index + 1).padStart(2, "0")}
-      </motion.span>
+      </span>
 
-      <motion.div className="ind-row-inner" style={{ x: rowX }}>
-        <motion.div className="ind-row-icon" style={{ y: iconY }}>
+      <div className="ind-row-inner">
+        <div className="ind-row-icon">
           <Icon size={22} strokeWidth={1.5} />
-        </motion.div>
+        </div>
 
         <div className="ind-row-content">
           <span className="ind-row-name">{name}</span>
@@ -96,7 +80,7 @@ function IndustryRow({
         <div className="ind-row-arrow">
           <ArrowUpRight size={16} strokeWidth={1.5} />
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   )
 }

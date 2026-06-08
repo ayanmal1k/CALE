@@ -299,28 +299,12 @@ function CostingCard({
   title,
   text,
   demo,
-  index,
 }: {
   icon: any
   title: string
   text: string
   demo: React.ReactNode
-  index: number
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"],
-  })
-
-  // Subtle parallax lift
-  const speed = 25 + index * 10
-  const cardY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [speed, -speed]),
-    springConfig
-  )
-
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
@@ -332,10 +316,8 @@ function CostingCard({
   return (
     <motion.div
       className="costing-card"
-      ref={cardRef}
       onMouseMove={handleMouseMove}
       variants={fadeUp}
-      style={{ y: cardY }}
     >
       <div className="costing-card-info">
         <div className="costing-card-top">
