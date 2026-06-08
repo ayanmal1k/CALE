@@ -8,24 +8,24 @@ import { ArrowUpRight } from "lucide-react"
 const projects = [
   {
     id: "proj-1",
-    title: "A1 Plumbing & HVAC",
-    category: "Service Business Redesign",
-    color: "#7c4fe8",
-    src: "/Work1.png"
+    title: "Diesel Auto Parts",
+    category: "Custom E-commerce Design",
+    color: "#ef4444",
+    src: "/portfolio/1.jpeg"
   },
   {
     id: "proj-2",
-    title: "Diesel Auto Parts",
-    category: "Custom Web App Design",
-    color: "#ef4444",
-    src: "/Work2.png"
+    title: "Quickfix Plumbing",
+    category: "Service Business Redesign",
+    color: "#7c4fe8",
+    src: "/portfolio/2.jpeg"
   },
   {
     id: "proj-3",
-    title: "Summit Construction",
-    category: "High-Converting Landing Page",
+    title: "Howlett Garden Maintenance",
+    category: "Premium Landscaping Design",
     color: "#22c55e",
-    src: "/Work3.png"
+    src: "/portfolio/3.jpeg"
   }
 ]
 
@@ -41,22 +41,22 @@ export default function PortfolioSection() {
       const row = rowRef.current
       if (!section || !row) return
 
-      // Center offset: position the row so Card 2 is centered in the viewport
+      // Center offset: position the row so Card 2 is shifted more to the left of the viewport
       const getCard2CenterOffset = () => {
         const cards = row.querySelectorAll<HTMLElement>(".portfolio-card")
         if (cards.length < 2) return 0
         const card2 = cards[1]
         const card2Center = card2.offsetLeft + card2.offsetWidth / 2
-        return -(card2Center - window.innerWidth / 2)
+        // Shift center to the left (33% of window width instead of 50%)
+        return -(card2Center - window.innerWidth * 0.33)
       }
 
       // Animate from far left of Card 2 center → far right of Card 2 center
-      // At 50% scroll progress, Card 2 is perfectly centered
       const centerOffset = getCard2CenterOffset()
       const leftOffset = centerOffset - window.innerWidth * 0.9
       const rightOffset = centerOffset + window.innerWidth * 0.9
 
-      // Set initial position (far left before section enters)
+      // Set initial position
       gsap.set(row, { x: leftOffset })
 
       const tl = gsap.timeline({
@@ -75,8 +75,7 @@ export default function PortfolioSection() {
         },
       })
 
-      // Single continuous sweep: far left → far right
-      // Card 2 is centered at the natural 50% midpoint of the scroll
+      // Single sweep: far left → far right
       tl.to(row, {
         x: rightOffset,
         ease: "none",
@@ -97,7 +96,6 @@ export default function PortfolioSection() {
     const centerX = rect.width / 2
     const centerY = rect.height / 2
     
-    // Map mouse coordinates to tilt (closer to center means closer to 0 rotation)
     const rotateX = ((y - centerY) / centerY) * 10
     const rotateY = ((x - centerX) / centerX) * -10
 
@@ -113,7 +111,6 @@ export default function PortfolioSection() {
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget
-    // Reset back to original tilted state
     gsap.to(card, {
       rotateX: 10,
       rotateY: -20,
@@ -151,23 +148,22 @@ export default function PortfolioSection() {
                   {/* Laptop Mockup Wrapper */}
                   <div className="laptop-mockup">
                     <div className="laptop-screen">
-                      {/* Light Grey/White Mockup Placeholder */}
                       <div className="laptop-screen-content">
                         <div className="mockup-browser-header">
                           <div className="mockup-dots"><span /><span /><span /></div>
                           <div className="mockup-url">cale.agency/work/{project.id}</div>
                         </div>
-                        <div className="mockup-body">
-                          <div className="mockup-hero" style={{ background: `linear-gradient(135deg, ${project.color}15, ${project.color}05)` }}>
-                            <span className="mockup-tag" style={{ color: project.color, borderColor: `${project.color}30` }}>{project.category}</span>
-                            <h4 className="mockup-heading">{project.title}</h4>
-                            <div className="mockup-button" style={{ backgroundColor: project.color }}>View Project</div>
-                          </div>
-                          <div className="mockup-grid">
-                            <div className="mockup-box" />
-                            <div className="mockup-box" />
-                            <div className="mockup-box" />
-                          </div>
+                        <div className="mockup-image-container" style={{ position: "relative", width: "100%", height: "calc(100% - 24px)", overflow: "hidden" }}>
+                          <img 
+                            src={project.src} 
+                            alt={project.title} 
+                            style={{ 
+                              width: "100%", 
+                              height: "100%", 
+                              objectFit: "cover",
+                              objectPosition: "top center"
+                            }} 
+                          />
                         </div>
                       </div>
                     </div>

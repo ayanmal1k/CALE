@@ -262,9 +262,9 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.55);
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   overflow: hidden;
   box-shadow: inset 0 4px 30px rgba(0, 0, 0, 0.4);
 }
@@ -282,7 +282,7 @@
   gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .demo-browser-dots {
@@ -294,17 +294,17 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .demo-browser-dots span:first-child {
-  background: rgba(239, 68, 68, 0.5);
+  background: #ef4444;
 }
 
 .demo-browser-url {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
   padding: 5px 14px;
   border-radius: 8px;
   font-family: var(--font-mono, monospace);
@@ -313,7 +313,7 @@
 
 .demo-loader-track {
   height: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 99px;
   overflow: hidden;
   position: relative;
@@ -321,7 +321,7 @@
 
 .demo-loader-fill {
   height: 100%;
-  background: linear-gradient(90deg, #7c4fe8, #ef4444);
+  background: linear-gradient(90deg, #a78bfa, #ef4444);
   border-radius: 99px;
 }
 
@@ -331,6 +331,7 @@
   font-size: 11px;
   margin-top: 10px;
   font-family: var(--font-mono, monospace);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .demo-placeholders {
@@ -341,7 +342,7 @@
 }
 
 .demo-ph {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
 }
 
@@ -392,9 +393,9 @@
 
 .demo-phone {
   width: 140px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 28px;
-  border: 2px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -404,7 +405,7 @@
 .demo-phone-notch {
   width: 60px;
   height: 6px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 0 0 999px 999px;
   margin: 0 auto;
 }
@@ -422,7 +423,7 @@
 }
 
 .demo-phone-line {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 99px;
   margin-top: 8px;
 }
@@ -437,7 +438,7 @@
   flex: 1;
   height: 40px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .demo-phone-broken-overlay {
@@ -450,14 +451,14 @@
 .demo-broken-shard {
   position: absolute;
   height: 3px;
-  background: rgba(239, 68, 68, 0.4);
+  background: #ef4444;
   border-radius: 99px;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
 }
 
 .demo-mobile-label {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.55);
   margin: 18px 0 0;
   text-align: center;
   font-weight: 500;
@@ -484,17 +485,17 @@
 }
 
 .demo-business.bad {
-  background: rgba(239, 68, 68, 0.03);
-  border: 1px solid rgba(239, 68, 68, 0.08);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .demo-business.good {
-  background: rgba(34, 197, 94, 0.03);
-  border: 1px solid rgba(34, 197, 94, 0.08);
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.18);
 }
 
 .demo-business:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .demo-biz-row {
@@ -509,19 +510,19 @@
   height: 24px;
   min-width: 24px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .demo-biz-name {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   line-height: 1.2;
 }
 
 .demo-biz-reviews {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.55);
   font-family: var(--font-mono, monospace);
 }
 
@@ -548,8 +549,8 @@
 
 .demo-vs {
   flex-shrink: 0;
-  opacity: 0.25;
-  color: rgba(255, 255, 255, 0.3);
+  opacity: 0.5;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* ═══ RESPONSIVE ═══ */
