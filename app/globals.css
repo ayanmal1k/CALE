@@ -132,7 +132,7 @@
 /* === Parallax Section Utilities === */
 
 main {
-  overflow-x: hidden;
+  overflow: clip;
 }
 
 .parallax-section {
