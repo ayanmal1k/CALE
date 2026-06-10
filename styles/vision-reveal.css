@@ -73,6 +73,11 @@
   will-change: transform, opacity;
   isolation: isolate;
   background: #ffffff;
+  /* Prevent sub-pixel border artifact on mobile */
+  padding: 2px;
+  margin: -2px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* The text shape — rendered in black */
@@ -168,7 +173,7 @@
 /* ── Tablet portrait & small screens ── */
 @media (max-width: 768px) {
   .vision-wrapper {
-    height: 250vh;
+    height: 180vh;
   }
 
   .vision-content {
@@ -176,26 +181,26 @@
   }
 
   .vision-text-shape {
-    font-size: clamp(32px, 10vw, 80px);
+    font-size: clamp(56px, 16vw, 120px);
   }
 
   .vision-bottomline {
-    font-size: 18px;
-    margin-top: 12px;
+    font-size: 26px;
+    margin-top: 14px;
   }
 
   .vision-desc {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.6;
     max-width: 90%;
-    margin-top: 24px;
+    margin-top: 28px;
   }
 }
 
 /* ── Small phones ── */
 @media (max-width: 480px) {
   .vision-wrapper {
-    height: 220vh;
+    height: 160vh;
   }
 
   .vision-content {
@@ -203,35 +208,39 @@
   }
 
   .vision-text-shape {
-    font-size: clamp(26px, 9vw, 60px);
+    font-size: clamp(44px, 15vw, 90px);
   }
 
   .vision-bottomline {
-    font-size: 15px;
-    margin-top: 10px;
+    font-size: 22px;
+    margin-top: 12px;
   }
 
   .vision-desc {
-    font-size: 12px;
+    font-size: 15px;
     max-width: 95%;
-    margin-top: 18px;
+    margin-top: 22px;
   }
 }
 
 /* ── Very small phones (< 360px) ── */
 @media (max-width: 360px) {
+  .vision-wrapper {
+    height: 150vh;
+  }
+
   .vision-text-shape {
-    font-size: clamp(22px, 8vw, 48px);
+    font-size: clamp(38px, 14vw, 72px);
   }
 
   .vision-bottomline {
-    font-size: 13px;
-    margin-top: 8px;
+    font-size: 20px;
+    margin-top: 10px;
   }
 
   .vision-desc {
-    font-size: 11px;
-    margin-top: 14px;
+    font-size: 14px;
+    margin-top: 18px;
   }
 }
 
