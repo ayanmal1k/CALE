@@ -8,8 +8,7 @@
     overflow: visible;
     color: #ffffff;
     font-family: Geist, "Geist Fallback", Arial, sans-serif;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 1;
     background: #000000;
 }
