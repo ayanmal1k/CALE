@@ -2,7 +2,7 @@
    VISION REVEAL — Scroll Circle Expand Section
    ═══════════════════════════════════════════════════ */
 
-/* Tall scrollable wrapper — the height controls the scroll duration */
+/* Tall scrollable wrapper — height controls scroll duration */
 .vision-wrapper {
   position: relative;
   height: 300vh;
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-/* Black background always visible */
+/* Black background */
 .vision-bg-black {
   position: absolute;
   inset: 0;
@@ -65,20 +65,30 @@
   transform: translateY(60px);
 }
 
-/* ── Big Text with Video Mask ── */
+/* ─── Video-filled text ───
+   Technique: black text rendered first, video on top with
+   mix-blend-mode: screen. Screen blend makes:
+   - Black text areas → show the video texture
+   - White bg areas → stay pure white
+   Container uses isolation to keep blend contained. */
 
 .vision-big-text,
 .vision-big-text-2 {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
   margin: 0;
   overflow: hidden;
   opacity: 0;
   transform: translateY(60px);
+  isolation: isolate;
+  background: #ffffff;
 }
 
-.vision-masked-text {
+/* The text shape — rendered in black */
+.vision-text-shape {
   font-family: 'Fjalla One', sans-serif;
   font-size: clamp(64px, 14vw, 220px);
   font-weight: 400;
@@ -91,8 +101,9 @@
   z-index: 1;
 }
 
-/* Video texture overlay — screen blend darkens text with video grain */
-.vision-mask-video {
+/* Video layer — screen blend makes it visible only
+   where the text is black (fills the letter shapes) */
+.vision-text-video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -101,7 +112,6 @@
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 2;
-  opacity: 0.35;
 }
 
 /* Description text */
@@ -157,7 +167,7 @@
     margin-bottom: 16px;
   }
 
-  .vision-masked-text {
+  .vision-text-shape {
     font-size: clamp(80px, 14vw, 220px);
   }
 
@@ -172,7 +182,7 @@
     font-size: 32px;
   }
 
-  .vision-masked-text {
+  .vision-text-shape {
     font-size: clamp(100px, 14vw, 220px);
   }
 
@@ -191,7 +201,7 @@
     margin-bottom: 8px;
   }
 
-  .vision-masked-text {
+  .vision-text-shape {
     font-size: clamp(48px, 16vw, 100px);
   }
 
@@ -217,7 +227,7 @@
     font-size: 16px;
   }
 
-  .vision-masked-text {
+  .vision-text-shape {
     font-size: clamp(40px, 14vw, 80px);
   }
 

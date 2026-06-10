@@ -6,31 +6,30 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function VisionReveal() {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef1 = useRef<HTMLVideoElement>(null);
   const videoRef2 = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const wrapper = wrapperRef.current;
-    const sticky = stickyRef.current;
     const circle = circleRef.current;
-    const video = videoRef.current;
-    const video2 = videoRef2.current;
-    if (!wrapper || !sticky || !circle || !video || !video2) return;
+    const v1 = videoRef1.current;
+    const v2 = videoRef2.current;
+    if (!wrapper || !circle || !v1 || !v2) return;
 
     // Ensure mask videos play
-    video.play().catch(() => {});
-    video2.play().catch(() => {});
+    v1.play().catch(() => {});
+    v2.play().catch(() => {});
 
-    // Get content elements
-    const topLine = sticky.querySelector(".vision-topline");
-    const visionText = sticky.querySelector(".vision-big-text");
-    const toLifeText = sticky.querySelector(".vision-big-text-2");
-    const desc = sticky.querySelector(".vision-desc");
-    const cta = sticky.querySelector(".vision-cta-wrap");
+    // Get content elements for staggered reveal
+    const sticky = wrapper.querySelector(".vision-sticky");
+    const topLine = wrapper.querySelector(".vision-topline");
+    const visionText = wrapper.querySelector(".vision-big-text");
+    const toLifeText = wrapper.querySelector(".vision-big-text-2");
+    const desc = wrapper.querySelector(".vision-desc");
+    const cta = wrapper.querySelector(".vision-cta-wrap");
 
     // Set initial states
     gsap.set([topLine, visionText, toLifeText, desc, cta], {
@@ -39,8 +38,6 @@ export default function VisionReveal() {
     });
 
     const ctx = gsap.context(() => {
-      // Use the wrapper (tall scrollable area) as the trigger
-      // The sticky inner stays fixed while the wrapper scrolls through
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapper,
@@ -51,31 +48,31 @@ export default function VisionReveal() {
         },
       });
 
-      // Phase 1: Circle expands from bottom (0 → 0.5)
+      // Circle expands from bottom center (0 → 0.55)
       tl.fromTo(
         circle,
         { clipPath: "circle(0% at 50% 100%)" },
-        { clipPath: "circle(150% at 50% 50%)", duration: 1, ease: "power2.inOut" },
+        { clipPath: "circle(150% at 50% 50%)", duration: 1.1, ease: "power2.inOut" },
         0
       );
 
-      // Phase 2: Content reveals staggered (0.25 → 0.65)
-      tl.to(topLine, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.3);
-      tl.to(visionText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.35);
-      tl.to(toLifeText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.4);
-      tl.to(desc, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.5);
-      tl.to(cta, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.55);
+      // Content reveals staggered (0.25 → 0.65)
+      tl.to(topLine, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.25);
+      tl.to(visionText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.3);
+      tl.to(toLifeText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.35);
+      tl.to(desc, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.45);
+      tl.to(cta, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.5);
 
-      // Phase 3: Hold for reading (0.7 → 1.0 is just hold time)
-      tl.to({}, { duration: 0.3 });
+      // Hold time for reading
+      tl.to({}, { duration: 0.35 });
     }, wrapperRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="vision-wrapper slide-over" ref={wrapperRef} style={{ zIndex: 2 }}>
-      <div className="vision-sticky" ref={stickyRef}>
+    <div className="vision-wrapper" ref={wrapperRef}>
+      <div className="vision-sticky">
         {/* Black background */}
         <div className="vision-bg-black" />
 
@@ -84,11 +81,12 @@ export default function VisionReveal() {
           <div className="vision-content">
             <p className="vision-topline">We Bring Your</p>
 
+            {/* VISION — video fills the text shape */}
             <div className="vision-big-text">
-              <span className="vision-masked-text">VISION</span>
+              <span className="vision-text-shape">VISION</span>
               <video
-                ref={videoRef}
-                className="vision-mask-video"
+                ref={videoRef1}
+                className="vision-text-video"
                 autoPlay
                 loop
                 muted
@@ -99,11 +97,12 @@ export default function VisionReveal() {
               </video>
             </div>
 
+            {/* TO LIFE — video fills the text shape */}
             <div className="vision-big-text-2">
-              <span className="vision-masked-text">TO LIFE</span>
+              <span className="vision-text-shape">TO LIFE</span>
               <video
                 ref={videoRef2}
-                className="vision-mask-video"
+                className="vision-text-video"
                 autoPlay
                 loop
                 muted
