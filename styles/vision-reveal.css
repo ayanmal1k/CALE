@@ -73,9 +73,8 @@
   will-change: transform, opacity;
   isolation: isolate;
   background: #ffffff;
-  /* Prevent sub-pixel border artifact on mobile */
-  padding: 2px;
-  margin: -2px;
+  /* Hide sub-pixel border from overflow:hidden clipping */
+  box-shadow: 0 0 0 3px #ffffff;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
