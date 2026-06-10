@@ -15,7 +15,7 @@ export default function Home() {
       {/* <HeroSection /> */}
       <HeroNew />
       <VisionReveal />
-      <FirstImpressions />
+      {/* <FirstImpressions /> */}
       <ServicesSection />
       <IndustriesSection />
       <CostingSection />

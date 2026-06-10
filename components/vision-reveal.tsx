@@ -23,47 +23,57 @@ export default function VisionReveal() {
     v1.play().catch(() => {});
     v2.play().catch(() => {});
 
-    // Get content elements for staggered reveal
-    const sticky = wrapper.querySelector(".vision-sticky");
-    const topLine = wrapper.querySelector(".vision-topline");
+    // Get content elements
+    const bottomLine = wrapper.querySelector(".vision-bottomline");
     const visionText = wrapper.querySelector(".vision-big-text");
     const toLifeText = wrapper.querySelector(".vision-big-text-2");
     const desc = wrapper.querySelector(".vision-desc");
-    const cta = wrapper.querySelector(".vision-cta-wrap");
 
-    // Set initial states
-    gsap.set([topLine, visionText, toLifeText, desc, cta], {
-      opacity: 0,
-      y: 60,
-    });
+    // Set initial states — text starts very small
+    gsap.set([visionText, toLifeText], { opacity: 0, scale: 0.15 });
+    gsap.set(bottomLine, { opacity: 0, y: 30, scale: 0.6 });
+    gsap.set(desc, { opacity: 0, y: 40 });
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapper,
-          start: "top top",
+          start: "top 80%",
           end: "bottom bottom",
           scrub: 1,
           invalidateOnRefresh: true,
         },
       });
 
-      // Circle expands from bottom center (0 → 0.55)
+      // ── Circle expands from BOTTOM center ──
       tl.fromTo(
         circle,
         { clipPath: "circle(0% at 50% 100%)" },
-        { clipPath: "circle(150% at 50% 50%)", duration: 1.1, ease: "power2.inOut" },
+        { clipPath: "circle(150% at 50% 100%)", duration: 1, ease: "power2.inOut" },
         0
       );
 
-      // Content reveals staggered (0.25 → 0.65)
-      tl.to(topLine, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.25);
-      tl.to(visionText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.3);
-      tl.to(toLifeText, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.35);
-      tl.to(desc, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.45);
-      tl.to(cta, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.5);
+      // ── Big text: starts tiny, scales to full across the circle expansion ──
+      // FIRST grows from 0.15 → 1 as circle fills
+      tl.to(
+        visionText,
+        { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" },
+        0.05
+      );
+      // IMPRESSIONS follows slightly after
+      tl.to(
+        toLifeText,
+        { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" },
+        0.1
+      );
 
-      // Hold time for reading
+      // ── "Are Everything." fades in after big text ──
+      tl.to(bottomLine, { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: "power2.out" }, 0.35);
+
+      // ── Description fades in once circle is mostly open ──
+      tl.to(desc, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, 0.5);
+
+      // ── Hold for reading ──
       tl.to({}, { duration: 0.35 });
     }, wrapperRef);
 
@@ -76,14 +86,12 @@ export default function VisionReveal() {
         {/* Black background */}
         <div className="vision-bg-black" />
 
-        {/* White circle reveal */}
+        {/* White circle reveal from center */}
         <div className="vision-circle" ref={circleRef}>
           <div className="vision-content">
-            <p className="vision-topline">We Bring Your</p>
-
-            {/* VISION — video fills the text shape */}
+            {/* FIRST — video fills the text shape */}
             <div className="vision-big-text">
-              <span className="vision-text-shape">VISION</span>
+              <span className="vision-text-shape">FIRST</span>
               <video
                 ref={videoRef1}
                 className="vision-text-video"
@@ -97,9 +105,9 @@ export default function VisionReveal() {
               </video>
             </div>
 
-            {/* TO LIFE — video fills the text shape */}
+            {/* IMPRESSIONS — video fills the text shape */}
             <div className="vision-big-text-2">
-              <span className="vision-text-shape">TO LIFE</span>
+              <span className="vision-text-shape">IMPRESSIONS</span>
               <video
                 ref={videoRef2}
                 className="vision-text-video"
@@ -113,21 +121,17 @@ export default function VisionReveal() {
               </video>
             </div>
 
-            <p className="vision-desc">
-              We&apos;re dedicated to pushing the boundaries of design and
-              technology to deliver innovative strategies that captivate audiences
-              and drive business growth. We boast an impeccable track record, with
-              a 100% success rate.
-            </p>
+            <p className="vision-bottomline">Are Everything.</p>
 
-            <div className="vision-cta-wrap">
-              <a href="#portfolio" className="vision-cta">
-                OUR PROJECTS
-              </a>
-            </div>
+            <p className="vision-desc">
+              In the service industry, trust is the primary currency. Your website
+              is often the first and only chance you have to prove you&apos;re the
+              authority in your market. We make that impression count.
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
 }
+

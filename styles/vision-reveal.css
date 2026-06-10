@@ -52,19 +52,6 @@
   align-items: center;
 }
 
-/* "We Bring Your" top line */
-.vision-topline {
-  font-size: 24px;
-  font-weight: 700;
-  font-style: italic;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  color: #000000;
-  margin: 0 0 12px;
-  opacity: 0;
-  transform: translateY(60px);
-}
-
 /* ─── Video-filled text ───
    Technique: black text rendered first, video on top with
    mix-blend-mode: screen. Screen blend makes:
@@ -82,7 +69,8 @@
   margin: 0;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(60px);
+  transform: scale(0.15);
+  will-change: transform, opacity;
   isolation: isolate;
   background: #ffffff;
 }
@@ -90,7 +78,7 @@
 /* The text shape — rendered in black */
 .vision-text-shape {
   font-family: 'Fjalla One', sans-serif;
-  font-size: clamp(64px, 14vw, 220px);
+  font-size: clamp(40px, 10vw, 220px);
   font-weight: 400;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -99,6 +87,7 @@
   display: block;
   position: relative;
   z-index: 1;
+  white-space: nowrap;
 }
 
 /* Video layer — screen blend makes it visible only
@@ -114,6 +103,19 @@
   z-index: 2;
 }
 
+/* "Are Everything." bottom line — placed after the big text */
+.vision-bottomline {
+  font-size: 22px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: #000000;
+  margin: 16px 0 0;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 /* Description text */
 .vision-desc {
   max-width: 660px;
@@ -127,48 +129,34 @@
   transform: translateY(60px);
 }
 
-/* CTA button */
-.vision-cta-wrap {
-  margin-top: 40px;
-  opacity: 0;
-  transform: translateY(60px);
-}
-
-.vision-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px 36px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.vision-cta:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
 /* ═══ RESPONSIVE ═══ */
 
-@media (min-width: 769px) {
-  .vision-topline {
-    font-size: 28px;
-    margin-bottom: 16px;
+/* ── Desktop large ── */
+@media (min-width: 1200px) {
+  .vision-text-shape {
+    font-size: clamp(100px, 14vw, 220px);
   }
 
+  .vision-bottomline {
+    font-size: 36px;
+    margin-top: 20px;
+  }
+
+  .vision-desc {
+    font-size: 17px;
+    max-width: 680px;
+  }
+}
+
+/* ── Desktop / Tablet landscape ── */
+@media (min-width: 769px) and (max-width: 1199px) {
   .vision-text-shape {
-    font-size: clamp(80px, 14vw, 220px);
+    font-size: clamp(60px, 10vw, 140px);
+  }
+
+  .vision-bottomline {
+    font-size: 28px;
+    margin-top: 16px;
   }
 
   .vision-desc {
@@ -177,32 +165,23 @@
   }
 }
 
-@media (min-width: 1200px) {
-  .vision-topline {
-    font-size: 32px;
-  }
-
-  .vision-text-shape {
-    font-size: clamp(100px, 14vw, 220px);
-  }
-
-  .vision-desc {
-    font-size: 17px;
-  }
-}
-
+/* ── Tablet portrait & small screens ── */
 @media (max-width: 768px) {
   .vision-wrapper {
     height: 250vh;
   }
 
-  .vision-topline {
-    font-size: 18px;
-    margin-bottom: 8px;
+  .vision-content {
+    padding: 0 16px;
   }
 
   .vision-text-shape {
-    font-size: clamp(48px, 16vw, 100px);
+    font-size: clamp(32px, 10vw, 80px);
+  }
+
+  .vision-bottomline {
+    font-size: 18px;
+    margin-top: 12px;
   }
 
   .vision-desc {
@@ -211,32 +190,48 @@
     max-width: 90%;
     margin-top: 24px;
   }
-
-  .vision-cta-wrap {
-    margin-top: 28px;
-  }
-
-  .vision-cta {
-    padding: 14px 28px;
-    font-size: 11px;
-  }
 }
 
+/* ── Small phones ── */
 @media (max-width: 480px) {
-  .vision-topline {
-    font-size: 16px;
+  .vision-wrapper {
+    height: 220vh;
+  }
+
+  .vision-content {
+    padding: 0 12px;
   }
 
   .vision-text-shape {
-    font-size: clamp(40px, 14vw, 80px);
+    font-size: clamp(26px, 9vw, 60px);
+  }
+
+  .vision-bottomline {
+    font-size: 15px;
+    margin-top: 10px;
   }
 
   .vision-desc {
     font-size: 12px;
-  }
-
-  .vision-cta {
-    padding: 12px 24px;
-    font-size: 10px;
+    max-width: 95%;
+    margin-top: 18px;
   }
 }
+
+/* ── Very small phones (< 360px) ── */
+@media (max-width: 360px) {
+  .vision-text-shape {
+    font-size: clamp(22px, 8vw, 48px);
+  }
+
+  .vision-bottomline {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .vision-desc {
+    font-size: 11px;
+    margin-top: 14px;
+  }
+}
+
