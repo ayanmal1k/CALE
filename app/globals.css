@@ -13,6 +13,7 @@
 @import '../styles/costing-section.css';
 @import '../styles/portfolio-section.css';
 @import '../styles/pricing-section.css';
+@import '../styles/contact-section.css';
 
 @custom-variant dark (&:is(.dark *));
 

@@ -4,7 +4,7 @@
 
 .portfolio-v3__scroll-trigger {
   position: relative;
-  height: 300vh; /* Scroll length for pin timeline */
+  height: 160vh; /* Shorter scroll length to tighten the pin duration */
   background: #000000;
 }
 

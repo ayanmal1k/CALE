@@ -81,9 +81,9 @@ export default function PortfolioSection() {
         },
       });
 
-      // 1. Entry & Fan Out (progress 0% to 50%)
-      tl.to(header, { opacity: 1, y: 0, duration: 0.3 }, 0)
-        .to(bgGlow, { opacity: 1, scale: 1, duration: 0.4 }, 0)
+      // 1. Entry & Fan Out (progress 0% to 100%)
+      tl.to(header, { opacity: 1, y: 0, duration: 0.4 }, 0)
+        .to(bgGlow, { opacity: 1, scale: 1, duration: 0.5 }, 0)
         // Card 1 fans left
         .to(cards[0], {
           opacity: 1,
@@ -91,7 +91,7 @@ export default function PortfolioSection() {
           z: 0,
           left: "22%",
           rotateY: 20,
-          duration: 0.5,
+          duration: 0.8,
           ease: "power2.out",
         }, 0.1)
         // Card 2 centers
@@ -101,7 +101,7 @@ export default function PortfolioSection() {
           z: 40,
           left: "50%",
           rotateY: 0,
-          duration: 0.55,
+          duration: 0.85,
           ease: "power2.out",
         }, 0.05)
         // Card 3 fans right
@@ -111,46 +111,9 @@ export default function PortfolioSection() {
           z: 0,
           left: "78%",
           rotateY: -20,
-          duration: 0.5,
+          duration: 0.8,
           ease: "power2.out",
         }, 0.1);
-
-      // 2. Interactive Hold
-      tl.to({}, { duration: 0.2 });
-
-      // 3. Exit Camera Zoom-Through (progress 70% to 100%)
-      tl.to(header, { opacity: 0, y: -40, duration: 0.3 }, 0.7)
-        .to(bgGlow, { opacity: 0, scale: 1.5, duration: 0.35 }, 0.7)
-        // Card 1 zooms out left
-        .to(cards[0], {
-          opacity: 0,
-          scale: 1.5,
-          z: 300,
-          left: "-10%",
-          rotateY: 40,
-          duration: 0.35,
-          ease: "power2.in",
-        }, 0.7)
-        // Card 2 zooms straight past camera
-        .to(cards[1], {
-          opacity: 0,
-          scale: 1.7,
-          z: 400,
-          left: "50%",
-          rotateX: -10,
-          duration: 0.38,
-          ease: "power2.in",
-        }, 0.68)
-        // Card 3 zooms out right
-        .to(cards[2], {
-          opacity: 0,
-          scale: 1.5,
-          z: 300,
-          left: "110%",
-          rotateY: -40,
-          duration: 0.35,
-          ease: "power2.in",
-        }, 0.7);
 
     }, containerRef);
 
