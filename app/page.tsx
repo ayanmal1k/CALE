@@ -8,8 +8,9 @@ import IndustriesSection from "@/components/industries-section"
 import IndustriesV2 from "@/components/industries-v2"
 import CostingSection from "@/components/costing-section"
 import PricingSection from "@/components/pricing-section"
+import ContactSection from "@/components/contact-section"
 import PortfolioSection from "@/components/portfolio-section"
-// import Footer from "@/components/footer"
+import Footer from "@/components/footer"
 
 export default function Home() {
   return (
@@ -23,9 +24,10 @@ export default function Home() {
       <PortfolioSection />
       {/* <FirstImpressions /> */}
       {/* <ServicesSection />
-      <IndustriesSection />
-      <PricingSection /> */}
-      {/* <Footer /> */}
+      <IndustriesSection /> */}
+      <PricingSection />
+      <ContactSection />
+      <Footer />
     </main>
   )
 }
