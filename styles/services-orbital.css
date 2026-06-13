@@ -1,0 +1,606 @@
+/* ═══════════════════════════════════════════════════════════════
+   SERVICES ORBITAL — Premium Magnetic Glass Section
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Wrapper — tall scroll container for scroll-driven animations ── */
+.svc-orbital {
+  position: relative;
+  min-height: 100vh;
+  background: #000000;
+  overflow: hidden;
+  z-index: 3;
+  padding: 0;
+}
+
+/* ── Sticky viewport ── */
+.svc-orbital__sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Ambient background effects ── */
+.svc-orbital__ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating orb 1 — top left */
+.svc-orbital__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  will-change: transform;
+  animation: svc-orb-drift 12s ease-in-out infinite;
+}
+
+.svc-orbital__orb--1 {
+  width: 500px;
+  height: 500px;
+  top: -15%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(124, 79, 232, 0.15) 0%, transparent 70%);
+}
+
+.svc-orbital__orb--2 {
+  width: 400px;
+  height: 400px;
+  bottom: -10%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+  animation-delay: -6s;
+  animation-direction: reverse;
+}
+
+.svc-orbital__orb--3 {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(124, 79, 232, 0.08) 0%, transparent 70%);
+  animation-delay: -3s;
+}
+
+@keyframes svc-orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+/* Noise texture */
+.svc-orbital__noise {
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section header ── */
+.svc-orbital__header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 72px;
+  padding: 0 24px;
+}
+
+.svc-orbital__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: 28px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(124, 79, 232, 0.06);
+  border: 1px solid rgba(124, 79, 232, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.svc-orbital__eyebrow-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7c4fe8;
+  animation: svc-eyebrow-pulse 2.5s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(124, 79, 232, 0.6);
+}
+
+@keyframes svc-eyebrow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.7); box-shadow: 0 0 4px rgba(124, 79, 232, 0.3); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 16px rgba(124, 79, 232, 0.8); }
+}
+
+.svc-orbital__heading {
+  font-size: clamp(40px, 7vw, 90px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1.0;
+  color: #f5f5f7;
+  margin: 0;
+  overflow: hidden;
+}
+
+.svc-orbital__heading-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.svc-orbital__heading-word-inner {
+  display: inline-block;
+  transform: translateY(120%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.svc-orbital__heading-word-inner.revealed {
+  transform: translateY(0);
+}
+
+.svc-orbital__heading-accent {
+  background: linear-gradient(135deg, #7c4fe8 0%, #a78bfa 40%, #c4b5fd 70%, #7c4fe8 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: svc-gradient-shift 6s ease-in-out infinite;
+}
+
+@keyframes svc-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Cards container ── */
+.svc-orbital__cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 24px;
+  padding: 0 48px;
+  max-width: 1360px;
+  width: 100%;
+}
+
+/* ── Individual card ── */
+.svc-orbital__card {
+  flex: 1;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: default;
+  perspective: 800px;
+  will-change: transform, opacity;
+}
+
+/* Animated gradient border — using a pseudo for the border glow */
+.svc-orbital__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 79, 232, 0.0) 0%,
+    rgba(124, 79, 232, 0.2) 25%,
+    rgba(168, 85, 247, 0.3) 50%,
+    rgba(124, 79, 232, 0.2) 75%,
+    rgba(124, 79, 232, 0.0) 100%
+  );
+  background-size: 300% 300%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: svc-border-flow 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.svc-orbital__card:hover::before {
+  opacity: 1;
+}
+
+@keyframes svc-border-flow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 300%; }
+}
+
+/* Glass interior */
+.svc-orbital__card-glass {
+  position: relative;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition:
+    background 0.5s cubic-bezier(0.25, 0.1, 0, 1),
+    border-color 0.5s cubic-bezier(0.25, 0.1, 0, 1),
+    box-shadow 0.5s cubic-bezier(0.25, 0.1, 0, 1),
+    transform 0.5s cubic-bezier(0.25, 0.1, 0, 1);
+  overflow: hidden;
+}
+
+.svc-orbital__card:hover .svc-orbital__card-glass {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(124, 79, 232, 0.15);
+  box-shadow:
+    0 32px 100px rgba(0, 0, 0, 0.4),
+    0 0 80px rgba(124, 79, 232, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transform: translateY(-8px);
+}
+
+/* ── Magnetic cursor glow — positioned via JS ── */
+.svc-orbital__card-glow {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(124, 79, 232, 0.12) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: left, top;
+}
+
+.svc-orbital__card:hover .svc-orbital__card-glow {
+  opacity: 1;
+}
+
+/* Holographic shimmer stripe on hover */
+.svc-orbital__card-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 3;
+  transition: none;
+}
+
+.svc-orbital__card:hover .svc-orbital__card-shimmer {
+  animation: svc-shimmer-slide 1.2s ease-out forwards;
+}
+
+@keyframes svc-shimmer-slide {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ── Card content layers ── */
+.svc-orbital__card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Service number — large watermark */
+.svc-orbital__number {
+  font-size: 96px;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  margin-bottom: 40px;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+  position: relative;
+}
+
+.svc-orbital__number-text {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.6s cubic-bezier(0.25, 0.1, 0, 1);
+}
+
+.svc-orbital__card:hover .svc-orbital__number-text {
+  background: linear-gradient(
+    180deg,
+    rgba(124, 79, 232, 0.4) 0%,
+    rgba(124, 79, 232, 0.08) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Icon container */
+.svc-orbital__icon {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  margin-bottom: 36px;
+  color: #a78bfa;
+  position: relative;
+  overflow: hidden;
+  background: rgba(124, 79, 232, 0.06);
+  border: 1px solid rgba(124, 79, 232, 0.08);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0, 1);
+}
+
+.svc-orbital__icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 79, 232, 0.15) 0%,
+    rgba(168, 85, 247, 0.2) 50%,
+    rgba(124, 79, 232, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  border-radius: inherit;
+}
+
+.svc-orbital__card:hover .svc-orbital__icon {
+  border-color: rgba(124, 79, 232, 0.25);
+  transform: scale(1.08);
+  box-shadow: 0 8px 40px rgba(124, 79, 232, 0.2);
+}
+
+.svc-orbital__card:hover .svc-orbital__icon::after {
+  opacity: 1;
+}
+
+.svc-orbital__icon svg {
+  position: relative;
+  z-index: 1;
+}
+
+/* Title */
+.svc-orbital__title {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #f5f5f7;
+  margin: 0 0 14px;
+  transition: color 0.3s ease;
+}
+
+/* Description */
+.svc-orbital__desc {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0 0 auto;
+  transition: color 0.5s ease;
+}
+
+.svc-orbital__card:hover .svc-orbital__desc {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Learn more link */
+.svc-orbital__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.18);
+  transition: color 0.4s cubic-bezier(0.25, 0.1, 0, 1);
+}
+
+.svc-orbital__card:hover .svc-orbital__link {
+  color: #a78bfa;
+}
+
+.svc-orbital__link-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(124, 79, 232, 0.06);
+  border: 1px solid rgba(124, 79, 232, 0.1);
+  color: #7c4fe8;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0, 1);
+}
+
+.svc-orbital__card:hover .svc-orbital__link-arrow {
+  background: rgba(124, 79, 232, 0.15);
+  border-color: rgba(124, 79, 232, 0.3);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(124, 79, 232, 0.2);
+}
+
+/* ── Decorative line at bottom ── */
+.svc-orbital__line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 79, 232, 0.2), transparent);
+  z-index: 2;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (min-width: 769px) {
+  .svc-orbital {
+    min-height: 100vh;
+    padding: 140px 0;
+  }
+
+  .svc-orbital__sticky {
+    position: relative;
+    height: auto;
+  }
+
+  .svc-orbital__header {
+    margin-bottom: 80px;
+  }
+
+  .svc-orbital__cards {
+    flex-direction: row;
+  }
+
+  .svc-orbital__number {
+    font-size: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .svc-orbital {
+    padding: 100px 0 80px;
+  }
+
+  .svc-orbital__sticky {
+    position: relative;
+    height: auto;
+  }
+
+  .svc-orbital__header {
+    margin-bottom: 48px;
+  }
+
+  .svc-orbital__cards {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 16px;
+  }
+
+  .svc-orbital__card-glass {
+    padding: 36px 28px;
+  }
+
+  .svc-orbital__number {
+    font-size: 72px;
+    margin-bottom: 28px;
+  }
+
+  .svc-orbital__icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 14px;
+    margin-bottom: 28px;
+  }
+
+  .svc-orbital__title {
+    font-size: 21px;
+  }
+
+  .svc-orbital__desc {
+    font-size: 14px;
+  }
+
+  .svc-orbital__link {
+    margin-top: 28px;
+  }
+
+  .svc-orbital__orb--1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .svc-orbital__orb--2 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .svc-orbital__orb--3 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .svc-orbital {
+    padding: 80px 0 60px;
+  }
+
+  .svc-orbital__eyebrow {
+    font-size: 10px;
+    padding: 6px 16px;
+  }
+
+  .svc-orbital__card-glass {
+    padding: 28px 22px;
+  }
+
+  .svc-orbital__number {
+    font-size: 56px;
+    margin-bottom: 20px;
+  }
+
+  .svc-orbital__icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+  }
+
+  .svc-orbital__title {
+    font-size: 19px;
+  }
+
+  .svc-orbital__desc {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .svc-orbital__link {
+    margin-top: 24px;
+    font-size: 11px;
+  }
+}

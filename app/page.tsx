@@ -3,6 +3,7 @@ import HeroNew from "@/components/hero-new"
 import VisionReveal from "@/components/vision-reveal"
 import FirstImpressions from "@/components/first-impressions"
 import ServicesSection from "@/components/services-section"
+import ServicesOrbital from "@/components/services-orbital"
 import IndustriesSection from "@/components/industries-section"
 import CostingSection from "@/components/costing-section"
 import PricingSection from "@/components/pricing-section"
@@ -15,12 +16,13 @@ export default function Home() {
       {/* <HeroSection /> */}
       <HeroNew />
       <VisionReveal />
+      <ServicesOrbital />
       {/* <FirstImpressions /> */}
-      <ServicesSection />
+      {/* <ServicesSection />
       <IndustriesSection />
       <CostingSection />
       <PortfolioSection />
-      <PricingSection />
+      <PricingSection /> */}
       {/* <Footer /> */}
     </main>
   )
