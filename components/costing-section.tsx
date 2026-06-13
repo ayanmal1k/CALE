@@ -254,9 +254,6 @@ export default function CostingSection() {
 
   return (
     <div ref={containerRef} className="costing-v3__scroll-trigger" id="leak">
-      {/* Top transition fade-in */}
-      <div className="costing-v3__fade-top" />
-
       <div ref={stickyRef} className="costing-v3__sticky-container">
         <div className="costing-v3__noise" />
 
@@ -339,9 +336,6 @@ export default function CostingSection() {
           </div>
         </div>
       </div>
-
-      {/* Bottom transition fade-out */}
-      <div className="costing-v3__fade-bottom" />
     </div>
   );
 }
