@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Car,
   Truck,
@@ -20,6 +20,9 @@ const industries = [
     icon: Car,
     name: "Auto Shops",
     tagline: "From brake jobs to full builds",
+    description: "Custom booking engines, service pages, and project galleries designed to showcase your craftsmanship and keep your lift bays booked solid.",
+    stat: "+142% Leads",
+    statLabel: "Average increase in booking inquiries",
     color: "#a855f7",
     colorRgb: "168, 85, 247",
   },
@@ -27,6 +30,9 @@ const industries = [
     icon: Truck,
     name: "Diesel Companies",
     tagline: "Heavy-duty digital presence",
+    description: "High-performance web platforms that match the scale of your fleet and diesel operations, built to win lucrative commercial service contracts.",
+    stat: "$2.4M+",
+    statLabel: "Commercial contract value generated",
     color: "#22d3ee",
     colorRgb: "34, 211, 238",
   },
@@ -34,6 +40,9 @@ const industries = [
     icon: Thermometer,
     name: "HVAC",
     tagline: "Climate control, online authority",
+    description: "Emergency-optimized mobile layouts that capture high-intent service requests during peak weather seasons and build recurring membership agreements.",
+    stat: "4.8x ROI",
+    statLabel: "Average return on local service ads",
     color: "#f472b6",
     colorRgb: "244, 114, 182",
   },
@@ -41,6 +50,9 @@ const industries = [
     icon: Droplets,
     name: "Plumbing",
     tagline: "Emergency-ready, trust-first",
+    description: "Ultra-fast loading click-to-call interfaces that establish immediate trust when homeowners are facing critical water and sewer emergencies.",
+    stat: "18 Min",
+    statLabel: "Average response time on new leads",
     color: "#60a5fa",
     colorRgb: "96, 165, 250",
   },
@@ -48,6 +60,9 @@ const industries = [
     icon: Sprout,
     name: "Landscaping",
     tagline: "Seasonal services, year-round leads",
+    description: "Stunning design portfolios and interactive service packages that turn local homeowners and property managers into premium hardscaping contracts.",
+    stat: "3.2x",
+    statLabel: "Increase in commercial bids requested",
     color: "#34d399",
     colorRgb: "52, 211, 153",
   },
@@ -55,6 +70,9 @@ const industries = [
     icon: Building2,
     name: "Contractors",
     tagline: "General & specialty trades",
+    description: "Premium galleries, client testimonials, and interactive estimators that build confidence with residential and commercial developers.",
+    stat: "+89%",
+    statLabel: "Project close rate improvement",
     color: "#fb923c",
     colorRgb: "251, 146, 60",
   },
@@ -62,255 +80,188 @@ const industries = [
     icon: Cog,
     name: "Fabrication",
     tagline: "Custom metalwork & manufacturing",
+    description: "Technical capability showcases, precision equipment specs, and RFQ forms that make it easy for engineers to submit job bids.",
+    stat: "12 Days",
+    statLabel: "Saved per RFQ cycle on average",
     color: "#facc15",
     colorRgb: "250, 204, 21",
   },
+  {
+    icon: ArrowUpRight,
+    name: "Your Trade Next?",
+    tagline: "Let's build your authority",
+    description: "We don't build generic cookie-cutter templates. If you run a high-quality service business, we will engineer a custom website tailored specifically to dominate your local market.",
+    stat: "100% Custom",
+    statLabel: "Zero templates. Built for your business.",
+    color: "#f3f4f6",
+    colorRgb: "243, 244, 246",
+  },
 ];
 
-/* ----------------------------------------------------------------
-   IndustryTile - single interactive tile
-   ---------------------------------------------------------------- */
-function IndustryTile({
-  icon: Icon,
-  name,
-  tagline,
-  color,
-  colorRgb,
-  index,
-}: {
-  icon: ElementType;
-  name: string;
-  tagline: string;
-  color: string;
-  colorRgb: string;
-  index: number;
-}) {
-  const tileRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const tile = tileRef.current;
-      const glow = glowRef.current;
-      if (!tile || !glow) return;
-      const rect = tile.getBoundingClientRect();
-      glow.style.left = `${e.clientX - rect.left}px`;
-      glow.style.top = `${e.clientY - rect.top}px`;
-    },
-    []
-  );
-
-  return (
-    <div
-      className="ind-v2__tile"
-      ref={tileRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={
-        {
-          "--tile-color": color,
-          "--tile-rgb": colorRgb,
-        } as React.CSSProperties
-      }
-    >
-      {/* Glow orb */}
-      <div className="ind-v2__tile-glow" ref={glowRef} />
-
-      {/* Shimmer */}
-      <div className="ind-v2__tile-shimmer" />
-
-      {/* Number watermark */}
-      <span className="ind-v2__tile-num">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-
-      <div className="ind-v2__tile-content">
-        <div className="ind-v2__tile-icon">
-          <Icon size={22} strokeWidth={1.5} />
-        </div>
-
-        <div className="ind-v2__tile-text">
-          <h3 className="ind-v2__tile-name">{name}</h3>
-          <p className="ind-v2__tile-tagline">{tagline}</p>
-        </div>
-
-        <div className="ind-v2__tile-arrow">
-          <ArrowUpRight size={14} strokeWidth={2} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================
-   IndustriesV2 - Main section
-   ================================================================ */
 export default function IndustriesV2() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const wordRefs = useRef<HTMLSpanElement[]>([]);
-
-  const headingWords = [
-    { text: "Industry", accent: false },
-    { text: " ", accent: false },
-    { text: "Expertise", accent: true },
-  ];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const drumRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const section = sectionRef.current;
-    const header = headerRef.current;
-    const grid = gridRef.current;
-    const cta = ctaRef.current;
-    if (!section || !header || !grid || !cta) return;
+    const container = containerRef.current;
+    const trigger = triggerRef.current;
+    const drum = drumRef.current;
+    if (!container || !trigger || !drum) return;
 
-    const tiles = grid.querySelectorAll<HTMLElement>(".ind-v2__tile");
-    const eyebrow = header.querySelector(".ind-v2__eyebrow");
-    const subtext = header.querySelector(".ind-v2__subtext");
+    const cards = drum.querySelectorAll<HTMLElement>(".ind-v3__card");
+    const totalItems = industries.length;
+    const anglePerItem = 360 / totalItems;
+
+    // Radius of cylinder based on card size
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const radius = isMobile ? 220 : 360;
+
+    // Arrange cards in 3D Cylinder
+    cards.forEach((card, i) => {
+      const angle = i * anglePerItem;
+      gsap.set(card, {
+        transform: `rotateX(${-angle}deg) translateZ(${radius}px)`,
+      });
+    });
 
     const ctx = gsap.context(() => {
-      // Initial states
-      gsap.set(eyebrow, { opacity: 0, y: 20, scale: 0.9 });
-      gsap.set(subtext, { opacity: 0, y: 30 });
-      gsap.set(cta, { opacity: 0, y: 40 });
-
-      tiles.forEach((tile) => {
-        gsap.set(tile, { opacity: 0, y: 60, scale: 0.92 });
-      });
-
-      // Scroll timeline
+      // Rotation timeline
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-          end: "center center",
-          scrub: 0.8,
-          invalidateOnRefresh: true,
+          trigger: trigger,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+          onUpdate: (self) => {
+            // Calculate active index based on scroll progress
+            const progress = self.progress;
+            const floatIndex = progress * (totalItems - 1);
+            const index = Math.min(
+              Math.max(Math.round(floatIndex), 0),
+              totalItems - 1
+            );
+            setActiveIndex(index);
+          },
         },
       });
 
-      // Eyebrow
-      tl.to(eyebrow, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.25,
-        ease: "power2.out",
-      }, 0);
-
-      // Heading words
-      wordRefs.current.forEach((word, i) => {
-        if (!word) return;
-        tl.add(() => {
-          word.classList.add("revealed");
-        }, 0.08 + i * 0.06);
-      });
-
-      // Subtext
-      tl.to(subtext, {
-        opacity: 1,
-        y: 0,
-        duration: 0.3,
-        ease: "power2.out",
-      }, 0.2);
-
-      // Tiles stagger - masonry-like cascade
-      tiles.forEach((tile, i) => {
-        tl.to(tile, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.35,
-          ease: "power3.out",
-        }, 0.3 + i * 0.04);
-      });
-
-      // CTA
-      tl.to(cta, {
-        opacity: 1,
-        y: 0,
-        duration: 0.3,
-        ease: "power2.out",
-      }, 0.65);
-
-    }, sectionRef);
+      // Rotate the drum based on scroll
+      // We rotate from 0 to -(totalItems - 1) * anglePerItem
+      tl.fromTo(
+        drum,
+        { rotateX: 0 },
+        {
+          rotateX: (totalItems - 1) * anglePerItem,
+          ease: "none",
+        }
+      );
+    }, triggerRef);
 
     return () => ctx.revert();
   }, []);
 
+  const activeIndustry = industries[activeIndex];
+  const ActiveIcon = activeIndustry.icon;
+
   return (
-    <section
-      className="ind-v2 slide-over"
-      id="industries"
-      ref={sectionRef}
+    <div
+      ref={triggerRef}
+      className="ind-v3__scroll-trigger"
+      style={{
+        "--active-color": activeIndustry.color,
+        "--active-rgb": activeIndustry.colorRgb,
+      } as React.CSSProperties}
     >
-      {/* Ambient */}
-      <div className="ind-v2__ambient">
-        <div className="ind-v2__orb ind-v2__orb--1" />
-        <div className="ind-v2__orb ind-v2__orb--2" />
-        <div className="ind-v2__noise" />
-      </div>
-
-      {/* Header */}
-      <div className="ind-v2__header" ref={headerRef}>
-        <div className="ind-v2__eyebrow">
-          <span className="ind-v2__eyebrow-dot" />
-          Who We Serve
+      <div ref={containerRef} className="ind-v3__container">
+        {/* Ambient background glow matching active color */}
+        <div className="ind-v3__ambient">
+          <div className="ind-v3__glow-orb" />
+          <div className="ind-v3__noise" />
         </div>
 
-        <h2 className="ind-v2__heading">
-          {headingWords.map((word, i) => {
-            if (word.text === " ") return " ";
-            return (
-              <span key={i} className="ind-v2__heading-word">
-                <span
-                  className={`ind-v2__heading-word-inner${
-                    word.accent ? " ind-v2__heading-accent" : ""
-                  }`}
-                  ref={(el) => {
-                    if (el) wordRefs.current[i] = el;
-                  }}
-                >
-                  {word.text}
-                </span>
+        <div className="ind-v3__content-grid">
+          {/* Left panel: Info & Stats */}
+          <div className="ind-v3__info-panel">
+            <div className="ind-v3__eyebrow-container">
+              <span className="ind-v3__eyebrow">INDUSTRY EXPERTISE</span>
+              <span className="ind-v3__index">
+                {String(activeIndex + 1).padStart(2, "0")} / {String(industries.length).padStart(2, "0")}
               </span>
-            );
-          })}
-        </h2>
+            </div>
 
-        <p className="ind-v2__subtext">
-          We specialize in blue-collar authority. We know your customers and
-          what they need to see before they pick up the phone.
-        </p>
-      </div>
+            {/* Dynamic text reveal container */}
+            <div className="ind-v3__dynamic-text">
+              <div className="ind-v3__title-row">
+                <span className="ind-v3__title-prefix">We Build for</span>
+                <h2 className="ind-v3__title-name" key={activeIndustry.name}>
+                  {activeIndustry.name}
+                </h2>
+              </div>
+              <p className="ind-v3__description" key={activeIndustry.tagline}>
+                {activeIndustry.description}
+              </p>
+            </div>
 
-      {/* Tile Grid */}
-      <div className="ind-v2__grid" ref={gridRef}>
-        {industries.map((item, i) => (
-          <IndustryTile key={item.name} {...item} index={i} />
-        ))}
-      </div>
+            {/* Stat Box */}
+            <div className="ind-v3__stat-card" key={`stat-${activeIndex}`}>
+              <div className="ind-v3__stat-value">{activeIndustry.stat}</div>
+              <div className="ind-v3__stat-label">{activeIndustry.statLabel}</div>
+            </div>
 
-      {/* CTA Banner */}
-      <div className="ind-v2__cta" ref={ctaRef}>
-        <div className="ind-v2__cta-content">
-          <span className="ind-v2__cta-label">
-            Don&apos;t see your industry?
-          </span>
-          <span className="ind-v2__cta-title">Your Industry Next</span>
+            {/* General CTA */}
+            <a href="#quote" className="ind-v3__general-cta">
+              <span>EXPLORE ALL SERVICES</span>
+              <span className="ind-v3__cta-circle">
+                <ArrowUpRight size={16} strokeWidth={2} />
+              </span>
+            </a>
+          </div>
+
+          {/* Right panel: 3D Cylinder Drum */}
+          <div className="ind-v3__drum-container">
+            <div className="ind-v3__drum-perspective">
+              <div ref={drumRef} className="ind-v3__drum">
+                {industries.map((ind, i) => {
+                  const Icon = ind.icon;
+                  const isActive = i === activeIndex;
+                  return (
+                    <div
+                      key={ind.name}
+                      className={`ind-v3__card ${isActive ? "is-active" : ""}`}
+                      style={{
+                        "--card-color": ind.color,
+                        "--card-rgb": ind.colorRgb,
+                      } as React.CSSProperties}
+                    >
+                      <div className="ind-v3__card-inner">
+                        <div className="ind-v3__card-icon">
+                          <Icon size={24} strokeWidth={1.5} />
+                        </div>
+                        <div className="ind-v3__card-text">
+                          <h4 className="ind-v3__card-name">{ind.name}</h4>
+                          <p className="ind-v3__card-tagline">{ind.tagline}</p>
+                        </div>
+                        <div className="ind-v3__card-arrow">
+                          <ArrowUpRight size={14} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {/* Guide markers */}
+            <div className="ind-v3__guide-lines">
+              <div className="ind-v3__guide-line ind-v3__guide-line--top" />
+              <div className="ind-v3__guide-line ind-v3__guide-line--bottom" />
+            </div>
+          </div>
         </div>
-        <a href="#" className="ind-v2__cta-btn">
-          <span>Get Started</span>
-          <span className="ind-v2__cta-arrow">
-            <ArrowUpRight size={16} strokeWidth={2} />
-          </span>
-        </a>
       </div>
-    </section>
+    </div>
   );
 }
