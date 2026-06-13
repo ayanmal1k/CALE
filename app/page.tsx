@@ -19,10 +19,10 @@ export default function Home() {
       <VisionReveal />
       <ServicesOrbital />
       <IndustriesV2 />
+      <CostingSection />
       {/* <FirstImpressions /> */}
       {/* <ServicesSection />
       <IndustriesSection />
-      <CostingSection />
       <PortfolioSection />
       <PricingSection /> */}
       {/* <Footer /> */}

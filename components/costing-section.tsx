@@ -1,420 +1,347 @@
-"use client"
+"use client";
 
-import { useRef, useEffect } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { AnimatePresence, motion } from "framer-motion"
-import { Clock, Frown, Smartphone, Star, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Clock, Smartphone, Frown, Star, AlertTriangle, ArrowRight, ShieldAlert } from "lucide-react";
 
-function LoadingDemo() {
-  const [progress, setProgress] = useState(0)
-  const [stuck, setStuck] = useState(false)
-  const [showWarning, setShowWarning] = useState(false)
-  const started = useRef(false)
+/* ═══════════════════════════════════════════════════
+   DIAGNOSTIC DISPLAY 1: SPEED
+   ═══════════════════════════════════════════════════ */
+function SpeedDiagnostic() {
+  const [speed, setSpeed] = useState(0);
+  const [isStuck, setIsStuck] = useState(false);
 
   useEffect(() => {
-    if (started.current) return
-    started.current = true
-    const id = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 65) {
-          clearInterval(id)
-          setStuck(true)
-          setTimeout(() => setShowWarning(true), 800)
-          return 65
-        }
-        return p + 1.2
-      })
-    }, 40)
-    return () => clearInterval(id)
-  }, [])
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 1.5;
+      if (progress >= 67) {
+        clearInterval(interval);
+        setSpeed(67);
+        setIsStuck(true);
+      } else {
+        setSpeed(progress);
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="demo-loading">
-      <div className="demo-browser">
-        <div className="demo-browser-dots"><span /><span /><span /></div>
-        <span className="demo-browser-url">cale.agency</span>
+    <div className="diag-speed">
+      <div className="diag-browser">
+        <div className="diag-browser__dots">
+          <span className="diag-browser__dot diag-browser__dot--red" />
+          <span className="diag-browser__dot" />
+          <span className="diag-browser__dot" />
+        </div>
+        <div className="diag-browser__url">yourwebsite.com</div>
       </div>
-      <div className="demo-loader-track">
-        <motion.div
-          className="demo-loader-fill"
-          animate={stuck ? { width: ["65%", "70%", "62%", "67%", "65%"] } : { width: `${progress}%` }}
-          transition={stuck ? { duration: 2.5, repeat: Infinity, ease: "easeInOut" } : { duration: 0.1 }}
+
+      <div className="diag-speed__gauge-container">
+        {/* Speedometer Gauge */}
+        <div className="diag-speed__gauge">
+          <svg viewBox="0 0 100 50" className="diag-speed__svg">
+            <path
+              d="M 10 50 A 40 40 0 0 1 90 50"
+              fill="none"
+              stroke="#e5e7eb"
+              strokeWidth="8"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 10 50 A 40 40 0 0 1 90 50"
+              fill="none"
+              stroke="url(#speed-gradient)"
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeDasharray="126"
+              strokeDashoffset={126 - (126 * (isStuck ? 40 : speed)) / 100}
+              className="diag-speed__path-fill"
+            />
+            <defs>
+              <linearGradient id="speed-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#10b981" />
+                <stop offset="60%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#ef4444" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div
+            className="diag-speed__needle"
+            style={{
+              transform: `rotate(${((isStuck ? 40 : speed) / 100) * 180 - 90}deg)`,
+            }}
+          />
+          <div className="diag-speed__value">
+            {isStuck ? "STUCK" : `${speed.toFixed(0)}%`}
+          </div>
+        </div>
+      </div>
+
+      <div className="diag-speed__track">
+        <div
+          className={`diag-speed__bar ${isStuck ? "is-stuck" : ""}`}
+          style={{ width: `${speed}%` }}
         />
       </div>
-      <div className="demo-loader-info">
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
-          {stuck ? "Stuck loading..." : "Loading..."}
-        </span>
-        <span style={{ color: stuck ? "#ef4444" : "rgba(255,255,255,0.3)" }}>
-          {progress.toFixed(0)}%
-        </span>
-      </div>
-      <div className="demo-placeholders">
-        <div className="demo-ph" style={{ width: "70%", height: 8 }} />
-        <div className="demo-ph" style={{ width: "45%", height: 8 }} />
-      </div>
-      {!stuck && (
-        <div className="demo-ph-row">
-          <div className="demo-ph" style={{ width: "40%", height: 6 }} />
-          <div className="demo-ph" style={{ width: "25%", height: 6 }} />
+
+      {isStuck && (
+        <div className="diag-speed__alert">
+          <ShieldAlert className="diag-speed__alert-icon" size={16} />
+          <span><strong>40% Bounce Rate:</strong> Visitors leave if load exceeds 3s.</span>
         </div>
       )}
-      <AnimatePresence>
-        {showWarning && (
-          <motion.div
-            className="demo-warning"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.1, 0, 1] }}
-          >
-            <span className="demo-warning-icon"><X size={12} /></span>
-            <span>40% of your visitors already left</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
-  )
+  );
 }
 
-function MobileDemo() {
+/* ═══════════════════════════════════════════════════
+   DIAGNOSTIC DISPLAY 2: MOBILE
+   ═══════════════════════════════════════════════════ */
+function MobileDiagnostic() {
   return (
-    <div className="demo-mobile">
-      <div className="demo-phone-wrap">
-        <motion.div
-          className="demo-phone"
-          animate={{ x: [0, -2, 2, -1, 1, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="demo-phone-notch" />
-          <div className="demo-phone-screen">
-            <motion.div
-              className="demo-phone-avatar"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="demo-phone-line"
-              style={{ width: "60%", height: 5 }}
-              animate={{ width: ["60%", "55%", "65%", "60%"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="demo-phone-line"
-              style={{ width: "40%", height: 4 }}
-              animate={{ width: ["40%", "50%", "35%", "40%"] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div className="demo-phone-grid">
-              <motion.div
-                className="demo-phone-block"
-                animate={{ scale: [1, 0.95, 1], opacity: [1, 0.5, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div
-                className="demo-phone-block"
-                animate={{ scale: [1, 1.05, 1], opacity: [1, 0.4, 1] }}
-                transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-              />
+    <div className="diag-mobile">
+      <div className="diag-mobile__phone">
+        <div className="diag-mobile__notch" />
+        <div className="diag-mobile__screen">
+          <div className="diag-mobile__broken-header">
+            <div className="diag-mobile__logo-placeholder" />
+            <div className="diag-mobile__burger" />
+          </div>
+
+          <div className="diag-mobile__overlap-box">
+            <div className="diag-mobile__overlapping-text diag-mobile__overlapping-text--1">
+              EMERGENCY PLUMBING NOW
+            </div>
+            <div className="diag-mobile__overlapping-text diag-mobile__overlapping-text--2">
+              Call us today for affordable rates
             </div>
           </div>
-        </motion.div>
-        <div className="demo-phone-broken-overlay">
-          <motion.div
-            className="demo-broken-shard"
-            style={{ width: "70%", left: "10%", top: "32%" }}
-            animate={{ rotate: [-4, 2, -5, 1, -4], x: [0, 3, -2, 1, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="demo-broken-shard"
-            style={{ width: "50%", left: "30%", top: "44%" }}
-            animate={{ rotate: [3, -2, 5, -3, 3], x: [0, -3, 2, -1, 0] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          />
-          <motion.div
-            className="demo-broken-shard"
-            style={{ width: "60%", left: "20%", top: "56%" }}
-            animate={{ rotate: [-2, 4, -3, 2, -2], x: [0, 2, -3, 1, 0] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-          />
+
+          <div className="diag-mobile__button-glitch">
+            <span>CALL NOW</span>
+          </div>
+
+          <div className="diag-mobile__broken-lines">
+            <span style={{ width: "80%" }} />
+            <span style={{ width: "55%" }} />
+          </div>
         </div>
+        {/* Broken glass aesthetic overlay */}
+        <div className="diag-mobile__fracture" />
       </div>
-      <motion.p
-        className="demo-mobile-label"
-        animate={{ opacity: [0.3, 0.7, 0.3] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-      >
-        Unclickable buttons, overlapping text
-      </motion.p>
+      <div className="diag-mobile__tag">
+        <AlertTriangle size={12} /> Unresponsive Layout
+      </div>
     </div>
-  )
+  );
 }
 
-function SocialDemo() {
+/* ═══════════════════════════════════════════════════
+   DIAGNOSTIC DISPLAY 3: TRUST
+   ═══════════════════════════════════════════════════ */
+function TrustDiagnostic() {
   return (
-    <div className="demo-social">
-      <motion.div
-        className="demo-business bad"
-        animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0)", "0 0 20px 0 rgba(239,68,68,0.06)", "0 0 0 0 rgba(239,68,68,0)"] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <motion.svg
-          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10Z" />
-          <path d="M22 15V2h-3v13h3Z" />
-        </motion.svg>
-        <div className="demo-biz-row">
-          <motion.div
-            className="demo-biz-avatar"
-            animate={{ scale: [1, 0.9, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
+    <div className="diag-trust">
+      {/* Competitor Listing (Bad) */}
+      <div className="diag-trust__card diag-trust__card--bad">
+        <div className="diag-trust__header">
+          <div className="diag-trust__avatar" />
           <div>
-            <div className="demo-biz-name">ABC Plumbing</div>
-            <motion.div
-              className="demo-biz-reviews"
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              2 reviews
-            </motion.div>
+            <div className="diag-trust__name">Your Business</div>
+            <div className="diag-trust__reviews">4 reviews</div>
           </div>
         </div>
-        <div className="demo-biz-stars">
-          {[0, 1].map((i) => (
-            <motion.span
-              key={i}
-              style={{ display: "inline-flex" }}
-              animate={{ scale: [1, 0.8, 1], opacity: [1, 0.4, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-            >
-              <Star size={10} fill="#ef4444" color="#ef4444" />
-            </motion.span>
-          ))}
-          {[0, 1, 2].map((i) => <Star key={i} size={10} color="rgba(255,255,255,0.08)" />)}
+        <div className="diag-trust__stars">
+          <Star size={12} fill="#ef4444" color="#ef4444" />
+          <Star size={12} fill="#ef4444" color="#ef4444" />
+          <Star size={12} color="#d1d5db" />
+          <Star size={12} color="#d1d5db" />
+          <Star size={12} color="#d1d5db" />
         </div>
-        <motion.div
-          className="demo-biz-status bad"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Poor rating — customers leave
-        </motion.div>
-      </motion.div>
-      <motion.svg
-        className="demo-vs" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"
-        animate={{ rotate: [0, 10, 0, -10, 0], scale: [1, 1.15, 1, 1.15, 1] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M8 12h8M12 8v8" />
-      </motion.svg>
-      <motion.div
-        className="demo-business good"
-        animate={{ boxShadow: ["0 0 0 0 rgba(34,197,94,0)", "0 0 20px 0 rgba(34,197,94,0.06)", "0 0 0 0 rgba(34,197,94,0)"] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-      >
-        <motion.svg
-          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-        >
-          <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14Z" />
-          <path d="M2 9v13h3V9H2Z" />
-        </motion.svg>
-        <div className="demo-biz-row">
-          <motion.div
-            className="demo-biz-avatar"
-            style={{ background: "#7c4fe8" }}
-            animate={{ scale: [1, 1.08, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-          />
+        <div className="diag-trust__badge diag-trust__badge--bad">
+          2.0 rating • Low social trust
+        </div>
+      </div>
+
+      <div className="diag-trust__vs">VS</div>
+
+      {/* Competitor Listing (Good) */}
+      <div className="diag-trust__card diag-trust__card--good">
+        <div className="diag-trust__header">
+          <div className="diag-trust__avatar diag-trust__avatar--good" />
           <div>
-            <div className="demo-biz-name">Miller Fab</div>
-            <motion.div
-              className="demo-biz-reviews"
-              animate={{ opacity: [0.3, 0.8, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-            >
-              187 reviews
-            </motion.div>
+            <div className="diag-trust__name">Competitor Inc.</div>
+            <div className="diag-trust__reviews">148 reviews</div>
           </div>
         </div>
-        <div className="demo-biz-stars">
+        <div className="diag-trust__stars">
           {[0, 1, 2, 3, 4].map((i) => (
-            <motion.span
-              key={i}
-              style={{ display: "inline-flex" }}
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-            >
-              <Star size={10} fill="#22c55e" color="#22c55e" />
-            </motion.span>
+            <Star key={i} size={12} fill="#10b981" color="#10b981" />
           ))}
         </div>
-        <motion.div
-          className="demo-biz-status good"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-        >
-          Trusted — customers convert
-        </motion.div>
-      </motion.div>
-    </div>
-  )
-}
-
-const cards = [
-  {
-    id: "loading",
-    icon: Clock,
-    title: "Slow Loading Times",
-    text: "If your site takes more than 3 seconds to load, 40% of your visitors are already gone. Speed is a feature, not an afterthought.",
-    demo: <LoadingDemo />,
-  },
-  {
-    id: "mobile",
-    icon: Smartphone,
-    title: "Poor Mobile Experience",
-    text: "Most service calls happen on mobile. If your site isn't perfectly responsive, layouts break and you lose customers to competitors.",
-    demo: <MobileDemo />,
-  },
-  {
-    id: "social",
-    icon: Frown,
-    title: "Lack of Social Proof",
-    text: "Without clear trust signals and star ratings, potential clients will look for other agencies who display reviews prominently.",
-    demo: <SocialDemo />,
-  },
-]
-
-function CostingCard({
-  icon: Icon,
-  title,
-  text,
-  demo,
-}: {
-  icon: any
-  title: string
-  text: string
-  demo: React.ReactNode
-}) {
-  return (
-    <div className="costing-card">
-      <div className="costing-card-info">
-        <div className="costing-card-top">
-          <div className="costing-card-icon">
-            <Icon size={24} strokeWidth={1.5} />
-          </div>
-          <h3 className="costing-card-title">{title}</h3>
+        <div className="diag-trust__badge diag-trust__badge--good">
+          4.9 rating • Customers convert
         </div>
-        <p className="costing-card-text">{text}</p>
       </div>
-      <div className="costing-card-demo">{demo}</div>
     </div>
-  )
+  );
 }
+
+/* ═══════════════════════════════════════════════════
+   MAIN COSTING SECTION
+   ═══════════════════════════════════════════════════ */
+const diagnosticData = [
+  {
+    id: 0,
+    icon: Clock,
+    title: "Frictional Loading Speeds",
+    accent: "Speed Is Profit",
+    text: "Every microsecond of latency degrades your customer conversion pipeline. Modern prospects expect instantaneous responses—if your site takes longer than 3 seconds to load, 40% of your traffic bounces directly to your local competitors.",
+    component: <SpeedDiagnostic />,
+  },
+  {
+    id: 1,
+    icon: Smartphone,
+    title: "Broken Mobile Usability",
+    accent: "Responsive Breakdown",
+    text: "Over 75% of emergency service calls originate from mobile devices. Overlapping content, unclickable CTA triggers, and slow responsive scaling will convince potential customers that your business is amateurish and out of touch.",
+    component: <MobileDiagnostic />,
+  },
+  {
+    id: 2,
+    icon: Frown,
+    title: "The Reputation Review Gap",
+    accent: "Trust Deficit",
+    text: "In the home services industry, trust is the highest converting asset. Without visual social proof widgets, integrated local reviews, and secure brand signifiers, customers will bypass your company in favor of businesses with established authority.",
+    component: <TrustDiagnostic />,
+  },
+];
 
 export default function CostingSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollTrigger);
+
+    const container = containerRef.current;
+    const sticky = stickyRef.current;
+    if (!container || !sticky) return;
 
     const ctx = gsap.context(() => {
-      const section = sectionRef.current
-      if (!section) return
-
-      const cardItems = section.querySelectorAll<HTMLElement>(".costing-card-item")
-      if (cardItems.length < 3) return
-
-      const [card1, card2, card3] = cardItems
-
-      // Set initial states
-      gsap.set(card1, { opacity: 1, scale: 1, x: "0%", filter: "blur(0px)" })
-      gsap.set(card2, { opacity: 0, scale: 0.95, x: "100%", filter: "blur(8px)" })
-      gsap.set(card3, { opacity: 0, scale: 0.95, x: "100%", filter: "blur(8px)" })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=450vh",
-          pin: true,
-          scrub: 1.5,
-          invalidateOnRefresh: true,
+      // Create ScrollTrigger to monitor active indices based on vertical progression
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const index = Math.min(
+            Math.max(Math.floor(progress * diagnosticData.length), 0),
+            diagnosticData.length - 1
+          );
+          setActiveTab(index);
         },
-      })
+      });
+    }, containerRef);
 
-      tl
-        // Card 1 -> Card 2
-        .to(card1, {
-          x: "-100%",
-          opacity: 0.15,
-          scale: 0.95,
-          filter: "blur(8px)",
-          ease: "power3.inOut",
-          duration: 1
-        }, 0)
-        .to(card2, {
-          x: "0%",
-          opacity: 1,
-          scale: 1,
-          filter: "blur(0px)",
-          ease: "power3.inOut",
-          duration: 1
-        }, 0)
-        // Card 2 -> Card 3
-        .to(card2, {
-          x: "-100%",
-          opacity: 0.15,
-          scale: 0.95,
-          filter: "blur(8px)",
-          ease: "power3.inOut",
-          duration: 1
-        }, 1)
-        .to(card3, {
-          x: "0%",
-          opacity: 1,
-          scale: 1,
-          filter: "blur(0px)",
-          ease: "power3.inOut",
-          duration: 1
-        }, 1)
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="costing-section-outer">
-      <section ref={sectionRef} className="costing-section slide-over" id="problems">
-        <div className="costing-parallax-bg" />
+    <div ref={containerRef} className="costing-v3__scroll-trigger" id="leak">
+      {/* Top transition fade-in */}
+      <div className="costing-v3__fade-top" />
 
-        <div className="costing-inner">
-          <div ref={headerRef} className="costing-header">
-            <h2 className="costing-heading">
-              Why Your Website Is Costing You{" "}
-              <span className="costing-highlight">Customers</span>
+      <div ref={stickyRef} className="costing-v3__sticky-container">
+        <div className="costing-v3__noise" />
+
+        <div className="costing-v3__grid">
+          {/* Left panel: Info content */}
+          <div className="costing-v3__left">
+            <div className="costing-v3__eyebrow-container">
+              <span className="costing-v3__dot" />
+              <span className="costing-v3__eyebrow">DIAGNOSTIC ANALYSIS</span>
+            </div>
+
+            <h2 className="costing-v3__heading">
+              Why Your Old Website Is <br />
+              <span className="costing-v3__heading-gradient">Costing You Sales</span>
             </h2>
+
+            <p className="costing-v3__subtext">
+              A poorly designed website is a silent leak in your marketing budget. We diagnose and rebuild your local brand identity to convert visitors into phone calls.
+            </p>
+
+            {/* Sticky Step Progress list */}
+            <div className="costing-v3__steps">
+              {diagnosticData.map((item, i) => {
+                const Icon = item.icon;
+                const isActive = i === activeTab;
+                return (
+                  <div
+                    key={item.id}
+                    className={`costing-v3__step-item ${isActive ? "is-active" : ""}`}
+                    onClick={() => {
+                      // Smooth scroll to the corresponding viewport offset
+                      const trigger = containerRef.current;
+                      if (!trigger) return;
+                      const rect = trigger.getBoundingClientRect();
+                      const scrollY = window.scrollY + rect.top + (i / diagnosticData.length) * rect.height;
+                      window.scrollTo({ top: scrollY, behavior: "smooth" });
+                    }}
+                  >
+                    <div className="costing-v3__step-icon-wrap">
+                      <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
+                    </div>
+                    <div className="costing-v3__step-content">
+                      <span className="costing-v3__step-accent">{item.accent}</span>
+                      <h3 className="costing-v3__step-title">{item.title}</h3>
+                      <p className="costing-v3__step-desc">{item.text}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="costing-cards-stack">
-            {cards.map((card) => (
-              <div key={card.id} className="costing-card-item">
-                <CostingCard {...card} />
+          {/* Right panel: Live Diagnostic Console */}
+          <div className="costing-v3__right">
+            <div className="costing-v3__console-window">
+              <div className="costing-v3__console-header">
+                <div className="costing-v3__console-controls">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div className="costing-v3__console-title">DIAGNOSTIC_VIEWER.EXE</div>
+                <div className="costing-v3__console-status">LIVE</div>
               </div>
-            ))}
+
+              <div className="costing-v3__console-body">
+                {diagnosticData.map((item, i) => {
+                  const isActive = i === activeTab;
+                  return (
+                    <div
+                      key={item.id}
+                      className={`costing-v3__console-slide ${isActive ? "is-active" : ""}`}
+                    >
+                      {item.component}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Bottom transition fade-out */}
+      <div className="costing-v3__fade-bottom" />
     </div>
-  )
+  );
 }
