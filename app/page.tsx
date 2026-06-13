@@ -5,6 +5,7 @@ import FirstImpressions from "@/components/first-impressions"
 import ServicesSection from "@/components/services-section"
 import ServicesOrbital from "@/components/services-orbital"
 import IndustriesSection from "@/components/industries-section"
+import IndustriesV2 from "@/components/industries-v2"
 import CostingSection from "@/components/costing-section"
 import PricingSection from "@/components/pricing-section"
 import PortfolioSection from "@/components/portfolio-section"
@@ -17,6 +18,7 @@ export default function Home() {
       <HeroNew />
       <VisionReveal />
       <ServicesOrbital />
+      <IndustriesV2 />
       {/* <FirstImpressions /> */}
       {/* <ServicesSection />
       <IndustriesSection />

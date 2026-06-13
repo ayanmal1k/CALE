@@ -1,8 +1,9 @@
-/* ═══════════════════════════════════════════════════════════════
-   SERVICES ORBITAL — Premium Magnetic Glass Section
-   ═══════════════════════════════════════════════════════════════ */
+/* ===============================================================
+   SERVICES ORBITAL - Premium Magnetic Glass Section
+   Recolored to match Hero rainbow + VisionReveal white energy
+   =============================================================== */
 
-/* ── Wrapper — tall scroll container for scroll-driven animations ── */
+/* -- Wrapper -- */
 .svc-orbital {
   position: relative;
   min-height: 100vh;
@@ -12,7 +13,7 @@
   padding: 0;
 }
 
-/* ── Sticky viewport ── */
+/* -- Sticky viewport -- */
 .svc-orbital__sticky {
   position: sticky;
   top: 0;
@@ -25,7 +26,7 @@
   overflow: hidden;
 }
 
-/* ── Ambient background effects ── */
+/* -- Ambient background effects -- */
 .svc-orbital__ambient {
   position: absolute;
   inset: 0;
@@ -33,7 +34,7 @@
   z-index: 0;
 }
 
-/* Floating orb 1 — top left */
+/* Floating orbs - multicolor to match hero rainbow */
 .svc-orbital__orb {
   position: absolute;
   border-radius: 50%;
@@ -47,7 +48,7 @@
   height: 500px;
   top: -15%;
   left: -10%;
-  background: radial-gradient(circle, rgba(124, 79, 232, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(244, 114, 182, 0.06) 40%, transparent 70%);
 }
 
 .svc-orbital__orb--2 {
@@ -55,7 +56,7 @@
   height: 400px;
   bottom: -10%;
   right: -5%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, rgba(96, 165, 250, 0.05) 40%, transparent 70%);
   animation-delay: -6s;
   animation-direction: reverse;
 }
@@ -66,7 +67,7 @@
   top: 40%;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(124, 79, 232, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.06) 0%, rgba(251, 146, 60, 0.04) 40%, transparent 70%);
   animation-delay: -3s;
 }
 
@@ -86,7 +87,7 @@
   z-index: 0;
 }
 
-/* ── Section header ── */
+/* -- Section header -- */
 .svc-orbital__header {
   position: relative;
   z-index: 2;
@@ -103,12 +104,12 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #a78bfa;
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 28px;
   padding: 8px 20px;
   border-radius: 100px;
-  background: rgba(124, 79, 232, 0.06);
-  border: 1px solid rgba(124, 79, 232, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -117,14 +118,14 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #7c4fe8;
+  background: #ffffff;
   animation: svc-eyebrow-pulse 2.5s ease-in-out infinite;
-  box-shadow: 0 0 8px rgba(124, 79, 232, 0.6);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
 @keyframes svc-eyebrow-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.7); box-shadow: 0 0 4px rgba(124, 79, 232, 0.3); }
-  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 16px rgba(124, 79, 232, 0.8); }
+  0%, 100% { opacity: 0.4; transform: scale(0.7); box-shadow: 0 0 4px rgba(255, 255, 255, 0.2); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 16px rgba(255, 255, 255, 0.6); }
 }
 
 .svc-orbital__heading {
@@ -132,7 +133,7 @@
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 1.0;
-  color: #f5f5f7;
+  color: #ffffff;
   margin: 0;
   overflow: hidden;
 }
@@ -153,21 +154,33 @@
   transform: translateY(0);
 }
 
+/* Rainbow gradient heading accent to match hero CREATIVITY text */
 .svc-orbital__heading-accent {
-  background: linear-gradient(135deg, #7c4fe8 0%, #a78bfa 40%, #c4b5fd 70%, #7c4fe8 100%);
-  background-size: 200% 200%;
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #a855f7 0%,
+    #f472b6 20%,
+    #fb923c 40%,
+    #facc15 55%,
+    #34d399 70%,
+    #22d3ee 85%,
+    #a855f7 100%
+  );
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: svc-gradient-shift 6s ease-in-out infinite;
+  animation: svc-rainbow-shift 5s linear infinite;
+  filter: brightness(1.15) saturate(1.2);
 }
 
-@keyframes svc-gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+@keyframes svc-rainbow-shift {
+  0% { background-position: 0% center; }
+  100% { background-position: -200% center; }
 }
 
-/* ── Cards container ── */
+/* -- Cards container -- */
 .svc-orbital__cards {
   position: relative;
   z-index: 2;
@@ -178,7 +191,7 @@
   width: 100%;
 }
 
-/* ── Individual card ── */
+/* -- Individual card -- */
 .svc-orbital__card {
   flex: 1;
   position: relative;
@@ -189,7 +202,7 @@
   will-change: transform, opacity;
 }
 
-/* Animated gradient border — using a pseudo for the border glow */
+/* Animated rainbow gradient border on hover */
 .svc-orbital__card::before {
   content: '';
   position: absolute;
@@ -198,11 +211,14 @@
   padding: 1px;
   background: linear-gradient(
     135deg,
-    rgba(124, 79, 232, 0.0) 0%,
-    rgba(124, 79, 232, 0.2) 25%,
-    rgba(168, 85, 247, 0.3) 50%,
-    rgba(124, 79, 232, 0.2) 75%,
-    rgba(124, 79, 232, 0.0) 100%
+    rgba(168, 85, 247, 0.0) 0%,
+    rgba(168, 85, 247, 0.25) 15%,
+    rgba(244, 114, 182, 0.3) 30%,
+    rgba(251, 146, 60, 0.25) 45%,
+    rgba(250, 204, 21, 0.2) 55%,
+    rgba(34, 211, 238, 0.25) 70%,
+    rgba(96, 165, 250, 0.3) 85%,
+    rgba(168, 85, 247, 0.0) 100%
   );
   background-size: 300% 300%;
   -webkit-mask:
@@ -231,7 +247,7 @@
   position: relative;
   height: 100%;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 24px;
   padding: 48px 36px;
   display: flex;
@@ -246,16 +262,17 @@
 }
 
 .svc-orbital__card:hover .svc-orbital__card-glass {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(124, 79, 232, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
     0 32px 100px rgba(0, 0, 0, 0.4),
-    0 0 80px rgba(124, 79, 232, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 0 60px rgba(168, 85, 247, 0.04),
+    0 0 60px rgba(34, 211, 238, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transform: translateY(-8px);
 }
 
-/* ── Magnetic cursor glow — positioned via JS ── */
+/* -- Magnetic cursor glow -- multicolor per card */
 .svc-orbital__card-glow {
   position: absolute;
   width: 350px;
@@ -263,11 +280,21 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(circle, rgba(124, 79, 232, 0.12) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 0.4s ease;
   will-change: left, top;
+}
+
+/* Card 1 = purple glow, Card 2 = cyan/teal, Card 3 = warm orange */
+.svc-orbital__card[data-index="0"] .svc-orbital__card-glow {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.14) 0%, transparent 70%);
+}
+.svc-orbital__card[data-index="1"] .svc-orbital__card-glow {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.12) 0%, transparent 70%);
+}
+.svc-orbital__card[data-index="2"] .svc-orbital__card-glow {
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.12) 0%, transparent 70%);
 }
 
 .svc-orbital__card:hover .svc-orbital__card-glow {
@@ -285,7 +312,7 @@
     105deg,
     transparent 30%,
     rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.07) 50%,
     rgba(255, 255, 255, 0.03) 55%,
     transparent 70%
   );
@@ -303,7 +330,7 @@
   100% { left: 200%; }
 }
 
-/* ── Card content layers ── */
+/* -- Card content layers -- */
 .svc-orbital__card-content {
   position: relative;
   z-index: 2;
@@ -312,7 +339,7 @@
   height: 100%;
 }
 
-/* Service number — large watermark */
+/* Service number - large watermark, each card a different hue */
 .svc-orbital__number {
   font-size: 96px;
   font-weight: 700;
@@ -336,17 +363,24 @@
   transition: all 0.6s cubic-bezier(0.25, 0.1, 0, 1);
 }
 
-.svc-orbital__card:hover .svc-orbital__number-text {
-  background: linear-gradient(
-    180deg,
-    rgba(124, 79, 232, 0.4) 0%,
-    rgba(124, 79, 232, 0.08) 100%
-  );
+/* Unique hover color per card number */
+.svc-orbital__card[data-index="0"]:hover .svc-orbital__number-text {
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0.06) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.svc-orbital__card[data-index="1"]:hover .svc-orbital__number-text {
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.4) 0%, rgba(34, 211, 238, 0.06) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.svc-orbital__card[data-index="2"]:hover .svc-orbital__number-text {
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.4) 0%, rgba(251, 146, 60, 0.06) 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
-/* Icon container */
+/* Icon container -- each card its own accent color */
 .svc-orbital__icon {
   width: 60px;
   height: 60px;
@@ -356,33 +390,61 @@
   justify-content: center;
   border-radius: 18px;
   margin-bottom: 36px;
-  color: #a78bfa;
   position: relative;
   overflow: hidden;
-  background: rgba(124, 79, 232, 0.06);
-  border: 1px solid rgba(124, 79, 232, 0.08);
   transition: all 0.5s cubic-bezier(0.25, 0.1, 0, 1);
+}
+
+.svc-orbital__card[data-index="0"] .svc-orbital__icon {
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.06);
+  border: 1px solid rgba(168, 85, 247, 0.1);
+}
+.svc-orbital__card[data-index="1"] .svc-orbital__icon {
+  color: #67e8f9;
+  background: rgba(34, 211, 238, 0.06);
+  border: 1px solid rgba(34, 211, 238, 0.1);
+}
+.svc-orbital__card[data-index="2"] .svc-orbital__icon {
+  color: #fdba74;
+  background: rgba(251, 146, 60, 0.06);
+  border: 1px solid rgba(251, 146, 60, 0.1);
 }
 
 .svc-orbital__icon::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(124, 79, 232, 0.15) 0%,
-    rgba(168, 85, 247, 0.2) 50%,
-    rgba(124, 79, 232, 0.1) 100%
-  );
   opacity: 0;
   transition: opacity 0.5s ease;
   border-radius: inherit;
 }
 
+.svc-orbital__card[data-index="0"] .svc-orbital__icon::after {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(244, 114, 182, 0.1) 100%);
+}
+.svc-orbital__card[data-index="1"] .svc-orbital__icon::after {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(96, 165, 250, 0.1) 100%);
+}
+.svc-orbital__card[data-index="2"] .svc-orbital__icon::after {
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(250, 204, 21, 0.1) 100%);
+}
+
 .svc-orbital__card:hover .svc-orbital__icon {
-  border-color: rgba(124, 79, 232, 0.25);
   transform: scale(1.08);
-  box-shadow: 0 8px 40px rgba(124, 79, 232, 0.2);
+}
+
+.svc-orbital__card[data-index="0"]:hover .svc-orbital__icon {
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 40px rgba(168, 85, 247, 0.2);
+}
+.svc-orbital__card[data-index="1"]:hover .svc-orbital__icon {
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 8px 40px rgba(34, 211, 238, 0.15);
+}
+.svc-orbital__card[data-index="2"]:hover .svc-orbital__icon {
+  border-color: rgba(251, 146, 60, 0.3);
+  box-shadow: 0 8px 40px rgba(251, 146, 60, 0.15);
 }
 
 .svc-orbital__card:hover .svc-orbital__icon::after {
@@ -400,7 +462,7 @@
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.2;
-  color: #f5f5f7;
+  color: #ffffff;
   margin: 0 0 14px;
   transition: color 0.3s ease;
 }
@@ -410,16 +472,16 @@
   font-size: 15px;
   font-weight: 400;
   line-height: 1.75;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.4);
   margin: 0 0 auto;
   transition: color 0.5s ease;
 }
 
 .svc-orbital__card:hover .svc-orbital__desc {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
 }
 
-/* Learn more link */
+/* Learn more link -- color per card */
 .svc-orbital__link {
   display: inline-flex;
   align-items: center;
@@ -434,9 +496,9 @@
   transition: color 0.4s cubic-bezier(0.25, 0.1, 0, 1);
 }
 
-.svc-orbital__card:hover .svc-orbital__link {
-  color: #a78bfa;
-}
+.svc-orbital__card[data-index="0"]:hover .svc-orbital__link { color: #c084fc; }
+.svc-orbital__card[data-index="1"]:hover .svc-orbital__link { color: #67e8f9; }
+.svc-orbital__card[data-index="2"]:hover .svc-orbital__link { color: #fdba74; }
 
 .svc-orbital__link-arrow {
   display: flex;
@@ -445,20 +507,46 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: rgba(124, 79, 232, 0.06);
-  border: 1px solid rgba(124, 79, 232, 0.1);
-  color: #7c4fe8;
   transition: all 0.4s cubic-bezier(0.25, 0.1, 0, 1);
 }
 
-.svc-orbital__card:hover .svc-orbital__link-arrow {
-  background: rgba(124, 79, 232, 0.15);
-  border-color: rgba(124, 79, 232, 0.3);
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(124, 79, 232, 0.2);
+.svc-orbital__card[data-index="0"] .svc-orbital__link-arrow {
+  background: rgba(168, 85, 247, 0.06);
+  border: 1px solid rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+}
+.svc-orbital__card[data-index="1"] .svc-orbital__link-arrow {
+  background: rgba(34, 211, 238, 0.06);
+  border: 1px solid rgba(34, 211, 238, 0.1);
+  color: #22d3ee;
+}
+.svc-orbital__card[data-index="2"] .svc-orbital__link-arrow {
+  background: rgba(251, 146, 60, 0.06);
+  border: 1px solid rgba(251, 146, 60, 0.1);
+  color: #fb923c;
 }
 
-/* ── Decorative line at bottom ── */
+.svc-orbital__card:hover .svc-orbital__link-arrow {
+  transform: translateX(4px);
+}
+
+.svc-orbital__card[data-index="0"]:hover .svc-orbital__link-arrow {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2);
+}
+.svc-orbital__card[data-index="1"]:hover .svc-orbital__link-arrow {
+  background: rgba(34, 211, 238, 0.15);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.15);
+}
+.svc-orbital__card[data-index="2"]:hover .svc-orbital__link-arrow {
+  background: rgba(251, 146, 60, 0.15);
+  border-color: rgba(251, 146, 60, 0.3);
+  box-shadow: 0 4px 20px rgba(251, 146, 60, 0.15);
+}
+
+/* -- Decorative line at bottom -- rainbow gradient */
 .svc-orbital__line {
   position: absolute;
   bottom: 0;
@@ -466,14 +554,14 @@
   transform: translateX(-50%);
   width: 60%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(124, 79, 232, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.2), rgba(34, 211, 238, 0.15), rgba(251, 146, 60, 0.1), transparent);
   z-index: 2;
 }
 
 
-/* ═══════════════════════════════════════════════════════════════
+/* ===============================================================
    RESPONSIVE
-   ═══════════════════════════════════════════════════════════════ */
+   =============================================================== */
 
 @media (min-width: 769px) {
   .svc-orbital {

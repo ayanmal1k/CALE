@@ -5,7 +5,7 @@
 /* Tall scrollable wrapper — height controls scroll duration */
 .vision-wrapper {
   position: relative;
-  height: 300vh;
+  height: 180vh;
   z-index: 2;
   background: #000000;
 }
