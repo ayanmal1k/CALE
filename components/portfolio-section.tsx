@@ -75,7 +75,6 @@ export default function PortfolioSection() {
           trigger: container,
           start: "top top",
           end: "bottom bottom",
-          pin: true,
           scrub: 0.5,
           invalidateOnRefresh: true,
         },
