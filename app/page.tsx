@@ -20,10 +20,10 @@ export default function Home() {
       <ServicesOrbital />
       <IndustriesV2 />
       <CostingSection />
+      <PortfolioSection />
       {/* <FirstImpressions /> */}
       {/* <ServicesSection />
       <IndustriesSection />
-      <PortfolioSection />
       <PricingSection /> */}
       {/* <Footer /> */}
     </main>

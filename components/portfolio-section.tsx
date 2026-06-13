@@ -1,192 +1,236 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowUpRight } from "lucide-react"
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
     id: "proj-1",
     title: "Diesel Auto Parts",
     category: "Custom E-commerce Design",
-    color: "#ef4444",
-    src: "/portfolio/1.jpeg"
+    color: "#a855f7",
+    colorRgb: "168, 85, 247",
+    src: "/portfolio/1.jpeg",
   },
   {
     id: "proj-2",
     title: "Quickfix Plumbing",
     category: "Service Business Redesign",
-    color: "#7c4fe8",
-    src: "/portfolio/2.jpeg"
+    color: "#22d3ee",
+    colorRgb: "34, 211, 238",
+    src: "/portfolio/2.jpeg",
   },
   {
     id: "proj-3",
-    title: "Howlett Garden Maintenance",
-    category: "Premium Landscaping Design",
-    color: "#22c55e",
-    src: "/portfolio/3.jpeg"
-  }
-]
+    title: "Howlett Landscaping",
+    category: "Premium Hardscaping Design",
+    color: "#34d399",
+    colorRgb: "52, 211, 153",
+    src: "/portfolio/3.jpeg",
+  },
+];
 
 export default function PortfolioSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const rowRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollTrigger);
+
+    const container = containerRef.current;
+    const sticky = stickyRef.current;
+    const cardsContainer = cardsRef.current;
+    if (!container || !sticky || !cardsContainer) return;
+
+    const cards = cardsContainer.querySelectorAll<HTMLElement>(".portfolio-v3__card");
+    const header = sticky.querySelector(".portfolio-v3__header");
+    const bgGlow = sticky.querySelector(".portfolio-v3__bg-glow");
 
     const ctx = gsap.context(() => {
-      const section = sectionRef.current
-      const row = rowRef.current
-      if (!section || !row) return
+      // Set initial state for stack
+      cards.forEach((card, i) => {
+        const rotationY = (i - 1) * 12; // tilted slightly in stack
+        gsap.set(card, {
+          opacity: 0,
+          scale: 0.5,
+          z: -400,
+          xPercent: -50,
+          yPercent: -50,
+          left: "50%",
+          top: "50%",
+          rotateY: rotationY,
+          transformOrigin: "center center",
+        });
+      });
 
-      // Center offset: position the row so Card 2 is shifted more to the left of the viewport
-      const getCard2CenterOffset = () => {
-        const cards = row.querySelectorAll<HTMLElement>(".portfolio-card")
-        if (cards.length < 2) return 0
-        const card2 = cards[1]
-        const card2Center = card2.offsetLeft + card2.offsetWidth / 2
-        // Shift center to the left (33% of window width instead of 50%)
-        return -(card2Center - window.innerWidth * 0.33)
-      }
+      gsap.set(header, { opacity: 0, y: 40 });
+      gsap.set(bgGlow, { scale: 0.5, opacity: 0 });
 
-      // Animate from far left of Card 2 center → far right of Card 2 center
-      const centerOffset = getCard2CenterOffset()
-      const leftOffset = centerOffset - window.innerWidth * 0.9
-      const rightOffset = centerOffset + window.innerWidth * 0.9
-
-      // Set initial position
-      gsap.set(row, { x: leftOffset })
-
+      // Create scroll-driven 3D stack reveal timeline
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
+          trigger: container,
           start: "top top",
-          end: "+=300vh",
+          end: "bottom bottom",
           pin: true,
-          scrub: 1,
+          scrub: 0.5,
           invalidateOnRefresh: true,
-          onRefresh: () => {
-            const c = getCard2CenterOffset()
-            const l = c - window.innerWidth * 0.9
-            gsap.set(row, { x: l })
-          },
         },
-      })
+      });
 
-      // Single sweep: far left → far right
-      tl.to(row, {
-        x: rightOffset,
-        ease: "none",
-        duration: 1,
-      })
+      // 1. Entry & Fan Out (progress 0% to 50%)
+      tl.to(header, { opacity: 1, y: 0, duration: 0.3 }, 0)
+        .to(bgGlow, { opacity: 1, scale: 1, duration: 0.4 }, 0)
+        // Card 1 fans left
+        .to(cards[0], {
+          opacity: 1,
+          scale: 0.95,
+          z: 0,
+          left: "22%",
+          rotateY: 20,
+          duration: 0.5,
+          ease: "power2.out",
+        }, 0.1)
+        // Card 2 centers
+        .to(cards[1], {
+          opacity: 1,
+          scale: 1,
+          z: 40,
+          left: "50%",
+          rotateY: 0,
+          duration: 0.55,
+          ease: "power2.out",
+        }, 0.05)
+        // Card 3 fans right
+        .to(cards[2], {
+          opacity: 1,
+          scale: 0.95,
+          z: 0,
+          left: "78%",
+          rotateY: -20,
+          duration: 0.5,
+          ease: "power2.out",
+        }, 0.1);
 
-    }, sectionRef)
+      // 2. Interactive Hold
+      tl.to({}, { duration: 0.2 });
 
-    return () => ctx.revert()
-  }, [])
+      // 3. Exit Camera Zoom-Through (progress 70% to 100%)
+      tl.to(header, { opacity: 0, y: -40, duration: 0.3 }, 0.7)
+        .to(bgGlow, { opacity: 0, scale: 1.5, duration: 0.35 }, 0.7)
+        // Card 1 zooms out left
+        .to(cards[0], {
+          opacity: 0,
+          scale: 1.5,
+          z: 300,
+          left: "-10%",
+          rotateY: 40,
+          duration: 0.35,
+          ease: "power2.in",
+        }, 0.7)
+        // Card 2 zooms straight past camera
+        .to(cards[1], {
+          opacity: 0,
+          scale: 1.7,
+          z: 400,
+          left: "50%",
+          rotateX: -10,
+          duration: 0.38,
+          ease: "power2.in",
+        }, 0.68)
+        // Card 3 zooms out right
+        .to(cards[2], {
+          opacity: 0,
+          scale: 1.5,
+          z: 300,
+          left: "110%",
+          rotateY: -40,
+          duration: 0.35,
+          ease: "power2.in",
+        }, 0.7);
 
-  // Mouse move handler for interactive 3D straightening tilt
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget
-    const rect = card.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
-    
-    const rotateX = ((y - centerY) / centerY) * 10
-    const rotateY = ((x - centerX) / centerX) * -10
+    }, containerRef);
 
-    gsap.to(card, {
-      rotateX: rotateX,
-      rotateY: rotateY,
-      scale: 1.02,
-      duration: 0.5,
-      ease: "power3.out",
-      overwrite: "auto"
-    })
-  }
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget
-    gsap.to(card, {
-      rotateX: 10,
-      rotateY: -20,
-      scale: 0.96,
-      duration: 0.8,
-      ease: "elastic.out(1, 0.75)",
-      overwrite: "auto"
-    })
-  }
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="portfolio-section-outer">
-      <section ref={sectionRef} className="portfolio-section slide-over" id="work">
-        <div className="portfolio-bg-shift" />
+    <div ref={containerRef} className="portfolio-v3__scroll-trigger" id="work">
+      <div ref={stickyRef} className="portfolio-v3__sticky-container">
+        {/* Ambient background glow */}
+        <div className="portfolio-v3__bg-glow" />
+        <div className="portfolio-v3__noise" />
 
-        <div className="portfolio-inner">
-          <div className="portfolio-header">
-            <h2 className="portfolio-heading">
-              Recent <span className="portfolio-highlight">Work</span>
+        <div className="portfolio-v3__inner">
+          {/* Header */}
+          <div className="portfolio-v3__header">
+            <div className="portfolio-v3__eyebrow-container">
+              <span className="portfolio-v3__eyebrow-dot" />
+              <span className="portfolio-v3__eyebrow">OUR PORTFOLIO</span>
+            </div>
+            <h2 className="portfolio-v3__heading">
+              Recent <span className="portfolio-v3__highlight">Work</span>
             </h2>
+            <p className="portfolio-v3__subtext">
+              We design custom platforms designed to establish online authority and convert local traffic into calls.
+            </p>
           </div>
 
-          <div ref={rowRef} className="portfolio-cards-row">
+          {/* 3D Perspective Card Stage */}
+          <div ref={cardsRef} className="portfolio-v3__stage">
             {projects.map((project) => (
-              <div 
-                key={project.id} 
-                className="portfolio-card"
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
+              <div
+                key={project.id}
+                className="portfolio-v3__card"
                 style={{
-                  transform: "perspective(1200px) rotateY(-20deg) rotateX(10deg) scale(0.96)"
-                }}
+                  "--card-accent": project.color,
+                  "--card-rgb": project.colorRgb,
+                } as React.CSSProperties}
               >
-                <div className="portfolio-card-canvas">
-                  {/* Laptop Mockup Wrapper */}
-                  <div className="laptop-mockup">
-                    <div className="laptop-screen">
-                      <div className="laptop-screen-content">
-                        <div className="mockup-browser-header">
-                          <div className="mockup-dots"><span /><span /><span /></div>
-                          <div className="mockup-url">cale.agency/work/{project.id}</div>
+                <div className="portfolio-v3__card-inner">
+                  {/* Laptop Mockup */}
+                  <div className="portfolio-v3__laptop">
+                    <div className="portfolio-v3__laptop-screen">
+                      <div className="portfolio-v3__screen-bar">
+                        <div className="portfolio-v3__screen-dots">
+                          <span />
+                          <span />
+                          <span />
                         </div>
-                        <div className="mockup-image-container" style={{ position: "relative", width: "100%", height: "calc(100% - 24px)", overflow: "hidden" }}>
-                          <img 
-                            src={project.src} 
-                            alt={project.title} 
-                            style={{ 
-                              width: "100%", 
-                              height: "100%", 
-                              objectFit: "cover",
-                              objectPosition: "top center"
-                            }} 
-                          />
+                        <div className="portfolio-v3__screen-url">
+                          cale.agency/work/{project.id}
                         </div>
                       </div>
+                      <div className="portfolio-v3__screen-media">
+                        <img src={project.src} alt={project.title} />
+                      </div>
                     </div>
-                    <div className="laptop-keyboard">
-                      <div className="laptop-keyboard-groove" />
+                    <div className="portfolio-v3__laptop-base">
+                      <div className="portfolio-v3__laptop-groove" />
                     </div>
                   </div>
-                </div>
-                
-                <div className="portfolio-card-info">
-                  <span className="portfolio-card-cat">{project.category}</span>
-                  <h3 className="portfolio-card-title">
-                    {project.title}
-                    <span className="portfolio-card-arrow">
-                      <ArrowUpRight size={18} />
-                    </span>
-                  </h3>
+
+                  {/* Card Description info overlay */}
+                  <div className="portfolio-v3__card-details">
+                    <div className="portfolio-v3__card-top">
+                      <span className="portfolio-v3__card-category">
+                        {project.category}
+                      </span>
+                      <h4 className="portfolio-v3__card-title">{project.title}</h4>
+                    </div>
+                    <a href="#" className="portfolio-v3__card-link">
+                      <ArrowUpRight size={16} />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
