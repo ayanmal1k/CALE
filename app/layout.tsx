@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import SmoothScroll from '@/components/smooth-scroll'
 import { Providers } from './providers'
@@ -37,6 +38,11 @@ export default function RootLayout({
           </SmoothScroll>
         </Providers>
         <Analytics />
+        <Script
+          src="https://cdn.zanderio.ai/widget/loader.js"
+          data-id="wdg_s9l7lXfqfhiIMe28NwOE7xBa"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
